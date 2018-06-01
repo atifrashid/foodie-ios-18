@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/chat.css" rel="stylesheet">
+
+
+
+<!--
+<script src="js/angular.min.js"></script>
+<script src="js/angular-route.min.js"></script>
+<script src="js/mobile-angular-ui.min.js"></script>
+<script src="js/mobile-angular-ui.gestures.min.js"></script>
+<script src='js/chat.js'></script>-->
+</head>
+<body id="wrapper">
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+
+
+<div id="notification-page" class="content">
+	
+	<h1 id="menu-button"> 
+		<table style="width: 100%">
+			<tr>
+				<td style="text-align: left; width: 10%" ><a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a></td>
+				<td style="text-align: left" class="pageTitle">Chat </td>
+				<td id="tdChatWinName" style="text-align: center; width: 65%"><button id="chatWinName" class="name btn-xs"></button></td>
+				<td style="text-align: right"><span class="back" id="chatWinBack" style="float: right; margin-right: 15px; font-size: 18px;"><i  class="fa fa-arrow-left"></i></span></td>
+			</tr>
+		</table> 
+		
+		
+	</h1>
+	
+	<div class="wrapper main-div" style="margin-top:90px !important">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 no-padding">
+					<div class="left" >
+						<ul class="people" id="dataList">
+							<li class="person hidden chatMainLi"> <img src="images/no-pic3.jpg" alt="" /> <span class="name"></span>  <span class="preview"><span class="badge"></span></span>
+							<span class="time"></span>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="right" style="display:none">
+					<!--<div class="top"><span>To: <span id="chatWinName" class="name">Dog Woofson</span></div>-->
+					<div class="chat active-chat">
+						<div id="spMsgs" class="conversation-start"> <span>Monday, 1:27 PM</span> </div>
+						
+						
+						
+						
+					</div>
+					<div class="write" style="width: 96%">
+						<div class="row">
+							
+<form method="post" id="frmSend" style="display:inline;">
+<table class=" formTable">
+	<tr>
+		<td width="78">
+			<a href="#" id="aBlock">
+			<i class="fa cross fa-ban" style="color: #d50000"></i>
+			<i class="fa tick fa-check-circle-o" style="color: #0E7A13"></i>
+			<span>Block</span>
+			</a>
+		</td>
+		<td><input type="text"  id="txtMsg" /></td>
+		<td width="68">
+			<a href="#" id="aSend" class="write-link send">
+			<i class="fa fa-paper-plane" style="color: #49a923"></i>
+			<span>Send</span>
+			</a>
+		</td>
+	</tr>
+</table>
+	
+</form>
+							
+							<!--<form method="post" id="frmSend" style="display:inline">
+								<div class="col-xs-2 text-center">
+								<a href="#" id="aBlock">
+									<i class="fa cross fa-ban" style="color: #d50000"></i>
+									<i class="fa tick fa-check-circle-o" style="color: #0E7A13"></i>
+									<span>Block</span>
+								</a>
+								</div>
+								<div class="col-xs-8" style="padding: 0px;">
+									<input type="text" class="form-control" id="txtMsg" ng-model="msgTxt" />
+								</div>
+								<div class="col-xs-2 text-center">
+									<a href="#" id="aSend" class="write-link send">
+										<i class="fa fa-paper-plane" style="color: #49a923"></i>
+										<span>Send</span>
+									</a>
+								</div>
+							</form>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br />
+<br />
+<div id="popBlock" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">
+		<div class="modal-dialog modal-md"><div class="modal-content">
+			<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+			<h3 style="margin:0;">Block User</h3></div>
+			<div class="modal-body">
+				<strong>Bermingam Foodie Chicken</strong><hr>
+				<button class="btn btn-danger" id="btnBlock">Block User</button>
+				<button class="btn btn-warning" id="btnunBlock">Unblock User</button>
+				<span id="popBlockSpan"></span>
+			</div>
+			
+		</div></div></div>
+<br />
+<br />
+<br />
+<div id="bottom-bar">
+	<div class="container">
+		<div class="row">
+			<div class=" no-padding"> <a class="tab-item " href="map.html"> <i class="fa fa-map-marker"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item" href="reservations.html"> <i class="fa fa-cutlery"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " href="user-profile.html"> <i class="fa fa-user"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item active" id="afchat" href="chat.html"> <i class="fa fa-comments"></i> </a>	</div>
+		</div>
+	</div>
+</div>
+<script src="cordova.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script> 
+<script src="js/bootstrap.min.js"></script>
+<script src="js/moment.min.js"></script>  
+<script src="js/knockout-3.4.0.js"></script> 
+<script src="js/common.js"></script> 
+<script>
+
+chatData = [];
+ActiveChatIndex = -1;
+var parId = null;
+var chatWinData = null;
+
+var chefData = null;
+var userData = null;
+
+$(document).ready(function(e) {
+	
+	//document.write( '<style>#bottom-bar{visibility:hidden}@media(min-height:' + ($(document).height() - 10) + 'px){#bottom-bar{visibility:visible}}</style>' );
+	//$('head').append('<style>#bottom-bar{display:none;} .write{bottom:10px} @media(min-height:' + ($(document).height() - 20) + 'px){#bottom-bar{display:block} .write{bottom:55px}}</style>');
+
+	if(!empty(localStorage.getItem('chefData'))){
+		chefData =  JSON.parse(localStorage.getItem('chefData'));	
+	}
+	
+	if(!empty(localStorage.getItem('userData'))){
+		userData =  JSON.parse(localStorage.getItem('userData'));	
+	}
+	
+	var user_profile_complete = false;
+	if( !empty(localStorage.getItem('userData'))){
+		var userData = JSON.parse(localStorage.getItem('userData'));
+		if( !empty(userData.first_name) && !empty(userData.last_name) && !empty(userData.phone)  ){
+			user_profile_complete = true;	
+		}
+	}
+	if( user_profile_complete == false ){
+		$('div.main-div div.container').append('<div class="alert alert-danger lead">In order to use chat feature, you need to complete your profile. Please tap <a href="user-profile.html">HERE</a> to complete your profile!</div>');
+	}else{
+		loadMainData();	
+	}
+
+	$('#aBlock').on('click',function(e){
+		var DoBlock = '1';  
+		if( chatData[ActiveChatIndex].i_blocked == true ){ 
+			DoBlock = '0'; 
+			blockUnblock(DoBlock);
+		}else{
+			Msg = 'Are you sure you want to block this conversation?';
+			var DLGConfirm = $('<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
+			'<div class="modal-dialog modal-md"><div class="modal-content">' + '<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>' +
+				'<h3 style="margin:0;">Block Chat</h3></div><div class="modal-body"><p>'+Msg+'</p></div>' +'<div class="modal-footer"><button type="button" class="btn confirm btn-danger" data-dismiss="modal">Block</button><button type="button" class="btn" data-dismiss="modal">'+cLan.Cancel+'</button></div>'+
+			'</div></div></div>');
+			DLGConfirm.find('.confirm').on('click',function(e){
+				
+				blockUnblock(DoBlock);
+
+			});
+			DLGConfirm.modal();
+		}
+		e.preventDefault();
+	});
+	
+	$('#chatWinName').on('click',function(){
+		/*
+		$('#popBlock').find('.modal-body strong').html(chatData[ActiveChatIndex].name);
+		if( empty( chatData[ActiveChatIndex].i_blocked ) ){
+			$('#btnBlock').show();
+			$('#btnunBlock').hide();
+		}else{
+			$('#btnBlock').hide();
+			$('#btnunBlock').show();
+		}
+		$('#popBlock').modal();
+		*/
+	});
+	
+	$('#btnBlock').on('click',function(){
+		
+		var formData = {	userId: localStorage.getItem('userId'), userToken: localStorage.getItem('userToken'), 'block':'1', 'convId':chatData[ActiveChatIndex].convId, 'me': chatData[ActiveChatIndex].me  };
+		// ==============================
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=blockUnblockChat", data: formData,
+			beforeSend: function() {  $('#popBlockSpan').html(' <img src="images/wait.gif" />');  },
+			complete: function() { $('#popBlockSpan').html(''); },
+		}).done(function(data){
+			if(data.Success == 'true' ){
+				chatData[ActiveChatIndex].i_blocked = 1;
+				$('#chatWinName').removeClass('btn-success').addClass('btn-danger');
+				$('#btnunBlock').show();
+				$('#btnBlock').hide();
+				$('#popBlock').modal('hide');
+			}
+		}); // ajax	
+		// ==============================
+		
+	});
+	
+	$('#btnunBlock').on('click',function(){
+		
+		var formData = {	userId: localStorage.getItem('userId'), userToken: localStorage.getItem('userToken'), 'block':'0', 'convId':chatData[ActiveChatIndex].convId, 'me': chatData[ActiveChatIndex].me  };
+		// ==============================
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=blockUnblockChat", data: formData,
+			beforeSend: function() {  $('#popBlockSpan').html(' <img src="images/wait.gif" />');  },
+			complete: function() { $('#popBlockSpan').html(''); },
+		}).done(function(data){
+			if(data.Success == 'true' ){
+				chatData[ActiveChatIndex].i_blocked = 0;
+				$('#chatWinName').removeClass('btn-danger').addClass('btn-success');
+				$('#btnBlock').show();
+				$('#btnunBlock').hide();
+				$('#popBlock').modal('hide');
+			}
+		}); // ajax	
+		// ==============================
+		
+	});
+	
+	
+	
+	$('#frmSend').on('submit',function(event){
+		event.preventDefault();
+		if(empty($('#txtMsg').val())) return false;
+		
+		/*var sender_name = '';
+		if( chatData[ActiveChatIndex].user_id == userData.id ){ // I am a chef
+			sender_name = chefData.company;
+		}else{
+			sender_name = userData.first_name; 
+		}*/
+		
+		console.log(ActiveChatIndex);
+		if(ActiveChatIndex == -1 ){ 
+			console.error('no chat selected');
+			return false
+		}
+		
+		var formData = {
+			convId 		: chatData[ActiveChatIndex].convId,
+			userId		: localStorage.getItem('userId'),
+			userToken	: localStorage.getItem('userToken'),
+			msg			: $('#txtMsg').val(),
+			to				: chatData[ActiveChatIndex].id,
+			toName 		: chatData[ActiveChatIndex].name,
+			chef_is		: (chatData[ActiveChatIndex].person2=='chef')?'to':'from',
+			//sender_name : sender_name
+		};
+		
+		chatData[ActiveChatIndex].msgs.unshift({'msg':formData.msg, 'dir': 'out', 'date': moment().format("YYYY-MM-DD HH:mm") });
+		var H = '<div class="bubble me">'+formData.msg+'</div>';
+		$('#spMsgs').append(H);
+		//$(document).scrollTop($(document).height());
+		$("html, body").animate({ scrollTop: $(document).height() }, 500);
+		
+		$('#txtMsg').val('');
+		
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=sendChatMsg2", data: formData,
+			//beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+			//complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError
+			).done(function(data){
+				if (data.Success == 'true') {
+					//console.log( $('.food-listing') );
+					if(empty(chatData[ActiveChatIndex].convId)){
+						chatData[ActiveChatIndex].convId = data.convId;
+					}
+					
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+		}); // ajax	
+	});
+	
+	
+	$('#aSend').on('click', function(e){
+		
+		e.preventDefault();
+		$('#frmSend').submit();
+
+	});
+	
+	
+	$('#chatWinBack').on('click',function(){ // open chat left
+		$('#chatWinBack,#chatWinName').hide();
+		loadChatLeft();
+		$('div.right').hide();
+		$('div.left').show();	
+	});
+	
+	$('#dataList').on('click','li', function(){ // open chat window
+		
+		var opp_id = $(this).data('index');
+		openChatWindow(opp_id);
+		
+	});
+	
+	$('#txtMsg').on('focus',function(){
+		$("html, body").animate({ scrollTop: $(document).height() }, 500);
+	});
+	
+});
+
+function blockUnblock( DoBlock ){
+	var formData = {	userId: localStorage.getItem('userId'), userToken: localStorage.getItem('userToken'), 'block':DoBlock, 'convId':chatData[ActiveChatIndex].convId, 'me': chatData[ActiveChatIndex].me  };
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=blockUnblockChat", data: formData,
+		beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+		complete: function() { waitingDialog.hide(); },
+		}).fail(  ajaxError
+		).done(function(data){
+			if (data.Success == 'true') {
+
+				chatData[ActiveChatIndex].i_blocked = DoBlock;
+
+				setBlokCss(DoBlock);
+
+			} else { 
+				ErrorModalWithParm(data);
+			}
+			if (data.JS) { eval(data.JS); }
+	}); // ajax	
+}	
+
+function setBlokCss( DoBlock ){
+	if( DoBlock == '1' ){ // block ho gaya
+		$('#chatWinName').removeClass('btn-success').addClass('btn-danger');
+		$('#aBlock span').html('Unblock');
+		$('#aBlock i.tick').show();
+		$('#aBlock i.cross').hide();
+		$('#txtMsg').val('').prop('disabled',true);
+	}else{				// Unblock ho gaya
+		$('#chatWinName').removeClass('btn-danger').addClass('btn-success');
+		$('#aBlock span').html('Block');
+		$('#aBlock i.tick').hide();
+		$('#aBlock i.cross').show();
+		$('#txtMsg').val('').prop('disabled',false);
+	}
+	if( chatData[ActiveChatIndex].convId == 0 ){ // its a new chat so no block
+		$('#aBlock').hide();
+	}else{
+		$('#aBlock').show();
+	}
+}	
+
+
+function loadMainData(){
+	
+	var formData = {	userId: localStorage.getItem('userId'), userToken: localStorage.getItem('userToken') };
+	
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=getChatMsgs2", data: formData,
+		beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+		complete: function() { waitingDialog.hide(); },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			chatData = data.chat;
+			
+			loadChatLeft();
+			
+			// ===================== NEW CHAT STARTED  ================		
+			parId = getUrlParameter('c');
+			if( !empty( parId ) ){
+				var chef_data = null;
+				var jsonData = JSON.parse(localStorage.getItem('nearbyChefs'));
+				for (var i = 0; i < jsonData.length; i++) {
+					if( jsonData[i].id == parId ){
+						chef_data = jsonData[i];
+						break;
+					}
+				}
+				var scIndex = -1;
+				if(!empty(chatData)){
+					for (var i = 0; i < chatData.length; i++) {
+						if( chatData[i].id == parId ){ scIndex = i; break; }
+					}
+				}
+				
+				//var jsonData = JSON.parse(localStorage.getItem('userData'));	
+				//var mee = jsonData.first_name+' '+jsonData.last_name;
+				
+				
+				chatWinData = { convId:'0', 'id': parId, 'name': chef_data['company'], 'msgs': [], 'image': chef_data['image1'], 'me':'user' };  //'me': mee, 'chef_is': 'to' }; 
+				if(empty(chatData)){
+					chatData.push(chatWinData);
+					chatIndex = 0;
+				}else if( scIndex == -1 ){ // new chat initiated
+					chatData.unshift(chatWinData);
+					chatIndex = 0;
+				}else{
+					chatIndex = scIndex;
+				}
+
+				openChatWindow(chatIndex);
+			}
+			// ===================== NEW CHAT STARTED =====================
+			
+			//$("#user-form").show();
+		} else { 
+			ErrorModalWithParm(data);
+		}
+		if (data.JS) { eval(data.JS); }
+	
+	}); // ajax	
+}
+
+function loadChatLeft( keepInBackground = false ){
+	
+	$('#dataList li').not(':first').remove();
+	$DTemp = $('.chatMainLi');
+	
+	if( keepInBackground == false ){ // resset index if chat window in not open 
+		ActiveChatIndex  = -1;
+	}
+	
+	var ChatsNew = 0; // unred conversactions 
+	
+	if( chatData.length == 0 ){
+		$('#dataList').parent().append('<div class="alert alert-warning" style="margin:10px">No Chat Found</div>');
+	}
+	
+	for (var i = 0; i < chatData.length; i++) {
+		var Th = chatData[i];
+		console.log(Th);
+		$copy = $DTemp.clone().removeClass('hidden');
+		$copy.find('span.name').html(Th.name);
+		$copy.data('index',i);
+		$copy.data('id',Th.id);
+		
+		if( Th.msgs.length > 0 ){
+			$copy.find('span.time').html( moment( Th.msgs[0].date, "YYYY-MM-DD HH:mm").fromNow() );
+			$copy.find('span.preview').html( Th.msgs[0].msg.substring( 0, 40) + '<span class="badge">'+ ((Th.unreds>0) ? Th.unreds : '') +'</span>'  );		
+		}
+		
+		
+		
+		
+		//if( Th.unreds > 0 ) ChatsNew++;
+		if( Th.unreds > 0 ){
+			ChatsNew+= Th.unreds;
+		}
+		
+		
+		if(empty(Th.image)){
+			$copy.find('img').prop('src', 'images/no-pic3.jpg');		
+		}else{
+			$copy.find('img').prop('src', 'http://mobileapi.foodiesys.com/foodie-mssql/pics/'+Th.image );
+		}
+
+		$copy.appendTo('#dataList');
+	}
+	localStorage.setItem('ChatsNew', ChatsNew);
+	showChatConvCount();
+}
+
+
+
+function openChatWindow( chatIndex ){
+	
+	if( !empty(chatIndex) || chatIndex == '0'  ){
+		
+		ActiveChatIndex = chatIndex;
+		
+		console.log('ActiveChatIndex = '+ActiveChatIndex);
+		//console.log(chatData);
+		
+		
+		$('#spMsgs').html('');	
+		
+		//console.log(chatData[ActiveChatIndex].msgs);
+		if(!empty(chatData[ActiveChatIndex].msgs)){
+			for( var i = 0; i < chatData[ActiveChatIndex].msgs.length; i++ ) {
+				var T = chatData[ActiveChatIndex].msgs[i];
+				//console.log(T);
+				var cls = (T.dir == 'out')?'me':'you'; 
+				var H = '<div class="bubble '+cls+'">'+T.msg+'</div>';
+				$('#spMsgs').prepend(H);			
+			}
+		}
+		
+		// mark all messages red ---------
+		if( chatData[ActiveChatIndex].unreds > 0 ){
+			var formData = {	userId: localStorage.getItem('userId'), userToken: localStorage.getItem('userToken'), convId:chatData[ActiveChatIndex].convId  };
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=setChatMsgsRed2", data: formData,
+				//beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				//complete: function() { waitingDialog.hide(); },
+				}).fail(  ajaxError
+				).done(function(data){
+					if (data.Success == 'true') {
+						chatData[ActiveChatIndex].unreds = 0;
+						//localStorage.setItem('ChatsNew', n);
+						loadChatLeft( true );
+					} else { 
+					}
+					if (data.JS) { eval(data.JS); }
+			}); // ajax		
+		}
+		//------ mark red -----------------
+				
+				
+		//$("html, body").animate({ scrollTop: $(document).height() }, 1);
+		var maxW = $('#tdChatWinName').innerWidth() - 20;
+		console.log(maxW);
+		$('#chatWinName').css('max-width', maxW+'px' );
+		$('#chatWinName').html(chatData[ActiveChatIndex].name).show();
+		
+		setBlokCss( chatData[ActiveChatIndex].i_blocked );
+		
+		$('#chatWinBack').show();
+		$('div.left').hide();
+		$('div.right').show();
+		
+		$("html, body").animate({ scrollTop: $(document).height() }, 500);
+		
+		//console.log(chatData);
+		//console.log('ActiveChatIndex E = '+ActiveChatIndex);
+		//setTimeout(function(){ 
+		//document.location = document.location + '#goLast';
+		// }, 500);
+
+	}
+}
+
+
+</script>
+</body>
+</html>

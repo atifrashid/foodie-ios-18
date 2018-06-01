@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<style>
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
+	background-color: #fff;
+	color: #666;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+}
+.bootstrap-datetimepicker-widget table td.green, .bootstrap-datetimepicker-widget table td.green:hover {
+	background-color: #5CB85C !important;
+	color: #FFF !important;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25) !important;
+}
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+	border-radius: 0;
+}
+</style>
+</head>
+<body id="wrapper">
+
+
+
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+<div id="user-profile-page" class="content">
+	<h1 id="menu-button"> <a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a>
+	<p class="pageTitle" style="font-size:24px" data-bind="text: lang.PSmenu">Personal Chef Schedule</p>
+	</h1>
+	<div id="topAlert" style="display:none" class="alert alert-warning"><i class="fa fa-warning"></i> <span data-bind="text: lang.FSP"></span></div>
+	
+	<form id="user-form" class="main-div">
+		<div class="checkbox">
+			 <label>
+				<input type="checkbox" name="ps_enable" id="ps_enable" value="1" /> <span data-bind="text: lang.EnablePS">Enable Personal Chef</span>
+			 </label>
+		  </div>
+		  <br >
+		  
+<table class="table table-responsive" >
+<caption data-bind="text: lang.PSTC">Specify Travel Charges</caption>
+	<tr>
+		<td xdata-bind="text:lang.DisFrom">Distance From<br>(miles)</td>
+		<td xdata-bind="text:lang.DisTo">Distance Up To<br>(miles)</td>
+		<tD xdata-bind="text:lang.TravelFee">Travel Fee</td>
+	</tr>
+	<tr>
+		<td><input type="number" class="form-control input-sm" style="width:60px; display:inline-block" id="tx11" name="tx11" value="0"></td>
+		<td><input type="number" class="form-control input-sm" style="width:60px; display:inline-block" id="tx12" name="tx12" value="15"></td>
+		<td><div class="input-group" style="width:90px;"><div class="input-group-addon">$</div><input type="nubmer" class="form-control input-sm" style="width:60px; display:inline-block" id="tx13" name="tx13" value="10.00"></div></td>
+	</tr>
+	<tr>
+		<td><input type="number" class="form-control input-sm" style="width:60px; display:inline-block" id="tx21" name="tx21" value="15"></td>
+		<td><input type="number" class="form-control input-sm" style="width:60px; display:inline-block" id="tx22" name="tx22" value="30"></td>
+		<td><div class="input-group" style="width:90px;"><div class="input-group-addon">$</div><input type="nubmer" class="form-control input-sm" style="width:60px; display:inline-block" id="tx23" name="tx23" value="20.00" ></div></td>
+	</tr>
+	<tr>
+		<td><input type="number" class="form-control input-sm" style="width:60px; display:inline-block" id="tx31" name="tx31" value="30"></td>
+		<td><input type="number" class="form-control input-sm" style="width:60px; display:inline-block" id="tx32" name="tx32" value="40"></td>
+		<td><div class="input-group" style="width:90px;"><div class="input-group-addon">$</div><input type="nubmer" class="form-control input-sm" style="width:60px; display:inline-block" id="tx33" name="tx33" value="30.00" ></div></td>
+	</tr>
+</table>
+
+			
+		<div class="form-group">
+			<label data-bind="text: lang.PSAPH">Additional Per Hour Fee</label>
+			<div class="input-group">
+				<div class="input-group-addon">$</div>
+				<input class="form-control required" type="number" step="1" name="ps_additional_per_h" id="ps_additional_per_h" value="" />
+			</div>
+		</div>
+		
+		
+		<div class="form-group">
+			<label data-bind="text: lang.PSRq">Requirements for Fudis</label>
+			<textarea class="form-control" name="ps_req_foodie" id="ps_req_foodie"></textarea>
+		</div>
+	
+		<p class="lead" data-bind="text: lang.PSSAD">Select Availability Dates (Green = Available)</p>
+		<div class="aLoading text-center"><img src="images/loading.gif" sytle=" margin: 0 auto;" /></div>
+		<div id="sp_loaded" style="display:none">
+			<div style="overflow:hidden;">
+				<div class="form-group">
+					<div class="row">
+						<div class="col-md-8">
+							<div id="datetimepicker12"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button type="button" id="btn-submit" class="btn btn-positive btn-block btn-submit" data-bind="text: lang.Save"></button>
+		</div>
+	</form>
+</div>
+<br />
+<br />
+<br />
+<div class="modal fade" id="popAdd" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="popTitle">..</h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="frmReserve">
+					<div class="form-group">
+						<label data-bind="text: lang.StartTime"></label>
+						<div class="">
+							<select name="start_time" id="start_time" class="form-control required">
+								<option value="" data-bind="text: lang.StartTime"></option>
+								<option value="00:00:00">12:00 AM</option>
+								<option value="01:00:00">01:00 AM</option>
+								<option value="02:00:00">02:00 AM</option>
+								<option value="03:00:00">03:00 AM</option>
+								<option value="04:00:00">04:00 AM</option>
+								<option value="05:00:00">05:00 AM</option>
+								<option value="06:00:00">06:00 AM</option>
+								<option value="07:00:00">07:00 AM</option>
+								<option value="08:00:00">08:00 AM</option>
+								<option value="09:00:00">09:00 AM</option>
+								<option value="10:00:00">10:00 AM</option>
+								<option value="11:00:00">11:00 AM</option>
+								<option value="12:00:00">12:00 PM</option>
+								<option value="13:00:00">01:00 PM</option>
+								<option value="14:00:00">02:00 PM</option>
+								<option value="15:00:00">03:00 PM</option>
+								<option value="16:00:00">04:00 PM</option>
+								<option value="17:00:00">05:00 PM</option>
+								<option value="18:00:00">06:00 PM</option>
+								<option value="19:00:00">07:00 PM</option>
+								<option value="20:00:00">08:00 PM</option>
+								<option value="21:00:00">09:00 PM</option>
+								<option value="22:00:00">10:00 PM</option>
+								<option value="23:00:00">11:00 PM</option>
+								
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label data-bind="text: lang.EndTime"></label>
+						<div class="">
+							<select name="end_time" id="end_time" class="form-control required">
+								<option value="" data-bind="text: lang.EndTime"></option>
+								<option value="01:00:00">01:00 AM</option>
+								<option value="02:00:00">02:00 AM</option>
+								<option value="03:00:00">03:00 AM</option>
+								<option value="04:00:00">04:00 AM</option>
+								<option value="05:00:00">05:00 AM</option>
+								<option value="06:00:00">06:00 AM</option>
+								<option value="07:00:00">07:00 AM</option>
+								<option value="08:00:00">08:00 AM</option>
+								<option value="09:00:00">09:00 AM</option>
+								<option value="10:00:00">10:00 AM</option>
+								<option value="11:00:00">11:00 AM</option>
+								<option value="12:00:00">12:00 PM</option>
+								<option value="13:00:00">01:00 PM</option>
+								<option value="14:00:00">02:00 PM</option>
+								<option value="15:00:00">03:00 PM</option>
+								<option value="16:00:00">04:00 PM</option>
+								<option value="17:00:00">05:00 PM</option>
+								<option value="18:00:00">06:00 PM</option>
+								<option value="19:00:00">07:00 PM</option>
+								<option value="20:00:00">08:00 PM</option>
+								<option value="21:00:00">09:00 PM</option>
+								<option value="22:00:00">10:00 PM</option>
+								<option value="23:00:00">11:00 PM</option>
+								<option value="00:00:00">12:00 PM</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<input type="checkbox" id="check_all_days" /> <label id="lbl_all_days">Apply to all Sundays</label>
+					</div>	
+					
+					
+					
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="text: lang.Cancel">Cancel</button>
+				<button id="btnUnav" type="button" class="btn btn-danger" data-bind="text: lang.MarkUnavailable">Mark Unavailable</button>
+				<button id="btnAdd" type="button" class="btn btn-success" data-bind="text: lang.OK">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="cordova.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src='js/knockout-3.4.0.js'></script> 
+<script src="js/common.js"></script> 
+<script src="js/moment.min.js"></script> 
+<script src="js/bootstrap-datetimepicker.min.js"></script> 
+<script>
+
+
+var dishData;
+var DishAv;
+var DishAvO = {};
+var thisDate;
+
+
+$(document).ready(function(e) {
+	
+	var activeDates = [];
+	for(i=0; i<=90; i++){
+		activeDates.push( moment().add(i, 'day') ); 	
+	}
+	
+	$('#datetimepicker12').datetimepicker({
+		inline: true,
+		sideBySide: false,
+		enabledDates: activeDates,
+		format: 'YYYY-MM-DD'
+	});			
+	
+	$('#aSelAll').on('click',function(){
+		$('#sp_dishes input').prop('checked',true);
+		return false;
+	});
+	
+	$('#datetimepicker12').on('dp.change', function(m) {
+		thisDate = m.date.format("YYYY-MM-DD");
+		console.log( thisDate );
+		$('#lbl_all_days').html(' '+cLan.ApplytoallfutureSundays+' ' + m.date.format("dddd") + 's' );
+		//console.log( DishAvO );
+		$('#popTitle').html(cLan.SetAvFor+' '+ m.date.format("ll") );
+		if(!empty(DishAvO[thisDate])){
+			$('#start_time').val( DishAvO[thisDate].start_time );
+			$('#end_time').val( DishAvO[thisDate].end_time );
+			/*
+			$('#sp_dishes input:checkbox').prop('checked',false);
+			var ArD = DishAvO[thisDate].dishes.split(',');
+			if( ArD.length > 0 ){
+				for(i=0; i<ArD.length; i++){
+					if(!empty(ArD[i])){
+						$('#sp_dishes input:checkbox[value='+ArD[i]+']').prop('checked', true);
+					}
+				}	
+			}
+			*/
+		}else{
+			$('#sp_dishes input').prop('checked',true);	
+		}
+		updateCalTbody();
+		$('#popAdd').modal();
+	});
+	
+	$('#datetimepicker12').on('dp.update', function() {
+		updateCalTbody();
+	});
+	
+	
+	loadPageData();
+	
+	//$('#popLoc').modal();
+	/*
+	$(document).on('click', '.btnDate', function(){ 
+		thisDate = $(this);
+		$('#popTitle').html('Set Availability for '+ thisDate.data('showdate'));
+		if(!empty(thisDate.data('start_time')) && !empty(thisDate.data('dishes')) ){
+			$('#start_time').val( thisDate.data('start_time') );
+			$('#end_time').val( thisDate.data('end_time') );
+			$('#sp_dishes input:checkbox').prop('checked',false);
+			
+			var ArD = thisDate.data('dishes').split(',');
+			if( ArD.length > 0 ){
+				for(i=0; i<ArD.length; i++){
+					if(!empty(ArD[i])){
+						$('#sp_dishes input:checkbox[value='+ArD[i]+']').prop('checked', true);
+					}
+				}	
+			}
+		}
+		$('#popAdd').modal();
+	});
+	*/
+	$('#btnUnav').on('click',function(){
+		//thisDate.removeClass('btn-success');
+		//thisDate.data('start_time', '' );
+		//thisDate.data('etime', '' );
+		//thisDate.data('dishes', '' );
+		
+		if( $('#check_all_days').is(':checked')  ){ // Set to All same days 
+			$('#check_all_days').prop('checked', false );
+			var dy = moment(thisDate, 'YYYY-MM-DD').format('E');
+			var mo = moment();
+			for(i=0; i<=90; i++){
+				mo.add(1, 'day');
+				if( mo.format('E') == dy ){
+					tDat = mo.format('YYYY-MM-DD');
+					DishAvO[tDat] =  null;
+				}
+			}
+		}
+		DishAvO[thisDate] = null;
+		$('#popAdd').modal('hide');
+		updateCalTbody();
+	});
+	
+	$('#btnAdd').on('click',function(){
+		$('#frmReserve').submit();
+	});
+	
+	$('#frmReserve').validate({
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+			
+			st = parseInt( $('#start_time').val() );
+			en = parseInt( $('#end_time').val() );
+			if( en == 0 )en = 24;
+			if( st >= en ){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.SEnV+'</p>');
+				BAlert.modal();
+				return false;
+			}
+			
+			
+			var DishIds = '';
+			$('#sp_dishes input[type=checkbox]').each(function(index, element) {
+				if ($(this).is(":checked")){
+					DishIds = DishIds + ',' + $(this).val();
+				}
+			});
+			
+			var tDat, tStt, tEnt ;
+			tStt = $('#start_time').val();
+			tEnt = $('#end_time').val();
+			
+			DishAvO[thisDate] = { 'date': thisDate, 'start_time': tStt, 'end_time': tEnt };
+			
+			if( $('#check_all_days').is(':checked')  ){ // Set to All same days 
+				$('#check_all_days').prop('checked', false );
+				var dy = moment(thisDate, 'YYYY-MM-DD').format('E');
+				var mo = moment();
+				for(i=0; i<=90; i++){
+					mo.add(1, 'day');
+					if( mo.format('E') == dy ){
+						tDat = mo.format('YYYY-MM-DD');
+						DishAvO[tDat] =  { 'date': tDat, 'start_time': tStt, 'end_time': tEnt };
+					}
+				}
+			}
+			
+			updateCalTbody();
+			$('#popAdd').modal('hide');
+			//console.log(DishAvO);
+		}// submit handler
+	});
+	
+	
+	$('#btn-submit').on('click',function(){
+		
+		$("#user-form").submit();
+		
+	});
+	
+	$("#user-form").validate({
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+
+			jData = [];
+			$.each( DishAvO , function(key, value){
+				if(empty(value)) return;
+				jData.push( value );
+			});
+			
+			var ps_travel_charges = $('#tx11').val()+'|'+$('#tx12').val()+'|'+$('#tx13').val()+';'+
+											$('#tx21').val()+'|'+$('#tx22').val()+'|'+$('#tx23').val()+';'+
+											$('#tx31').val()+'|'+$('#tx32').val()+'|'+$('#tx33').val();
+			
+			var formData =  $(form).serialize();
+			formData += '&ps_travel_charges='+ps_travel_charges;
+			formData += '&jsonData='+JSON.stringify(jData);
+			formData += '&userId='+localStorage.getItem('userId')+'&userToken='+localStorage.getItem('userToken'); 
+			//console.log(formData);
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=savePsEditData", data: formData,
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					
+					BAlert.find('.modal-header h3').html('<i class="fa check"></i>'+cLan.Success);
+					BAlert.find('.modal-body').html('<p class="text-success">'+cLan['209']+'</p>');
+					BAlert.modal();
+					//document.location = 'chef-dishes.html';
+					//loadPageData(localStorage.getItem('userId'));
+				} else { 
+					BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+					BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+					BAlert.modal();
+				}
+				if (data.JS) { eval(data.JS); }
+			}); // ajax	
+
+
+		}// submit handler
+	});	
+	
+	
+});
+
+function updateCalTbody(){
+	var now = moment();
+	$('td.green').removeClass('green');	
+	$.each( DishAvO , function(key, value){
+		if(empty(value)){ 
+		}else{
+			mo = moment( key, 'YYYY-MM-DD' );
+			if(mo.isAfter(now) || mo.isSame(now, 'day')){
+				$('td[data-day="'+ mo.format('MM/DD/YYYY') +'"]').addClass('green');	
+			}
+		}
+	});
+}
+
+
+function loadPageData(){
+	formData = 'userId='+localStorage.getItem('userId')+'&userToken='+localStorage.getItem('userToken'); // < getDishies + delivery schedure 
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=getPsEditData", data: formData,
+		beforeSend: function() { $('div.aLoading').show();  },
+		complete: function() { $('div.aLoading').hide(); },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+				
+			if( data.PsData.ps_enable == 1 ){
+				$('#ps_enable').prop('checked', true);
+			}else{
+				$('#ps_enable').prop('checked', false);
+			}
+			
+			$('#ps_additional_per_h').val(data.PsData.ps_additional_per_h);
+			$('#ps_max_radius').val(data.PsData.ps_max_radius);
+			
+			if(empty(data.PsData.ps_req_foodie)){
+				$('#ps_req_foodie').val( cLan.PSRequirment );
+			}else{
+				$('#ps_req_foodie').val(data.PsData.ps_req_foodie);	
+			}
+				
+			if(!empty(data.PsData.ps_travel_charges)){
+				var tmpTbl = data.PsData.ps_travel_charges;
+				var rows = tmpTbl.split(';');
+				for(i=0;i<rows.length;i++){
+					var cells = rows[i].split('|');
+					for(j=0;j<cells.length;j++){
+						$('#tx'+(i+1).toString()+(j+1).toString()).val(cells[j]);
+					}
+				} 	
+			}
+			
+			DishAv = data.CalData;
+				
+			if(!empty(DishAv)){
+				for (var i = 0; i < DishAv.length; i++) {
+					mo = moment(DishAv[i].cal_date, 'YYYY-MM-DD');
+					if( mo.isAfter(moment()) || mo.isSame(moment(),'day')  ){
+						console.log( i );
+						DishAvO[DishAv[i].cal_date] = { 'date': DishAv[i].cal_date, 'start_time': DishAv[i].start_time, 'end_time': DishAv[i].end_time };
+					}
+				}
+				console.log( DishAvO );
+			}
+			updateCalTbody();
+			
+			
+			$('#sp_loaded').show();
+		}else { 
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+			BAlert.modal();
+		}
+		if (data.JS) { eval(data.JS); }
+	
+	}); // ajax	
+}
+
+
+</script>
+</body>
+</html>

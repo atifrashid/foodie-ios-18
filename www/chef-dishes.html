@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+</head>
+<body id="wrapper">
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+<h1 id="menu-button"> <a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a>
+	<p class="pageTitle" data-bind="text: lang.ManageD"></p>
+</h1>
+<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+<div class="container">
+	<div id="chef-page" class="content">
+		
+		
+		<button class="btn btn-sm btn-primary pull-right btnShowAdd"><i class="fa fa-plus-circle"></i> <span data-bind="text: lang.AddNew"></span></button>
+		
+		<div id="chef-foods" class="main-div main-div_ex">
+			<div class="food-listing hidden">
+				<div class="food-image-cont-dish"> <img class="img-responsive img-circle media-object pull-left" src="images/food-1.png" align="food img"></div>
+				<div class="food-info-cont-dish">
+					<div class="food-info-body"> <a class="dishTitle" href="#">..</a>
+						<p class="dishInfo" style="line-height:1.7em"></p>
+						<img src="images/0.png" alt="" class="rating" /> <span class="rating_info"></span> </div>
+					<div class="" style="margin:12px 0 5px 0">
+					<button class="btn fbtn btnEdit btn-warning"><i class="fa fbtn  fa-pencil" title="Edit" aria-hidden="true"></i></button>		
+					<button class="btn fbtn btnDel btn-danger"><i class="fa fbtn  fa-trash-o" title="Delete" aria-hidden="true"></i></button>	
+					</div>
+				</div>
+			</div>
+			<div class="aLoading text-center" style="display:none"><img src="images/loading.gif" sytle=" margin: 0 auto;" /></div>
+		</div>
+	</div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div class="modal fade" id="popAdd" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="popAdd" data-bind="text: lang.AdEdDish"></h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="frmReserve">
+					<div class="form-group">
+						<div id="image-upload" class="text-center" onClick="uploadImage()"> <img id="pimage" src="images/no-pic2.jpg" height="100" /> </div>
+						<div id="picture_msg" class="text-center help-block" data-bind="text: lang.Toponpicup">  </div>
+					</div>
+					<div class="form-group">
+						<label  data-bind="text: lang.DishName"></label>
+						<div class="">
+							<input type="text" name="dish_name" id="dish_nameA" class="form-control required" value="" >
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label  data-bind="text: lang.Desc"></label>
+						<div class="">
+							<textarea rows="3"  name="description" id="tadescription" class="form-control"></textarea>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label  class=""><span data-bind="text: lang.Price"></span> ($)</label>
+						<div class="">
+							<input type="number" min="1" name="price" id="priceA" class="form-control required" value="" >
+						</div>
+					</div>
+					
+<div class="form-group">
+	<label data-bind="text: lang.Availability"></label>					
+	<div class="checkbox">
+		<label><input type="checkbox" name="chkAV1" id="chkAV1" value="1"><span data-bind="text: lang.DishA1"></span></label>
+	</div>
+	<div class="checkbox">
+		<label><input type="checkbox" name="chkAV2" id="chkAV2" value="2"><span data-bind="text: lang.DishA2"></span></label>
+	</div>
+	<div class="checkbox">
+		<label><input type="checkbox" name="chkAV4" id="chkAV4" value="4"><span data-bind="text: lang.DishA4"></span></label>
+	</div>
+</div>
+
+					
+					
+					<input type="hidden" id="chef_id" name="chef_id">
+					<input type="hidden" id="dish_id" name="dish_id">
+					<input type="hidden" id="image1A" name="image1">
+					<input type="hidden" id="image2A" name="image2">
+					<input type="hidden" id="hdAvailability" name="availability">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="text: lang.Cancel"></button>
+				<button id="btnAdd" type="button" class="btn btn-primary" data-bind="text: lang.Save"></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Script --> 
+<script type="text/javascript" src="cordova.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script>
+<script src='js/knockout-3.4.0.js'></script> 
+<script src="js/common.js"></script> 
+<script>
+
+var dishData;
+var delId = false;
+var quietLoad = false; 
+
+$(document).ready(function(e) {
+	var chef_id = localStorage.getItem('userId');
+	$('#chef_id').val(chef_id);
+	loadDishes(chef_id);
+	
+	
+	$('#btnAdd').on('click',function(){
+		$('#frmReserve').submit();		
+	});
+	
+	$('#chef-foods').on('click', '.btnEdit',function(){
+		var dish_id = $(this).prop('data-dish');
+		var thisDish;
+		for (var i = 0; i < dishData.length; i++){
+			if( dishData[i].id == dish_id ){
+				thisDish = dishData[i];
+				break;
+			}
+		}
+		$('#dish_id').val( dish_id );
+		$('#dish_nameA').val( thisDish.dish_name );
+		$('#tadescription').val( thisDish.description );
+		$('#priceA').val(thisDish.price);
+		//$('#servingA').val(thisDish.serving);
+		$('#image1A').val(thisDish.image1);
+		$('#image2A').val(thisDish.image2);
+		//$("input[name=status][value="+thisDish.status+"]").prop('checked', true);
+		
+		if( thisDish.availability & 1 ){ $('#chkAV1').prop('checked',true); }
+		if( thisDish.availability & 2 ){ $('#chkAV2').prop('checked',true); }
+		if( thisDish.availability & 4 ){ $('#chkAV4').prop('checked',true); }
+		
+		if(!empty(thisDish.image1)){
+			$('#pimage').prop('src','http://mobileapi.foodiesys.com/foodie-mssql/pics/'+thisDish.image1);
+		}else{
+			$('#pimage').prop('src','images/no-pic2.jpg');
+		}
+		$('#popAdd').modal();
+
+		
+	});
+	
+	$('#chef-foods').on('click', '.btnDel',function(){
+		delId = $(this).prop('data-dish');
+		var thisDish;
+		for (var i = 0; i < dishData.length; i++){
+			if( dishData[i].id == delId ){ thisDish = dishData[i]; break; }
+		}
+		var Msg = cLan.ConfirmMsg; 
+		Msg = Msg.replace('___', thisDish.dish_name );
+		var DLGConfirm = $('<div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
+		'<div class="modal-dialog modal-md"><div class="modal-content">' +
+			'<div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>' +
+			'<h3 style="margin:0;">'+cLan.Delete+' '+cLan.Dish+'</h3></div><div class="modal-body"><p>'+Msg+'</p></div>' +
+			'<div class="modal-footer"><button type="button" class="btn confirm btn-danger" data-dismiss="modal">'+cLan.Delete+'</button><button type="button" class="btn" data-dismiss="modal">'+cLan.Cancel+'</button></div>'+
+		'</div></div></div>');
+		DLGConfirm.find('.confirm').on('click',function(e){
+			if(!empty(delId)){
+				var dish_id = delId;
+				var formData = 'dishId='+dish_id+'&userId='+localStorage.getItem('userId')+'&userToken='+localStorage.getItem('userToken'); 
+				$.ajax({
+					type: "POST", dataType: 'json', url: ServerAjax+"?h=deleteDish", data: formData,
+					beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+					complete: function() { waitingDialog.hide(); },
+					}).fail(  ajaxError
+					).done(function(data){
+						if (data.Success == 'true') {
+							//console.log( $('.food-listing') );
+							$('.DATAID'+delId).remove();
+							
+							delId = false;
+						} else { 
+							ErrorModalWithParm(data);
+						}
+						if (data.JS) { eval(data.JS); }
+				}); // ajax	
+			}
+				
+		});
+		DLGConfirm.modal();
+		
+		
+		
+	});
+	
+	
+	$('.btnShowAdd').on('click',function(){
+		$('#dish_nameA').val('');
+		$('#priceA').val('');
+		$('#tadescription').val('');
+		//$('#servingA').val('');
+		$('#image1A').val('');
+		$('#image2A').val('');
+		$('#dish_id').val('');
+		$('#popAdd').modal();
+		
+		$('#chkAV1').prop('checked',true);
+		$('#chkAV2').prop('checked',true);
+		$('#chkAV4').prop('checked',true);
+		
+		
+		$('#pimage').prop('src','images/no-pic2.jpg');
+	});
+	
+	$('#frmReserve').validate({
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+			
+			var Flag = 0;
+			if( $('#chkAV1').prop('checked') == true )  Flag = Flag | 1;
+			if( $('#chkAV2').prop('checked') == true )  Flag = Flag | 2;
+			if( $('#chkAV4').prop('checked') == true )  Flag = Flag | 4;
+			$('#hdAvailability').val(Flag);
+			
+			
+			formData = $(form).serialize();
+			formData += '&userToken=' + localStorage.getItem('userToken');
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=addEditDish", data: formData,
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+				}).fail(  ajaxError
+				).done(function(data){
+					if (data.Success == 'true') {
+						$('#popAdd').modal('hide');
+						BAlert.find('.modal-header h3').html('<i class="fa check"></i>'+cLan.Success);
+						BAlert.find('.modal-body').html('<p class="text-success">'+cLan['202']+'</p>');
+						BAlert.modal();
+						quietLoad = true;
+						loadDishes(chef_id);
+						//loadDishes(localStorage.getItem('userId'));
+					} else { 
+						ErrorModalWithParm(data);
+					}
+					if (data.JS) { eval(data.JS); }
+				
+			}); // ajax	
+		
+		}// submit handler
+	});
+	
+});
+
+
+
+function loadDishes(chef_id){
+	formData = 'chef_id='+chef_id;
+	console.log(formData);
+	$('div.food-listing').not(':first').remove();
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=getDishes", data: formData,
+		beforeSend: function() { if(quietLoad==false){ $('div.aLoading').show();}  },
+		complete: function() { if(quietLoad==false){$('div.aLoading').hide();} },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			if(data.Count > 0 ){
+				dishData = data.Dishes;
+				$DTemp = $('.food-listing');
+				for (var i = 0; i < dishData.length; i++) {
+					$copy = $DTemp.clone().removeClass('hidden');
+					$copy.addClass( 'DATAID'+ dishData[i].id );
+					
+					if(empty(dishData[i].image1)){
+						$copy.find('img.img-responsive').prop('src', 'images/no-pic3.jpg');		
+					}else{
+						$copy.find('img.img-responsive').prop('src', 'http://mobileapi.foodiesys.com/foodie-mssql/pics/'+dishData[i].image1);
+					}
+										
+					$copy.find('a.dishTitle').html(dishData[i].dish_name);
+					$copy.find('a.dishTitle').prop('rel', dishData[i].id );
+					$copy.find('.btnEdit').prop('data-dish', dishData[i].id );
+					$copy.find('.btnDel').prop('data-dish', dishData[i].id );
+					var stat = ''; 
+					
+					/*
+					if( dishData[i].availability & 1 ){ stat += ', '+cLan.DishA1; }
+					if( dishData[i].availability & 2 ){ stat += ', '+cLan.DishA2; }
+					if( dishData[i].availability & 4 ){ stat += ', '+cLan.DishA4; }
+					*/
+					if( dishData[i].availability & 1 ){ stat += '<mark>'+cLan.DishA1+'</mark>'; }
+					if( dishData[i].availability & 2 ){ stat += '<mark>'+cLan.DishA2+'</mark>'; }
+					if( dishData[i].availability & 4 ){ stat += '<mark>'+cLan.DishA4+'</mark>'; }
+					
+					
+					//if( stat == '' ) stat = cLan.DishA0; else stat = stat.substr(2);  
+					
+					$copy.find('p.dishInfo').html(cLan.Price+' : $'+dishData[i].price+' <br />'+cLan.Availability+' : <strong>'+stat+'</strong>');
+					
+					obRat = ratingCal( dishData[i].rating_sum, dishData[i].rating_count );
+					
+					$copy.find('img.rating').prop('src', obRat['starImg']);
+					$copy.find('.rating_info').html( obRat['ratingTxt']+' &nbsp; '+dishData[i].rating_count+' '+cLan.Reviews );
+					
+					$copy.appendTo('#chef-foods');
+				}
+				//$DTemp.remove();
+			}else{
+				$('#chef-foods').html('<center>No Dishes Found</center>');
+			}
+		}else { 
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+			BAlert.modal();
+		}
+		if (data.JS) { eval(data.JS); }
+	
+	}); // ajax	
+}
+
+function uploadImage() {
+
+	$('#picture_msg').html('');
+	// Get URI of picture to upload
+	navigator.camera.getPicture(
+
+	function(uri) {
+		try {
+			// Pick image from div
+			var img = $('#pimage');
+			var imageURI = uri;
+			if (!imageURI) {
+				$('#picture_msg').html(cLan.ToponpicGal);
+				return;
+			}else{
+				$('#picture_msg').html(cLan.Uploading);	
+			}
+			// Verify server has been entered
+			//server = 'http://mobileapi.foodiesys.com/foodie-mssql/upload.php';
+			server = 'http://mobileapi.foodiesys.com/foodie-mssql/upload.php'; //?chid='+localStorage.getItem('userId');
+			
+			var options = new FileUploadOptions();
+			options.fileKey = "file";
+			options.fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+			options.mimeType = "image/jpeg";
+			options.chunkedMode = false;
+
+			// Transfer picture to server
+			var ft = new FileTransfer();
+			ft.upload(imageURI, server, function(r) {
+				$('#picture_msg').html(cLan.ToponpicGal);
+				if (r.response.match("^Error")){
+					$('#picture_msg').html(r.response);
+				}else{
+					$('#image1A').val(r.response);
+					img.prop('src','http://mobileapi.foodiesys.com/foodie-mssql/pics/' + r.response);	
+				}
+			},
+
+			function(error) {
+				$('#picture_msg').html(cLan.Uploadfailed+" : Code = " + error.code);
+			}, options);
+
+		} catch (exce) {
+			alert(exce);
+		}
+	},
+
+	function(e) {
+		console.log("Error getting picture: " + e);
+		$('#picture_msg').html(cLan.NoPic);
+	}, {
+		quality: 70,
+		destinationType: navigator.camera.DestinationType.FILE_URI,
+		sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+		allowEdit : true,
+		targetWidth: 600,
+  		targetHeight: 600
+	});
+}
+
+</script>
+</body>
+</html>

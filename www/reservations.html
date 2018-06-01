@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+</head>
+<body id="wrapper">
+
+
+
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+
+<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+<div id="chef-page" class="content">
+	<h1 id="menu-button"> <a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a>
+	<p class="pageTitle" data-bind="text: lang.MyOrders"></p>
+	</h1>
+	
+	<div id="chef-foods" class="main-div main-div_ex">
+		<div class="food-listing hidden">
+			<div class="Xfood-image-cont col-xs-3 col-sm-2"> <img class="img-responsive img-circle media-object pull-left" src="images/food-1.png" align="food img"> </div>
+			<div class="Xfood-info-cont col-xs-9 col-sm-10" style="padding-left:0">
+				<div class="food-info-body">
+					<h4 class="dishTitle">...</h4>
+					<div class="byChef" >..</div>
+					<p class="dishInfo" style="line-height:1.8em"></p>
+				</div>
+			</div>
+		</div>
+		<div class="aLoading text-center" style="display:none"><img src="images/loading.gif" sytle=" margin: 0 auto;" /></div>
+	</div>
+</div>
+<br />
+<br />
+
+
+<div class="modal fade" id="popUser" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="popUserTitle" data-bind="text: lang.OrderDetails"></h4>
+			</div>
+			<div class="modal-body"> </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="text: lang.OK"></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="popFinish" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="popFinishTitle" data-bind="text: lang.RateYourExperience"></h4>
+			</div>
+			<div class="modal-body">
+				<p data-bind="text: lang.Pleaserateyour"></p>
+				
+				<form method="post" id="frmF">
+					<div class="form-group">
+						<label class="" data-bind="text: lang.YourRating"></label>
+						<div class="">
+							<select name="rating" id="rating" class="form-control required">
+								<option data-bind="text: lang.Excellent" value="5"></option>
+								<option data-bind="text: lang.VeryGood" value="4"></option>
+								<option data-bind="text: lang.Good"value="3"></option>
+								<option data-bind="text: lang.Fair"value="2"></option>
+								<option data-bind="text: lang.Poor" value="1"></option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label data-bind="text: lang.YourComments"></label>
+						<div class="">
+						<textarea name="comments" id="comments" rows="5" class="form-control"></textarea>
+						</div>
+					</div>
+					<input type="hidden" name="res_id" id="res_id" class="form-control required">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="text: lang.Cancel">Cancel</button>
+				<button type="button" class="btn btn-success finishGo" data-bind="text: lang.OK"></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<br />
+<br />
+<br />
+<br />
+<div id="bottom-bar">
+	<div class="container">
+		<div class="row">
+			<div class=" no-padding"> <a class="tab-item " href="map.html"> <i class="fa fa-map-marker"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item active" href="reservations.html"> <i class="fa fa-cutlery"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " href="user-profile.html"> <i class="fa fa-user"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " id="afchat" href="chat.html"> <i class="fa fa-comments"></i> </a>	</div>
+		</div>
+	</div>
+</div>
+
+<!-- Script -->
+<script type="text/javascript" src="cordova.js"></script> 
+<script type="text/javascript" src="js/paypal-mobile-js-helper.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/moment.min.js"></script> 
+<script src="js/jquery.qrcode.js"></script> 
+<script src="js/qrcode.js"></script> 
+<script src='js/knockout-3.4.0.js'></script>
+
+<script src="js/common.js"></script> 
+<script>
+
+
+
+var resData;
+var OrderId;
+
+$(document).ready(function(e) {
+
+	loadReservations();
+	
+	
+	//jQuery('#qrcode').qrcode("this plugin is great");
+	//jQuery('#qrcodeCanvas').qrcode({
+	//	text	: "F124:78541269821"
+	//});
+
+	
+	$('#chef-foods').on('click', '.btnQR',function(){
+		BAlert.find('.modal-header h3').html('<i class="fa check"></i> '+cLan.QRCode);
+		BAlert.find('.modal-body').html('').qrcode({ text: $(this).data('qr') });
+		BAlert.modal();
+	});
+	
+	$('#chef-foods').on('click', '.btnFinish',function(){ // rate it
+		$('#res_id').val( $(this).data('rid') );
+		$('#popFinish').modal();
+	});
+	
+	$('.finishGo').on('click',function(){
+		$('#frmF').submit();
+	});
+	
+	$('#chef-foods').on('click', '.btnDetail',function(){
+		var orderId = $(this).data('id') ;
+		var thisOrder ;
+		for (var i = 0; i < resData.length; i++) {
+			if( resData[i].id == orderId ){
+				thisOrder = resData[i];
+				break; 	
+			}
+		}
+		var H = '<h4>'+cLan.To+':</h4><strong>'+thisOrder.company+'</strong><br />'+thisOrder.address+'<br />'+thisOrder.city+' '+thisOrder.state+', '+thisOrder.zip+'<br />Tel: '+thisOrder.phone+'<br />';
+		H += '<h4>'+cLan.Detail+':</h4>';
+		H += cLan.OrderId+': '+ thisOrder.id +' &nbsp; &nbsp; ';
+		if(thisOrder.order_type=='Dine'){
+			H += cLan.Persons+': '+ thisOrder.persons +' <br />' ;
+		}
+		H += cLan.Ordertype+': '+ thisOrder.order_type +'<br />' ;		
+		H += cLan.Ordertotal+': $'+ thisOrder.order_total +'<br />' ;
+		if(!empty(thisOrder.coupon_discount)){
+			H += 'Discount: <span class="red">$'+parseFloat(thisOrder.coupon_discount).toFixed(2) +'</span><br />' ;
+		}
+		
+		//if( thisOrder.status == 'Pending' ){
+		//	H += '<button class="btn btn-sm pendingPay pull-right btn-primary" data-id="'+thisOrder.id+'" data-total="'+parseFloat(thisOrder.order_total).toFixed(2)+'"><i class="fa fa-paypal"></i> '+cLan.Paynow+' </button>';
+		//}
+		H += cLan.Paymentstatus+': <strong>'+thisOrder.status+'</strong><br />';
+		
+		var mo = moment( thisOrder.order_date+' '+thisOrder.order_time, 'YYYY-MM-DD HH:mm:ss' );
+		H += cLan.Time+': '+ mo.format('MM/DD/YYYY') +' &nbsp; '+ mo.format('h:mma') +'<br />';
+		
+		
+		if( thisOrder.order_type == 'Delivery' ){
+			var DData = JSON.parse(thisOrder.delivery_data);
+			H += '<div class="bg-info" style="margin:5px -5px 5px -5px; padding:5px;"><strong>Delivery Info:</strong><br/>';
+			if(!empty(DData.delivery_charges)){
+				H += cLan.Deliverycharges2 +': $'+DData.delivery_charges+'<br>';	
+			}
+			H += 'Delivery Address:<br>';
+			
+			H += DData.address+' &nbsp; <button class="btn fbtn btn-warning  btnMapLink" data-href="http://maps.google.com/maps?z=12&q=loc:'+DData.lat+'+'+DData.lng+'"><i class="fa fa-map-marker"></i></button><br/>'+DData.g_address +' ';
+			H += '</div>';
+			
+		}
+		
+		if( thisOrder.order_type == 'Personal Chef' ){
+			var DData = JSON.parse(thisOrder.delivery_data);
+			console.log(DData);
+			H += '<div class="bg-info" style="margin:5px -5px 5px -5px; padding:5px; background-color:#ffe9ee"><strong>Detailed Info:</strong><br/>';
+			if(!empty(DData.travel_charges)){
+				H += cLan.TravelCharges +': $'+DData.travel_charges.toFixed(2)+'<br>';	
+			}
+			
+			if(!empty(DData.ad_stay_charges)){
+				H += 'Additional stay: '+DData.ad_stay+' hours<br>';	
+				H += 'Additional stay charges: $'+DData.ad_stay_charges.toFixed(2)+'<br>';	
+			}
+			H += 'Address:<br>';
+			
+			H += DData.address+' &nbsp; <button class="btn fbtn btn-warning  btnMapLink" data-href="http://maps.google.com/maps?z=12&q=loc:'+DData.lat+'+'+DData.lng+'"><i class="fa fa-map-marker"></i></button><br/>'+DData.g_address +' ';
+			H += '</div>';
+			
+		}
+		
+		
+		H += '<h4>'+cLan.Dishes+':</h4><table class="table table-responsive">';
+		H += '<tr><th>#</th><th>'+cLan.Dish+'</th><th>'+cLan.Qty+'</th><th>'+cLan.Price+'</th></tr>';
+		var T = 0;
+		for (var i = 0; i < thisOrder.dishes.length; i++) {
+			T = T + parseFloat(thisOrder.dishes[i].qty) * parseFloat(thisOrder.dishes[i].price);
+			H += '<tr><td>'+(i+1)+'</td><td>'+thisOrder.dishes[i].dish_name+'</td><td>'+thisOrder.dishes[i].qty+'</td><td>$'+parseFloat(thisOrder.dishes[i].price).toFixed(2)+'</td></tr>';	
+		}
+		H += '<tr><td></td><td></td><td><strong>'+cLan.TOTAL+'</strong></td><td><strong>$'+T.toFixed(2)+'</strong></td></tr>';	
+		H += '</table>';
+		
+		$('#popUser .modal-body').html(H);
+		$('#popUser').modal();
+	});
+	
+	
+	
+	
+	$('#frmF').validate({
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+			
+			formData = $(form).serialize();
+			formData += '&userId='+localStorage.getItem('userId')+'&userToken='+localStorage.getItem('userToken'); 
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=rateChef", data: formData,
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					$('#popFinish').modal('hide');
+					if( $('#comments').val().length > 3 ){
+						BAlert.find('.modal-header h3').html('<i class="fa check"></i> '+cLan.Success);
+						BAlert.find('.modal-body').html('<p class="text-success">'+data.Msg+'<br>'+cLan.WouldyouFacebook+' <br/> <button type="button" class="btn btn-success btnShareFB">'+cLan.YesFacebook+'</button> </p>');
+						BAlert.modal();
+					}else{
+						BAlert.find('.modal-header h3').html('<i class="fa check"></i> '+cLan.Success);
+						BAlert.find('.modal-body').html('<p class="text-success">'+data.Msg+'</p>');
+						BAlert.modal();
+					}
+				} else { 
+					BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+					BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+					BAlert.modal();
+				}
+				if (data.JS) { eval(data.JS); }
+			
+			}); // ajax	
+					
+		}// submit handler
+	});
+	
+	$(document).on('click','.btnShareFB',function(){
+		var res_id = $('#res_id').val();
+		var Tdata = null;
+		for (var i = 0; i < resData.length; i++) {
+			if( resData[i].id == res_id ){
+				Tdata = resData[i];
+				break;	
+			}	
+		}
+		if(!empty(Tdata)){
+			var fShare = {
+				method: "share",
+				href: "http://www.foodiesys.com/",
+				caption: '"'+Tdata.company+'" '+cLan.MyReview+' ('+ $('#rating').val() +' '+cLan.outof+' 5)',
+				description: $('#comments').val(),
+				picture: ''
+			};
+			if(!empty(Tdata.image1)){
+				fShare.picture = 'http://mobileapi.foodiesys.com/foodie-mssql/pics/'+Tdata.image1;
+			}
+			try{
+				facebookConnectPlugin.showDialog( fShare, fb_success, fb_failure);
+			}catch(exception){
+				alert(exception);	
+			}
+		}
+	});
+
+});
+
+function fb_success(){
+	//alert('success');
+	$('#popFinish').modal('hide');
+	BAlert.modal('hide');
+}
+function fb_failure(error){
+	//alert(error);
+}
+
+
+function loadReservations(){
+	formData = 'user_id='+ localStorage.getItem('userId');
+	formData += '&userToken='+ localStorage.getItem('userToken');
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=getReservations", data: formData,
+		beforeSend: function() { $('div.aLoading').show();  },
+		complete: function() { $('div.aLoading').hide(); },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			if(data.Count > 0 ){
+				resData = data.Reservations;
+				$DTemp = $('.food-listing');
+				for (var i = 0; i < resData.length; i++) {
+					$copy = $DTemp.clone().removeClass('hidden');
+					$copy.find('img.img-responsive').prop('src', 'http://mobileapi.foodiesys.com/foodie-mssql/pics/'+resData[i].image1);
+					$copy.find('h4.dishTitle').html( resData[i].company );
+					//$copy.find('a.dishTitle').prop('rel', resData[i].id );
+					//$copy.find('.btnReserve').prop('data-dish', resData[i].id );
+					//$copy.find('div.byChef').html( 'Persons: <a href="chef_profile.html?id='+resData[i].chef_id+'">' + resData[i].company + '</a>' );
+					$copy.find('div.byChef').html(''); //cLan.Persons+': '+resData[i].persons  );
+					//$copy.find('div.byChef').html( '<button class="btn btn-default btn-sm btnDetail" data-id="'+resData[i].id+'">'+cLan.OrderDetails+'</button>'  );
+					
+					var H = '';
+					H += cLan.Ordertype+': '+ resData[i].order_type +'<br />' ;
+					H += cLan.Ordertotal+': $'+ parseFloat(resData[i].order_total).toFixed(2) +'<br />' ;
+					
+					if(!empty(resData[i].coupon_discount)){
+						H += 'Discount: <span class="red">$'+parseFloat(resData[i].coupon_discount).toFixed(2) +'</span><br />' ;
+					}
+					
+					H += cLan.Paymentstatus+': <strong>'+resData[i].status+'</strong>';
+					if( resData[i].status == 'Paid' ){
+						H += '<br/>'+cLan.ConfirmationCode+': <strong>'+resData[i].delivary_code+'</strong>';	
+					}
+					var M9 =  moment(resData[i].order_date , 'YYYY-MM-DD' ).add(90, 'days'); 
+					
+					//H += ' &nbsp; <button class="btn btn-sm btnFinish" data-rid="'+resData[i].id+'"><i class="fa fa-comment"></i> Rate it </button>';
+					var mo = moment( resData[i].order_date+' '+resData[i].order_time, 'YYYY-MM-DD HH:mm:ss' );
+					H += '<div style="margin-bottom:10px">'+cLan.Time+': '+ mo.format('MMM D, YYYY (ddd) [at] h:mma') +'</div>';
+					
+					
+					H += '<button class="btn btn-primary btn-sm btnDetail" data-id="'+resData[i].id+'">'+cLan.OrderDetails+'</button>';
+					
+					if( resData[i].status == 'Paid' ){
+						H += ' &nbsp;<button class="btn btn-primary btn-sm btnQR " data-qr="F'+resData[i].id+':'+resData[i].delivary_code+'"><i class="fa fa-qrcode"></i> '+cLan.QRCode+'</button>';
+					}
+					
+					if( resData[i].status == 'Completed' && moment().isBefore(M9)  ){
+						H += ' &nbsp;<button class="btn btn-primary btn-sm btnFinish" data-rid="'+resData[i].id+'"><i class="fa fa-comment"></i> '+cLan.Rateit+' </button>';
+					}
+					
+					
+					$copy.find('p.dishInfo').html( H );
+					
+											
+					
+					$copy.appendTo('#chef-foods');
+				}
+				//$DTemp.remove();
+			}else{
+				$('#chef-foods').html('<center>'+cLan.NoReservationsFound+'</center>');
+			}
+		}else { 
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+			BAlert.modal();
+		}
+		if (data.JS) { eval(data.JS); }
+	
+	}); // ajax	
+}
+
+
+
+</script>
+</body>
+</html>

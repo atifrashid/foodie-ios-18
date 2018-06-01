@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<style>
+.bootstrap-datetimepicker-widget table td.today:before, .bootstrap-datetimepicker-widget table td.today:before:hover {
+ display:none;
+}
+.bootstrap-datetimepicker-widget table td.day, .bootstrap-datetimepicker-widget table td.day:hover {
+	background-color: #5CB85C;
+	color: #FFF;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+}
+.bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
+	color: #CCC !important;
+	background-color: transparent !important;
+}
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
+	background-color: #FF7F00;
+	color: #FFF;
+}
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+	border-radius: 0;
+}
+.spDishD {
+	display: none;
+}
+.tab-content a
+{
+	display:inline-block;
+	margin:10px 0px;
+	
+	font-weight:bold;
+}
+.tab-content .media-object
+{
+	height:150px;
+	width:100%;
+	object-fit:cover;
+}
+</style>
+</head>
+<body id="wrapper">
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+
+<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+<div id="chef-page" class="content">
+	<h1 style="display:inline-block; width:100%; margin-left:0px; padding-left:20px;" id="menu-button"><a href="map.html" style="margin-right:35px; font-size:18px" class="pull-right"><i class="fa fa-arrow-left"></i></a> <a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a>
+		<p class="pageTitle client-profile" ><span data-bind="text: lang.ChefProfile"></span></p>
+	</h1>
+	<div id="chef-banner" class="main-div">
+		<div class="container">
+			<div class="row">
+				<div class="chef-profile-info">
+					<h3 id="p_company" class="client-profile-name">...</h3>
+					<img src="images/0.png" id="p_rating" > <span id="rating_text"></span> </div>
+				<div class="col-xs-5 "> <span class="food-price" id="p_food_cost" ></span><br>
+					<span class="food-cost-text" data-bind="text: lang.FoodCost"></span> </div>
+				<div class="col-xs-4" id="spReview"> <span class="food-price" ><span id="p_rating_count"><a href="#">0</a></span></span><br>
+					<a href="#"><span class="food-cost-text" data-bind="text: lang.Reviews"></span></a> </div>
+				
+				<div class="col-xs-3" id="spChat"> <i class="fa fa-comments"></i>  <br/> <a href="#"><span class="food-cost-text" xdata-bind="text: lang.Reviews">Chat</span></a></div>
+				
+				<!--update version-->
+				
+				<div class="chef-banner-image text-center col-xs-12 carousel-border-top-bottom">
+					<div id="myCarousel" class="carousel slide" data-ride="carousel"> 
+						<!-- Wrapper for slides -->
+						<div id="spSlider" class="carousel-inner" role="listbox"> </div>
+						
+						<!-- Left and right controls --> 
+						<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+    <div class="order-button"> <span id="spBtnDine" style="display:none" class="spantxt1"><a href="#" data-bind="text: lang.DineInOrder" id="btnStartOrder">Dine in order</a></span> <span id="spBtnDelivery" style="display:none" class="spantxt2"><a href="#" data-bind="text: lang.DlvOdr" id="btnStartDeliveryOrder">Delivery Order</a></span> <span id="spBtnPS" style="display:none" class="spantxt1"><a href="#" xdata-bind="text: lang.DlvOdr" id="btnStartPSOrder">Personal Chef</a></span> </div>
+	<div id="chef-info-cont">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 tabs-bg">
+                	
+					<div class="tab-content">
+						<div id="chef_info">
+                     <br>
+							<p id="spAbout" class="chef-profile-intro"></p>
+							<div class="chef-profile-name" data-bind="text: lang.Address"></div>
+							<p id="spAddress" class="chef-profile-intro"> </p>
+						</div>
+						<div id="recipes_no">
+						<hr>
+                        	<!--<h4>DISHES</h4>-->
+							<div id="chef-foods"> 
+								<!--<div class="food-listing hidden">
+									<div class="food-image-cont-dish"> <img class="img-responsive img-circle media-object pull-left"  src="images/food-1.png" align="food img"> </div>
+									<div class="food-info-cont-dish" style="width:80%">
+										<div class="food-info-body"> <a class="dishTitle">..</a><br />
+											<p class="dishInfo"></p>
+											<div class="pull-right" style=" margin-left:0px; display:inline-block "><i class="fa pull-right fa-2x fa-chevron-circle-right"></i></div>
+										</div>
+									</div>
+								</div>-->
+								<div class="col-xs-6 crow food-listing2 hidden">
+									<div class="col-xs-12 no-lft-padding"> <img align="food img" src="images/food-1.png" class="img-responsive media-object pull-left"> </div>
+									<div class="col-xs-12 no-lft-padding cno-right-padding">
+										<div class="food-info-body" style="display:inline-block"> <a class="dishTitle">..</a><br>
+											<p class="dishInfo"></p>
+										</div>
+									</div>
+									
+								</div>
+								<div class="aLoading text-center" style="display:none"><img src="images/loading.gif" sytle=" margin: 0 auto;" /></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div class="modal fade" id="popDishDetail" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" _data-bind="text: lang.Reviews">Dish Info</h4>
+			</div>
+			<div class="modal-body"> </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="text: lang.OK"></button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="popReviews" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" data-bind="text: lang.Reviews"></h4>
+			</div>
+			<div class="modal-body"> <strong>..</strong> <img src="images/4.5.gif" id="p_rating" class="pull-right">
+				<p style="margin-top:10px;">..</p>
+				<hr>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="text: lang.OK"></button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="popReserve" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title"  data-bind="text: lang.AddReservation"></h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="frmReserve">
+					<div id="Step1">
+						<div class="form-group">
+							<label data-bind="text: lang.NumberofPersons"></label>
+							<div class="">
+								<input type="number" min="1" step="1" name="quantity" id="d_quantity" class="form-control required digits" value="1">
+							</div>
+						</div>
+						<div class="form-group">
+							<label data-bind="text: lang.Pickadate"></label>
+							<div style="overflow:hidden; border:2px solid #DDD; padding:5px 5px 0 5px" >
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-8">
+											<div id="datetimepicker12"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<input type="hidden" name="d_date" id="d_date" value="" />
+						</div>
+						<div class="form-group">
+							<label data-bind="text: lang.Time">Time</label>
+							<div class="">
+								<select name="d_time" id="d_time" class="form-control required">
+									<option data-bind="text: lang.SelectTime" value=""></option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div id="Step2">
+						<h4  data-bind="text: lang.SelectDishes"></h4>
+						<div id="spAvDishes">
+							<ul class="list-group">
+							</ul>
+						</div>
+						<h2 style="color:#C00"><span data-bind="text: lang.Total">Total</span> : <span id="d_total">$0.00</span></h2>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="text: lang.Cancel"></button>
+				<button id="btnNext" type="button" class="btn btn-primary"><span data-bind="text: lang.Next">Next</span> <i class="fa fa-arrow-circle-o-right"></i></button>
+				<button id="btnOrder" type="button" class="btn btn-primary" data-bind="text: lang.OrderNow">Order Now</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="popDeliveryOrder2" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" data-bind="text: lang.DeliveryOrder"></h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="frmReserve2">
+					<div id="StepD1">
+						<div class="form-group">
+							<label _data-bind="text: lang.Time">Additional delivery info <span class="small">(such as Apt or Suite)</span> </label>
+							<div class="">
+								<textarea name="d_address" id="d_address" class="form-control" rows="2"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label data-bind="text: lang.Pickadate"></label>
+							<div style="overflow:hidden; border:2px solid #DDD; padding:5px 5px 0 5px" >
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-8">
+											<div id="datetimepickerD"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<input type="hidden" name="d_date2" id="d_date2" value="" />
+						</div>
+						<div class="form-group">
+							<label data-bind="text: lang.Time">Time</label>
+							<div class="">
+								<select name="d_time2" id="d_time2" class="form-control required">
+									<option data-bind="text: lang.SelectTime" value=""></option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div id="StepD2">
+						<h4  data-bind="text: lang.SelectDishes"></h4>
+						<div id="spAvDishes2">
+							<ul class="list-group">
+							</ul>
+						</div>
+						<h4 style="color:#666"><span data-bind="text: lang.Deliverycharges2"></span> : <span id="d_charges">$0.00</span></h4>
+						<h2 style="color:#C00"><span data-bind="text: lang.Total"></span> : <span id="d_total2">$0.00</span></h2>
+					</div>
+					<input type="hidden" id="delivery_charges" name="delivery_charges">
+					<input type="hidden" id="gAddress" name="gAddress">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="text: lang.Cancel"></button>
+				<button id="btnNextD" type="button" class="btn btn-primary"><span data-bind="text: lang.Next">Next</span> <i class="fa fa-arrow-circle-o-right"></i></button>
+				<button id="btnOrderD" type="button" class="btn btn-primary" data-bind="text: lang.OrderNow">Order Now</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="popPSOrder" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" xdata-bind="text: lang.DeliveryOrder">Personal Chef</h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="frmReserve3">
+					<div id="StepPS1">
+						<div class="form-group">
+							<label _data-bind="text: lang.Time">Additional location info <span class="small">(such as Apt or Suite)</span> </label>
+							<div class="">
+								<textarea name="PS_address" id="PS_address" class="form-control" rows="2"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label data-bind="text: lang.Pickadate"></label>
+							<div style="overflow:hidden; border:2px solid #DDD; padding:5px 5px 0 5px" >
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-8">
+											<div id="datetimepickerPS"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<input type="hidden" name="PS_date" id="PS_date" value="" />
+						</div>
+						<div class="form-group">
+							<label data-bind="text: lang.Time">Time</label>
+							<div class="">
+								<select name="PS_time" id="PS_time" class="form-control required">
+									<option data-bind="text: lang.SelectTime" value=""></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group" id="dvReqByChef">
+							<label _data-bind="text: lang.Time">Requirments for Fudi:</label>
+							<p>A stove, burner, fring pan, shelter</p>
+						</div>
+					</div>
+					<div id="StepPS2">
+						<h4  data-bind="text: lang.SelectDishes"></h4>
+						<div id="spAvDishesPS">
+							<ul class="list-group">
+							</ul>
+						</div>
+						<div class="form-group">
+							<label _data-bind="text: lang.Time">Additional Stay (hours)</label>
+							<div class="">
+								<input type="number" id="additionalStay" name="additionalStay" class="form-control" value="0" />
+							</div>
+						</div>
+						<h4 style="color:#666; display:none" id="h4Ad"><span xdata-bind="text: lang.Deliverycharges2">Additional Stay Charges</span> : <span id="PS_Adcharges">$0.00</span></h4>
+						<h4 style="color:#666"><span xdata-bind="text: lang.Deliverycharges2">Travel Charges</span> : <span id="PS_charges">$0.00</span></h4>
+						<h2 style="color:#C00"><span data-bind="text: lang.Total"></span> : <span id="PS_total">$0.00</span></h2>
+					</div>
+					<input type="hidden" id="hPS_charges" name="hPS_charges">
+					<input type="hidden" id="gPSAddress" name="gPSAddress">
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="text: lang.Cancel"></button>
+				<button id="btnNextPS" type="button" class="btn btn-primary"><span data-bind="text: lang.Next">Next</span> <i class="fa fa-arrow-circle-o-right"></i></button>
+				<button id="btnOrderPS" type="button" class="btn btn-primary" data-bind="text: lang.OrderNow">Order Now</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal modal-fullscreen fade" id="popDeliveryOrder" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog" style="height:100%; width:100%;">
+		<div class="modal-content " style="height:100%; width:100%;">
+			<div class="modal-body" style="height:100%; width:100%;">
+				<div id="map" style="height:100%; width:100%;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="bottom-bar">
+	<div class="container">
+		<div class="row"> <span id="footerLinksNormal">
+			<div class=" no-padding"> <a class="tab-item " href="map.html"> <i class="fa fa-map-marker"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " href="reservations.html"> <i class="fa fa-cutlery"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item active" href="user-profile.html"> <i class="fa fa-user"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " id="afchat" href="chat.html"> <i class="fa fa-comments"></i> </a>	</div>
+			
+			</span> <span id="footerLinksNoLogin">
+			<div class="col-xs-6 no-padding2"> <a class="tab-item " href="register.html"> <i class="fa fa-user"></i> </a> </div>
+			<div class="col-xs-6 no-padding2"> <a class="tab-item " href="map.html"> <i class="fa fa-map-marker"></i> </a> </div>
+			</span> </div>
+	</div>
+</div>
+
+
+
+
+<!-- Script --> 
+
+<script type="text/javascript" src="cordova.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script> 
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyCI8GhkGk7xkgWxxmg67iJsMMFbv7S22HY"></script> 
+<script src='js/knockout-3.4.0.js'></script> 
+<script src="js/common.js"></script> 
+<script src="js/moment.min.js"></script> 
+<script src="js/bootstrap-datetimepicker.min.js"></script> 
+<script>
+
+var dishData;
+var DishAv;			// from server 0-n index
+var DishAvO = {}; // date index
+
+var DishAv2;			// from server 0-n index - for delivery
+var DishAvO2 = {}; // date index - for delivary
+
+var thisDate;
+var Total;
+var OrderId = null; 
+var chef_id = null;
+
+var chef_data;
+
+var map;
+var myLatLng;
+var controlDiv2;	// Set Delivery Location button
+var controlDiv4;  // geo Address;
+var geocoder ;
+var OrderType = null;
+var ps_additional_per_h = 0;
+
+function MyControl(controlDiv, map) {
+	var controlImg = document.createElement('IMG');
+	controlImg.style.width = '96px';
+	controlImg.style.height = '96px';
+	//controlImg.style.marginBottom = '30px';
+	controlImg.width = '96';
+	controlImg.height = '96';
+	controlImg.src = 'images/green-home2.png?3';
+	controlDiv.appendChild(controlImg);
+}
+function MyControl2(controlDiv, mapp) {
+	// Set CSS for the control border.
+	var controlUI = document.createElement('div');
+	controlUI.style.backgroundColor = '#3e3e3e';
+	controlUI.style.border = '2px solid #3e3e3e';
+	controlUI.style.borderRadius = '3px';
+	controlUI.style.boxShadow = '0 2px 4px rgba(0,0,0,.3)';
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.marginTop = '-115px';
+
+	controlUI.style.textAlign = 'center';
+	controlUI.title = 'Click to recenter the map';
+	controlDiv.appendChild(controlUI);
+	
+	// Set CSS for the control interior.
+	var controlText = document.createElement('div');
+	controlText.style.color = '#FFFFFF';
+	controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+	controlText.style.fontSize = '17px';
+	controlText.style.lineHeight = '30px';
+	controlText.style.paddingLeft = '8px';
+	controlText.style.paddingRight = '8px';
+	controlText.innerHTML = 'Set Delivery Location <img src="images/arrow.png" width="18" height="18" />';
+	
+	if( OrderType == 'PS' ) controlText.innerHTML = 'Set Cooking Location <img src="images/arrow.png" width="18" height="18" />';
+	
+	controlUI.appendChild(controlText);
+	
+	// Setup the click event listeners: simply set the map to.
+	controlUI.addEventListener('click', function() {
+		$('#popDeliveryOrder').modal('hide');
+		setTimeout(function() {
+			var Tmp = map.getCenter();
+			localStorage.setItem('Deliverylat', Tmp.lat());
+			localStorage.setItem('Deliverylng', Tmp.lng());
+			console.log(map.getCenter().toString());
+			
+			if( OrderType == 'PS' )
+				get_chefPSSettings();
+			else
+				get_chefDeliverySettings();
+				
+     	}, 800);
+	});
+}
+
+function ControlAddress(controlDiv, map) {
+	// Set CSS for the control border.
+var controlUI = document.createElement('div');
+	controlUI.style.backgroundColor = '#3e3e3e';
+	controlUI.style.border = '2px solid #3e3e3e';
+	controlUI.style.borderRadius = '3px';
+	controlUI.style.boxShadow = '0 2px 4px rgba(0,0,0,.3)';
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.marginTop = '100px';
+	controlUI.style.textAlign = 'center';
+	//controlUI.style.width = '100%';
+	controlUI.title = 'Address here';
+	controlDiv.appendChild(controlUI);
+	// Set CSS for the control interior.
+	var controlText = document.createElement('div');
+	controlText.className = 'cAddress';
+	controlText.style.color = '#FFFFFF';
+	controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+	controlText.style.fontSize = '14px';
+	controlText.style.lineHeight = '30px';
+	controlText.style.paddingLeft = '8px';
+	controlText.style.paddingRight = '8px';
+	controlText.innerHTML = '';
+	controlUI.style.width = ($('#map').width()-10)+'px';
+	controlUI.appendChild(controlText);
+	// Setup the click event listeners: simply set the map to Chicago.
+}
+	
+function MyControl4(controlDiv, map) {
+	// Set CSS for the control border.
+var controlUI = document.createElement('div');
+	controlUI.style.backgroundColor = 'rgba(62,62,62, 0.9)';
+	controlUI.style.border = '2px solid #3e3e3e';
+	controlUI.style.borderRadius = '3px';
+	controlUI.style.boxShadow = '0 2px 4px rgba(0,0,0,.3)';
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.marginBottom = '25px';
+	controlUI.style.textAlign = 'center';
+	controlUI.style.marginLeft = '-40px';
+	controlUI.style.width = '100%';
+	
+	controlUI.title = 'Address here';
+	controlDiv.appendChild(controlUI);
+	// Set CSS for the control interior.
+	var controlText = document.createElement('div');
+	controlText.className = 'cAddress';
+	controlText.style.color = '#FFFFFF';
+	controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+	controlText.style.fontSize = '14px';
+	controlText.style.lineHeight = '1.5em';
+	controlText.style.paddingLeft = '8px';
+	controlText.style.paddingRight = '8px';
+	controlText.innerHTML = '';
+	controlUI.style.width = ($('#map').width()-60)+'px';
+	controlUI.appendChild(controlText);
+	// Setup the click event listeners: simply set the map to Chicago.
+}	
+
+function MyControl7(controlDiv, map) { // Enter specific address input
+	// Set CSS for the control border.
+	var controlUI = document.createElement('div');
+	controlUI.style.backgroundColor = 'rgba(255,255,255,0.6)';
+	//controlUI.style.border = '2px solid #176524';
+	//controlUI.style.borderRadius = '3px';
+	//controlUI.style.boxShadow = '0 2px 4px rgba(0,0,0,.3)';
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.marginTop = '100px';
+	controlUI.style.marginRight = '10px';
+	controlUI.style.width = ($('#map').width()-30)+'px';
+	controlUI.style.padding = '20px';
+	
+	controlUI.style.textAlign = 'center';
+	controlUI.title = 'Click to recenter the map';
+	controlDiv.appendChild(controlUI);
+	
+	// Set CSS for the control interior.
+	var controlText = document.createElement('div');
+	controlText.style.color = '#FFFFFF';
+	controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+	controlText.style.fontSize = '14px';
+	controlText.style.lineHeight = '30px';
+	controlText.style.paddingLeft = '8px';
+	controlText.style.paddingRight = '8px';
+	controlText.innerHTML = '<form onsubmit="return mapFormSubmit();" method="post" id="mapForm"><input type="text" style="color:#666; padding:4px; line-height:auto; width:80%" name="onmapAddress" id="onmapAddress" placeholder="Enter specific address" /><span id="user_address_result2"></span></form>';
+	
+	//var xInput = document.createElement('input');
+   //var searchBox = new google.maps.places.SearchBox(input);
+   //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+	
+	//controlUI.appendChild(xInput);
+	controlUI.appendChild(controlText);
+
+	// Setup the click event listeners: simply set the map to Chicago.
+	//controlUI.addEventListener('click', function() {
+		
+		//$('#popEnterAddress').modal();
+		//return false;
+			
+	//});
+}
+	
+function MyControl3(controlDiv, map) {
+	// Set CSS for the control border.
+	var controlUI = document.createElement('div');
+	controlUI.style.backgroundColor = '#3e3e3e';
+	controlUI.style.border = '2px solid #3e3e3e';
+	controlUI.style.borderRadius = '3px';
+	controlUI.style.boxShadow = '0 2px 4px rgba(0,0,0,.3)';
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.marginTop = '10px';
+	controlUI.style.marginRight = '10px';
+	
+	controlUI.style.textAlign = 'center';
+	controlUI.title = 'Click to recenter the map';
+	controlDiv.appendChild(controlUI);
+	
+	// Set CSS for the control interior.
+	var controlText = document.createElement('div');
+	controlText.style.color = '#FFFFFF';
+	controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+	controlText.style.fontSize = '14px';
+	controlText.style.lineHeight = '30px';
+	controlText.style.paddingLeft = '8px';
+	controlText.style.paddingRight = '8px';
+	controlText.innerHTML = 'Cancel';
+	controlUI.appendChild(controlText);
+
+	// Setup the click event listeners: simply set the map to Chicago.
+	controlUI.addEventListener('click', function() {
+		$('#popDeliveryOrder').modal('hide');
+	});
+}
+function initMap(){
+	console.log('initMap');
+	
+	if(!empty(localStorage.getItem('Deliverylat'))){
+		myLatLng =  new google.maps.LatLng( localStorage.getItem('Deliverylat') , localStorage.getItem('Deliverylng') );		
+	}else{
+		myLatLng =  new google.maps.LatLng( localStorage.getItem('lat') , localStorage.getItem('lng') );
+	}
+	var mapOptions = {
+		center: myLatLng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		zoom:15,
+		scrollwheel: false,
+	};
+					 
+	map = new google.maps.Map(document.getElementById('map'), mapOptions);
+	geocoder = new google.maps.Geocoder;
+	
+	var controlDiv = document.createElement('div');
+	var myControl = new MyControl(controlDiv);
+	controlDiv.index = 1;
+	map.controls[google.maps.ControlPosition.CENTER].push(controlDiv);
+	
+	var controlDiv2 = document.createElement('div');
+	
+	var myControl2 = new MyControl2(controlDiv2);
+	controlDiv2.index = 2;
+	map.controls[google.maps.ControlPosition.CENTER].push(controlDiv2);
+	
+	var controlDiv3 = document.createElement('div');
+	var myControl3 = new MyControl3(controlDiv3);
+	controlDiv3.index = 3;
+	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv3);
+	
+	//controlDiv4 = document.createElement('div');
+	//var myControl4 = new ControlAddress(controlDiv4);
+	//controlDiv3.index = 4;
+	//map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlDiv4);
+	
+	
+	controlDiv4 = document.createElement('div');
+	var myControl4 = new MyControl4(controlDiv4);
+	controlDiv4.index = 4;
+	map.controls[google.maps.ControlPosition.BOTTOM].push(controlDiv4);
+	
+	
+	
+	var controlDiv7 = document.createElement('div'); // Search box 
+	var myControl7 = new MyControl7(controlDiv7);
+	controlDiv7.index = 7;
+	map.controls[google.maps.ControlPosition.TOP_CENTER].push(controlDiv7);
+	
+	getGeoAddress();
+	
+	
+	map.addListener('dragstart', function() {
+		$(controlDiv2).hide();
+		$(controlDiv4).hide();
+	});
+	map.addListener('dragend', function() {
+		$(controlDiv2).show();
+		$(controlDiv4).show();
+		getGeoAddress();
+	});
+	
+	
+} // end initMap
+
+function DeliveryStep2(){
+	console.log(map.getCenter());
+}
+function getGeoAddress(){
+	var Tmp = map.getCenter();	
+	geocoder.geocode({
+		latLng: Tmp
+	}, function(results, status) {
+		if (status == google.maps.GeocoderStatus.OK) {
+			if (results[0]) {
+				$(controlDiv4).find('div.cAddress').html(results[0].formatted_address);
+				$('#gAddress').val(results[0].formatted_address);
+				//console.log(results[0]);	//results[0].formatted_address;
+			}
+		} else {
+			$(controlDiv4).find('div.cAddress').html('Unknown');
+		}
+	});	
+}
+
+function mapFormSubmit(){
+	var Adr = $('#onmapAddress').val();
+	if(!empty(Adr)){
+	
+		$('#user_address_result2').html('<img src="images/loading3.gif" style="margin: 0 0 0 10px;" />');
+			
+			$.get('https://maps.googleapis.com/maps/api/geocode/json?address='+encodeURI(Adr), null, "json" ).done(function(data) {
+				$('#user_address_result2').html('');
+				if(data.status = 'OK'){
+					if( data.results.length > 0 ){
+						var RES = data.results[0];
+						console.log(RES); 
+						window.map.setCenter(new google.maps.LatLng(RES.geometry.location.lat, RES.geometry.location.lng));
+						getGeoAddress();
+					}else{
+						$('#user_address_result2').html('<div class="red">No result found, please make sure you typed the address correctly.</div>');	
+					}
+				}else{
+					$('#user_address_result2').html('<div class="red">No result found, please make sure you typed the address correctly.</div>');
+				}
+				console.log(data);
+			});
+			
+	}
+	return false;
+}	
+	
+$(document).ready(function(e) {
+
+	
+	if( empty(localStorage.getItem('userId'))){
+		$('#footerLinksNormal').hide();
+		$('#footerLinksNoLogin').show();
+		$('#menu-toggle').addClass('disabled');
+	}else{
+		$('#footerLinksNoLogin').hide();
+		$('#footerLinksNormal').show();
+	}
+
+	chef_id = getUrlParameter('id');
+	
+	$('#spChat a').prop('href', 'chat.html?c='+chef_id);
+	
+	if( chef_id > 0 ){ // load main chef details 
+		
+		var jsonData = JSON.parse(localStorage.getItem('nearbyChefs'));
+		for (var i = 0; i < jsonData.length; i++) {
+			if( jsonData[i].id == chef_id ){
+				chef_data = jsonData[i];
+				break;
+			}
+		}
+		if(empty(chef_data.image1)){
+			$('#p_image1').prop('src', 'images/no-pic3.jpg?');		
+		}else{
+			$('#p_image1').prop('src', 'http://mobileapi.foodiesys.com/foodie-mssql/pics/'+chef_data.image1);
+		}
+
+		$('#p_company').html(chef_data.company);
+		$('#p_people_served').html(chef_data.people_served);
+		$('#p_food_cost').html(chef_data.food_cost);
+		$('#p_rating_count a').html(chef_data.rating_count);
+		$('#spAbout').html(chef_data.about);
+		//$('#spAddress').html(chef_data.address+'<br>'+chef_data.city+', '+chef_data.state+' '+chef_data.zip);
+		$('#spAddress').html(chef_data.city+', '+chef_data.state+' '+chef_data.zip);
+		
+		var SH = '';
+		if(!empty(chef_data.image1)){
+			SH = '<div class="item active"><img class="imgResponsive" src="http://mobileapi.foodiesys.com/foodie-mssql/pics/'+chef_data.image1+'" alt="chef"></div>';	
+		}
+		if(!empty(chef_data.image2)){
+			imt = chef_data.image2.split(',');
+			for(i=0; i<imt.length; i++){
+				if(empty(imt[i])) continue;
+				SH += '<div class="item "><img class="imgResponsive" src="http://mobileapi.foodiesys.com/foodie-mssql/pics/'+imt[i]+'" alt="chef"></div>';
+			}
+		}
+
+		$('#spSlider').html(SH);
+		
+		obRat = ratingCal( chef_data.rating_sum, chef_data.rating_count );
+		$('#p_rating').prop('src', obRat['starImg'] );
+		$('#rating_text').html( obRat['ratingTxt'] );
+		
+		
+		
+	}
+	
+	loadDishes(chef_id);
+	
+	$('#spReview a').on('click',function(){
+		
+		getReviews(chef_id);
+		$('#popReviews').modal();
+	});
+	
+	$('#datetimepickerD').datetimepicker({
+		inline: true,
+		sideBySide: false,
+		format: 'YYYY-MM-DD'
+	});	
+	
+	$('#datetimepickerPS').datetimepicker({
+		inline: true,
+		sideBySide: false,
+		format: 'YYYY-MM-DD'
+	});	
+	
+	$('#datetimepicker12').datetimepicker({
+		inline: true,
+		sideBySide: false,
+		format: 'YYYY-MM-DD'
+	});	
+	
+	$('#datetimepicker12').on('dp.change', function(m) {
+		var sd = m.date.format("YYYY-MM-DD");
+		thisDate = sd;
+		console.log( DishAvO[sd] );
+		$('#d_time').find("option:gt(0)").remove();
+
+		
+		var st = parseInt(moment(DishAvO[sd].start_time,'HH:mm:ss').format('H'));
+		var en = parseInt(moment(DishAvO[sd].end_time,'HH:mm:ss').format('H'));
+		
+		if( en == 0 ){ en = 24; }  
+				
+		while( st < en ){
+			mm = moment(st,'H');
+			$('#d_time').append('<option value="'+ mm.format('HH:mm:ss') +'">'+ mm.format('hh:00 A')  +'</option>');
+			st++;
+		}
+	});
+	
+	$('#datetimepickerPS').on('dp.change', function(m) {
+		var sd = m.date.format("YYYY-MM-DD");
+		thisDate = sd;
+		console.log( DishAvO2[sd] );
+		$('#PS_time').find("option:gt(0)").remove();
+		
+		var st = parseInt(moment(DishAvO2[sd].start_time,'HH:mm:ss').format('H'));
+		var en = parseInt(moment(DishAvO2[sd].end_time,'HH:mm:ss').format('H'));
+		
+		if( en == 0 ){ en = 24; }  
+				
+		while( st < en ){
+			mm = moment(st,'H');
+			$('#PS_time').append('<option value="'+ mm.format('HH:mm:ss') +'">'+ mm.format('hh:00 A')  +'</option>');
+			st+=3;
+		}
+	});
+	
+	$('#datetimepickerD').on('dp.change', function(m) {
+		var sd = m.date.format("YYYY-MM-DD");
+		thisDate = sd;
+		console.log( DishAvO2[sd] );
+		$('#d_time2').find("option:gt(0)").remove();
+		
+		var st = parseInt(moment(DishAvO2[sd].start_time,'HH:mm:ss').format('H'));
+		var en = parseInt(moment(DishAvO2[sd].end_time,'HH:mm:ss').format('H'));
+		
+		if( en == 0 ){ en = 24; }  
+				
+		while( st < en ){
+			mm = moment(st,'H');
+			$('#d_time2').append('<option value="'+ mm.format('HH:mm:ss') +'">'+ mm.format('hh:00 A')  +'</option>');
+			st+=2;
+		}
+	});
+	
+	
+	
+	
+	
+	$('#btnStartOrder').on('click',function(){
+		
+		if( empty(localStorage.getItem('userId'))){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> Error');
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Pleaselogin+' <a href="register.html?ret='+chef_id+'">'+cLan.HERE+'</a> '+cLan.tologinregister+'</p>');
+			BAlert.modal();
+			return false;
+		}
+		
+		var user_profile_complete = false;
+		if( !empty(localStorage.getItem('userData'))){
+			var userData = JSON.parse(localStorage.getItem('userData'));
+			if( !empty(userData.first_name) && !empty(userData.last_name) && !empty(userData.phone)  ){
+				user_profile_complete = true;	
+			}
+		}
+		if( user_profile_complete == false ){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Pleasetap+' <a href="user-profile.html?RetPage='+encodeURI('chef_profile.html?id='+chef_id)+'">'+cLan.HERE+'</a> '+cLan.tocompleteprofile+'</p>');
+			BAlert.modal();
+			return false;
+		}
+		
+		
+		var enabledDates = [];
+		var defDate = null;
+		if( !empty(DishAv)){
+			for (var i = 0; i < DishAv.length; i++) {
+				mo = moment(DishAv[i].cal_date, 'YYYY-MM-DD');
+				if( mo.isAfter(moment()) || mo.isSame(moment(),'day')  ){
+					if(empty(defDate)){ defDate = DishAv[i].cal_date };
+					enabledDates.push(DishAv[i].cal_date);
+					DishAvO[DishAv[i].cal_date] = { 'date': DishAv[i].cal_date, 'start_time': DishAv[i].start_time, 'end_time': DishAv[i].end_time, 'dishes': DishAv[i].dishes };
+				}
+			}
+		}
+		if(empty(enabledDates)){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Thischefnotavailable+'</p>');
+			BAlert.modal();
+			return false;
+			//$('#datetimepicker12').data("DateTimePicker").enabledDates([moment("06/15/2000")]);
+		}else{
+			$('#datetimepicker12').data("DateTimePicker").enabledDates(enabledDates);
+			$('#datetimepicker12').data("DateTimePicker").defaultDate( defDate );
+		}
+		
+		
+		$('#Step1').show(); $('#btnNext').show();
+		$('#Step2').hide(); $('#btnOrder').hide();
+		$('#popReserve').modal();
+		
+	});
+	
+	$('#btnStartPSOrder').on('click',function(){
+
+				
+		if( empty(localStorage.getItem('userId'))){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> Error');
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Pleaselogin+' <a href="register.html?ret='+chef_id+'">'+cLan.HERE+'</a> '+cLan.tologinregister+'</p>');
+			BAlert.modal();
+			return false;
+		}
+		
+		var user_profile_complete = false;
+		if( !empty(localStorage.getItem('userData'))){
+			var userData = JSON.parse(localStorage.getItem('userData'));
+			if( !empty(userData.first_name) && !empty(userData.last_name) && !empty(userData.phone)  ){
+				user_profile_complete = true;	
+			}
+		}
+		if( user_profile_complete == false ){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Pleasetap+' <a href="user-profile.html?RetPage='+encodeURI('chef_profile.html?id='+chef_id)+'">'+cLan.HERE+'</a> '+cLan.tocompleteprofile+'</p>');
+			BAlert.modal();
+			return false;
+		}
+		
+		OrderType = 'PS';
+		
+		$('#popDeliveryOrder').modal();
+		
+		setTimeout( function() {
+    		initMap();
+		}, 500);
+		
+		
+	});
+	
+	$('#btnStartDeliveryOrder').on('click',function(){
+		
+		//$('#popDeliveryOrder2').modal();
+		
+		if( empty(localStorage.getItem('userId'))){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> Error');
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Pleaselogin+' <a href="register.html?ret='+chef_id+'">'+cLan.HERE+'</a> '+cLan.tologinregister+'</p>');
+			BAlert.modal();
+			return false;
+		}
+		
+		var user_profile_complete = false;
+		if( !empty(localStorage.getItem('userData'))){
+			var userData = JSON.parse(localStorage.getItem('userData'));
+			if( !empty(userData.first_name) && !empty(userData.last_name) && !empty(userData.phone)  ){
+				user_profile_complete = true;	
+			}
+		}
+		if( user_profile_complete == false ){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Pleasetap+' <a href="user-profile.html?RetPage='+encodeURI('chef_profile.html?id='+chef_id)+'">'+cLan.HERE+'</a> '+cLan.tocompleteprofile+'</p>');
+			BAlert.modal();
+			return false;
+		}
+		
+		OrderType = 'Delivery';
+		$('#popDeliveryOrder').modal();
+		
+		setTimeout( function() {
+    		initMap();
+		}, 500);
+		
+	});
+	
+	
+$(".modal-fullscreen").on('show.bs.modal', function () {
+  setTimeout( function() {
+    $(".modal-backdrop").addClass("modal-backdrop-fullscreen");
+  }, 0);
+});
+$(".modal-fullscreen").on('hidden.bs.modal', function () {
+  $(".modal-backdrop").addClass("modal-backdrop-fullscreen");
+});
+	
+	
+	$('#chef-foods').on('click','.food-listing2',function(event){ // Dish Detail Popup
+		event.preventDefault();
+		var dishId = $(this).data('dishid');
+		var thisDish;
+		for (var i = 0; i < dishData.length; i++) {
+			if(dishId==dishData[i].id){
+				thisDish = dishData[i]; break;
+			}
+		}
+		if(!empty(thisDish)){
+			
+			var stat = '';
+			if( dishData[i].availability & 1 ){ stat += ', '+cLan.DishA1; }
+			if( dishData[i].availability & 2 ){ stat += ', '+cLan.DishA2; }
+			if( dishData[i].availability & 4 ){ stat += ', '+cLan.DishA4; }
+			if( stat == '' ) stat = cLan.DishA0; else stat = stat.substr(2);  
+			
+			var Desc = thisDish.description;
+			var Im = 'http://mobileapi.foodiesys.com/foodie-mssql/pics/'+thisDish.image1;
+			if(empty(thisDish.image1)) Im = 'images/no-pic3.jpg';
+			
+			if(empty(Desc)) Desc = 'N/A';
+			var H = '<h3 class="dishName">'+thisDish.dish_name+'</h3><center><img class="img-responsive" src="'+Im+'" /></center>'
+					+'<br><strong>'+cLan.Desc+':</strong><p>'+Desc+'</p>'
+					+'<p><strong>'+cLan.Availability+'</strong>: '+stat+'<br><strong>'+cLan.Price+'</strong>: $'+thisDish.price+'</p>';
+			
+			$('#popDishDetail div.modal-body').html(H);
+			$('#popDishDetail').modal();			
+		}
+		
+		
+	});
+
+	
+	
+	
+	$('#btnNext').on('click',function(){
+		if( empty(thisDate) || empty($('#d_time').val()) ){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Pleasepickdatetime+'</p>');
+			BAlert.modal();
+		}else{
+			formData = 'chef_id='+chef_id+'&quantity='+ $('#d_quantity').val()+'&d_date='+thisDate+'&d_time='+$('#d_time').val();
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=checkAvailable", data: formData,
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					
+					var dateDishes = DishAvO[thisDate].dishes;
+					dateDishes = dateDishes.split(',');
+					//console.log(dateDishes);
+					$('#spAvDishes ul').empty();
+					for (var i = 0; i < dishData.length; i++) {
+						if( $.inArray( dishData[i].id, dateDishes ) != -1 ){
+							$('#spAvDishes ul').append('<li class="list-group-item">'+
+								'<input type="checkbox" data-price="'+dishData[i].price+'" data-name="'+dishData[i].dish_name+'" value="'+dishData[i].id+'"> '+dishData[i].dish_name+
+								'<div class="spDishD">'+cLan.Price+' : $'+dishData[i].price+ ' &nbsp; '+cLan.Qty+' : <input id="aQty'+dishData[i].id+'" type="number" value="1" min="1" max="50" class="input-sm inline" /></div></li>');
+						} 
+					}
+					
+					
+					$('#Step2').show(); $('#btnOrder').show();
+					$('#Step1').hide(); $('#btnNext').hide();	
+					
+					
+					
+					
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				//if (data.JS) { eval(data.JS); }
+			}); // ajax	
+			
+		}
+	});
+	
+	
+	
+	$('#btnNextD').on('click',function(){
+		if( !$('#frmReserve2').valid() ) return false;
+		
+		if( empty(thisDate) || empty($('#d_time2').val()) ){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Pleasepickdatetime+'</p>');
+			BAlert.modal();
+		}else{
+			formData = 'chef_id='+chef_id+'&d_date='+thisDate+'&d_time='+$('#d_time2').val();
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=checkDeliveryAvailable", data: formData,
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					
+					$('#spAvDishes2 ul').empty();
+					for (var i = 0; i < dishData.length; i++) {
+						if(  dishData[i].availability & 2 ){
+							$('#spAvDishes2 ul').append('<li class="list-group-item">'+
+								'<input type="checkbox" data-price="'+dishData[i].price+'" data-name="'+dishData[i].dish_name+'" value="'+dishData[i].id+'"> '+dishData[i].dish_name+
+								'<div class="spDishD">'+cLan.Price+' : $'+dishData[i].price+ ' &nbsp; '+cLan.Qty+' : <input id="aQty'+dishData[i].id+'" type="number" value="1" min="1" max="50" class="input-sm inline" /></div></li>');
+						} 
+					}
+					$('#StepD1').hide(); $('#btnNextD').hide();	
+					$('#StepD2').show(500); $('#btnOrderD').show(500);
+					
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				//if (data.JS) { eval(data.JS); }
+			}); // ajax	
+			
+		}
+	});
+	
+	$('#btnNextPS').on('click',function(){
+		if( !$('#frmReserve3').valid() ) return false;
+		
+		if( empty(thisDate) || empty($('#PS_time').val()) ){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Pleasepickdatetime+'</p>');
+			BAlert.modal();
+		}else{
+			formData = 'chef_id='+chef_id+'&ps_date='+thisDate+'&ps_time='+$('#PS_time').val();
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=checkPSAvailable", data: formData,
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					
+					$('#spAvDishesPS ul').empty();
+					for (var i = 0; i < dishData.length; i++) {
+						if(  dishData[i].availability & 4 ){
+							$('#spAvDishesPS ul').append('<li class="list-group-item">'+
+								'<input type="checkbox" data-price="'+dishData[i].price+'" data-name="'+dishData[i].dish_name+'" value="'+dishData[i].id+'"> '+dishData[i].dish_name+
+								'<div class="spDishD">'+cLan.Price+' : $'+dishData[i].price+ ' &nbsp; '+cLan.Qty+' : <input id="aQtyPS'+dishData[i].id+'" type="number" value="1" min="1" max="50" class="input-sm inline" /></div></li>');
+						} 
+					}
+					$('#StepPS1').hide(); $('#btnNextPS').hide();	
+					$('#StepPS2').show(500); $('#btnOrderPS').show(500);
+					getTotal3();
+					
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				//if (data.JS) { eval(data.JS); }
+			}); // ajax	
+			
+		}
+	});
+	
+	
+	$('#spAvDishes').on('change', 'input',function(){
+		if( $(this).is(':checked')){
+			$(this).parent('li').find('.spDishD').show(200);
+		}else{
+			$(this).parent('li').find('.spDishD').hide(150);	
+		}
+		getTotal();
+	});
+	
+	$('#spAvDishes2').on('change', 'input',function(){
+		if( $(this).is(':checked')){
+			$(this).parent('li').find('.spDishD').show(200);
+		}else{
+			$(this).parent('li').find('.spDishD').hide(150);	
+		}
+		getTotal2();
+	});
+	
+	$('#spAvDishesPS').on('change', 'input',function(){
+		if( $(this).is(':checked')){
+			$(this).parent('li').find('.spDishD').show(200);
+		}else{
+			$(this).parent('li').find('.spDishD').hide(150);	
+		}
+		getTotal3();
+	});
+	$('#additionalStay').on('change',function(){
+		getTotal3();	
+	});
+	
+	/*
+	$('#d_quantity').on('change',function(){
+		var t = $('#unit_price').val() * $('#d_quantity').val();
+		$('#d_total').html('Total : $'+t.toFixed(2));
+	});
+	*/	
+	
+	
+	$('#btnOrder').on('click',function(){
+		$('#frmReserve').submit();
+	});
+	
+	$('#btnOrderD').on('click',function(){
+		$('#frmReserve2').submit();
+	});
+	
+	$('#btnOrderPS').on('click',function(){
+		$('#frmReserve3').submit();
+	});
+	
+	$('#frmReserve').validate({
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+			var dishes = [];
+			Total = 0
+			$('#spAvDishes [type=checkbox]').each(function(index, element) {
+				if($(this).is(':checked')){
+					qty = $('#aQty'+$(this).val()).val();
+					dishes.push( {'id':$(this).val(), 'name': $(this).data('name'), 'qty':qty,'price': $(this).data('price') } ); 
+					Total = Total + parseFloat($(this).data('price')) * parseFloat(qty); 
+				}	
+			});
+			
+			if( Total == 0 ){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.electdish+'</p>');
+				BAlert.modal();
+				return false;
+			}
+			
+			Total = Total.toFixed(2);
+			formData = {'chef_id': chef_id, 'date' : thisDate, 'time': $('#d_time').val(), 'persons': $('#d_quantity').val(), 'total': Total, 'dishes': dishes };
+			console.log(formData);
+			formData = 'jsonData='+JSON.stringify(formData);
+			formData += '&userId='+localStorage.getItem('userId')+'&userToken='+localStorage.getItem('userToken'); 
+			
+			
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=Reserve2", data: formData,
+				beforeSend: function() { waitingDialog.show( cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					/**///=========== PayPal ===========
+					try{
+						if(empty(OrderId)){
+							document.location = 'payment-options-select.html?ResId='+data.ResId+'&Amount='+Total;
+							/*
+							OrderId = data.ResId ;
+							ppApp.Amount = Total;
+							ppApp.Description = 'Fudi Reservation '+data.ResId;
+							ppApp.initialize();
+							*/
+						}
+					} catch (err) {
+						alert(err);
+					}
+					/**///=========== /PayPal ==========
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+			
+			}); // ajax	
+		
+		}// submit handler
+	});
+	
+	$('#frmReserve2').validate({
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+			console.log('#frmReserve2');
+			var dishes = [];
+			Total = 0
+			var delivery_charges = parseFloat($('#delivery_charges').val());
+			$('#spAvDishes2 [type=checkbox]').each(function(index, element) {
+				if($(this).is(':checked')){
+					qty = $('#aQty'+$(this).val()).val();
+					dishes.push( {'id':$(this).val(), 'name': $(this).data('name'), 'qty':qty,'price': $(this).data('price') } ); 
+					Total = Total + parseFloat($(this).data('price')) * parseFloat(qty); 
+				}	
+			});
+			
+			var orderType = 'Delivery';
+			
+			if( Total == 0 ){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.electdish+'</p>');
+				BAlert.modal();
+				return false;
+			}
+			
+			Total = Total + delivery_charges;
+			
+			Total = Total.toFixed(2);
+			formData = {'chef_id': chef_id, 'date' : thisDate, 'time': $('#d_time2').val(), 'total': Total, 'dishes': dishes, 
+							'orderType' : orderType, 'delivery_charges': delivery_charges, 'address': $('#d_address').val(), 'g_address' : $('#gAddress').val(),
+							'lat':localStorage.getItem('Deliverylat'), 'lng':localStorage.getItem('Deliverylng')
+							 };
+			console.log(formData);
+			formData = 'orderType='+orderType+'&jsonData='+JSON.stringify(formData);
+			formData += '&userId='+localStorage.getItem('userId')+'&userToken='+localStorage.getItem('userToken'); 
+			
+			
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=Reserve2", data: formData,
+				beforeSend: function() { waitingDialog.show( cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					/**///=========== PayPal ===========
+					try{
+						if(empty(OrderId)){
+							
+							document.location = 'payment-options-select.html?ResId='+data.ResId+'&Amount='+Total;
+							/*
+							OrderId = data.ResId ;
+							ppApp.Amount = Total;
+							ppApp.Description = 'Fudi Reservation '+data.ResId;
+							ppApp.initialize();
+							*/
+						}
+					} catch (err) {
+						alert(err);
+					}
+					/**///=========== /PayPal ==========
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+			
+			}); // ajax	
+		
+		}// submit handler
+	});
+	
+	$('#frmReserve3').validate({
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+			var dishes = [];
+			Total = 0
+			var travel_charges = parseFloat($('#hPS_charges').val());
+			$('#spAvDishesPS [type=checkbox]').each(function(index, element) {
+				if($(this).is(':checked')){
+					qty = $('#aQtyPS'+$(this).val()).val();
+					dishes.push( {'id':$(this).val(), 'name': $(this).data('name'), 'qty':qty,'price': $(this).data('price') } ); 
+					Total = Total + parseFloat($(this).data('price')) * parseFloat(qty); 
+				}	
+			});
+			
+			var orderType = 'Personal Chef';
+			
+			if( Total == 0 ){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.electdish+'</p>');
+				BAlert.modal();
+				return false;
+			}
+			
+			Total = Total + travel_charges;
+			
+			var Adnl = 0;
+			if( !empty($('#additionalStay').val()) && !empty(ps_additional_per_h) ){
+				Adnl = 	ps_additional_per_h * parseFloat($('#additionalStay').val());
+				Total = Total + Adnl;
+			}
+			$('#PS_address').val()
+			
+			formData = {'chef_id': chef_id, 'date' : thisDate, 'time': $('#PS_time').val(), 'total': Total, 'dishes': dishes, 
+							'orderType' : orderType, 'travel_charges': travel_charges, 'ad_stay':$('#additionalStay').val(), 'ad_stay_charges':Adnl, 'address': $('#PS_address').val(), 'g_address' : $('#gAddress').val(),
+							'lat':localStorage.getItem('Deliverylat'), 'lng':localStorage.getItem('Deliverylng')
+							 };
+			console.log(formData);
+			formData = 'orderType='+orderType+'&jsonData='+JSON.stringify(formData);
+			formData += '&userId='+localStorage.getItem('userId')+'&userToken='+localStorage.getItem('userToken'); 
+			
+			
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=Reserve2", data: formData,
+				beforeSend: function() { waitingDialog.show( cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					/**///=========== PayPal ===========
+					try{
+						if(empty(OrderId)){
+							
+							document.location = 'payment-options-select.html?ResId='+data.ResId+'&Amount='+Total;
+							/*
+							OrderId = data.ResId ;
+							ppApp.Amount = Total;
+							ppApp.Description = 'Fudi Reservation '+data.ResId;
+							ppApp.initialize();
+							*/
+						}
+					} catch (err) {
+						alert(err);
+					}
+					/**///=========== /PayPal ==========
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+			
+			}); // ajax	
+		
+		}// submit handler
+	});
+	
+	
+});
+
+function fb_success(){
+	alert('success');	
+}
+function fb_failure(error){
+	alert(error);
+}
+
+function getTotal(){
+	var Total = 0.0;
+	$('#spAvDishes [type=checkbox]').each(function(index, element) {
+		if($(this).is(':checked')){
+			Total = Total + $(this).data('price') * $('#aQty'+$(this).val()).val(); 
+		}	
+	});
+	$('#d_total').html('$'+Total.toFixed(2));
+}
+function getTotal2(){
+	var Total = 0.0;
+	$('#spAvDishes2 [type=checkbox]').each(function(index, element) {
+		if($(this).is(':checked')){
+			Total = Total + $(this).data('price') * $('#aQty'+$(this).val()).val(); 
+		}	
+	});
+	if( Total > 0 ){
+		Total = Total + parseFloat($('#delivery_charges').val());
+		$('#d_total2').html('$'+Total.toFixed(2));
+	}else{
+		$('#d_total2').html('$0.00');
+	}	
+}
+function getTotal3(){
+	var Total = 0.0;
+	$('#spAvDishesPS [type=checkbox]').each(function(index, element) {
+		if($(this).is(':checked')){
+			Total = Total + $(this).data('price') * $('#aQtyPS'+$(this).val()).val(); 
+		}	
+	});
+	if( Total > 0 ){
+		if( !empty($('#additionalStay').val()) && !empty(ps_additional_per_h) ){
+			var Adnl = 	ps_additional_per_h * parseFloat($('#additionalStay').val());
+			Total = Total + Adnl;
+			$('#PS_Adcharges').html( '$' + Adnl.toFixed(2) );
+			$('#h4Ad').show();
+		}else{
+			$('#h4Ad').hide();
+		}
+		
+		Total = Total + parseFloat($('#hPS_charges').val());
+		$('#PS_total').html('$'+Total.toFixed(2));
+	}else{
+		$('#PS_total').html('$0.00');
+	}	
+}
+
+
+function getReviews(chef_id){
+	formData = 'chef_id='+chef_id;
+	//console.log(formData);
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=getReviews", data: formData,
+		beforeSend: function() { $('#popReviews .modal-body').html('<div style="text-align:center"><img src="images/loading.gif" sytle=" margin: 25px auto;" /></div>')  },
+		complete: function() {  },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			if(data.Count > 0 ){
+				var html = '';
+				var Reviews = data.Reviews;
+				for (var i = 0; i < Reviews.length; i++) {
+					if( i > 0 ) html = html + '<hr />';
+					html = html + '<strong>'+ Reviews[i].first_name +' '+ Reviews[i].last_name +'</strong>';
+					html = html + '<img src="images/'+Reviews[i].rated+'.0.png" id="p_rating" class="pull-right">';
+					if(!empty(Reviews[i].comments)){
+						html = html + '<p style="margin-top:10px;">'+Reviews[i].comments+'</p>';
+					}
+				}
+				$('#popReviews .modal-body').html(html);
+				
+			}else{
+				$('#popReviews .modal-body').html('<center>'+cLan.NoReviewsFound+'</center>');
+			}
+		}else { 
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+			BAlert.modal();
+		}
+		if (data.JS) { eval(data.JS); }
+		
+	}); // ajax	
+}
+var chefDeliverySettings = null;
+
+function get_chefDeliverySettings(){ // cloned from loadDishes
+	
+	
+	formData = 'chef_id='+chef_id;
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=chefDeliverySettings", data: formData,
+		beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+		complete: function() { waitingDialog.hide(); },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			
+			var Dss = distance(localStorage.getItem('Deliverylat'), localStorage.getItem('Deliverylng'), chef_data.lat, chef_data.lng, 'M');
+			console.log(Dss);
+			if( Dss > data.delivery_radious ){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">Your address is outside of the chef\'s delivery range</p>');
+				BAlert.modal();
+				return false;
+			}
+			if(!empty(data.delivery_charges)){
+				var dchg = parseFloat(data.delivery_charges);
+				$('#d_charges').html('$' + dchg.toFixed(2) );
+				$('#delivery_charges').val(dchg.toFixed(2));
+			}else{
+				$('#d_charges').html('$0.00');
+				$('#delivery_charges').val('0');
+			}
+			
+			var enabledDates = [];
+			DishAv2 = data.DishAv;
+			var defDate = null;
+			if( !empty(DishAv2)){
+				for (var i = 0; i < DishAv2.length; i++) {
+					mo = moment(DishAv2[i].cal_date, 'YYYY-MM-DD');
+					if( mo.isAfter(moment()) || mo.isSame(moment(),'day')  ){
+						if(empty(defDate)){ defDate = DishAv2[i].cal_date };
+						enabledDates.push(DishAv2[i].cal_date);
+						DishAvO2[DishAv2[i].cal_date] = { 'date': DishAv2[i].cal_date, 'start_time': DishAv2[i].start_time, 'end_time': DishAv2[i].end_time };
+					}
+				}
+			}
+			if(empty(enabledDates)){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Thischefnotavailable+'</p>');
+				BAlert.modal();
+				return false;
+				
+			}else{
+				$('#datetimepickerD').data("DateTimePicker").enabledDates(enabledDates);
+				$('#datetimepickerD').data("DateTimePicker").defaultDate( defDate );
+			}
+		
+			
+			
+			
+			setTimeout(function(){ 
+				$('#popDeliveryOrder2').modal();
+				$('#StepD1').show(); $('#btnNextD').show();
+				$('#StepD2').hide(); $('#btnOrderD').hide();
+			}, 500);
+			
+			
+			
+			
+		}else { 
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+			BAlert.modal();
+		}
+		if (data.JS) { eval(data.JS); }
+		
+	}); // ajax		
+}
+
+function get_chefPSSettings(){ // cloned from loadDishes
+	
+	formData = 'chef_id='+chef_id;
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=chefPsSettings", data: formData,
+		beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+		complete: function() { waitingDialog.hide(); },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			
+			var Dss = distance(localStorage.getItem('Deliverylat'), localStorage.getItem('Deliverylng'), chef_data.lat, chef_data.lng, 'M');
+			console.log(Dss);
+			
+			if(!empty(data.ps_travel_charges)){
+				var ArTab = [[0,0,0],[0,0,0],[0,0,0]];
+				var tmpTbl = data.ps_travel_charges;
+				var rows = tmpTbl.split(';');
+				for(i=0;i<rows.length;i++){
+					var cells = rows[i].split('|');
+					for(j=0;j<cells.length;j++){
+						ArTab[i][j] = parseFloat(cells[j]);
+					}
+				}
+			}
+			
+			if( Dss > ArTab[2][1] ){
+				console.log( 'max distance =' + ArTab[2][1] );
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">Your address is outside of the chef\'s service range</p>');
+				BAlert.modal();
+				return false;
+			}
+			
+			if(!empty(data.ps_req_foodie)){
+				$('#dvReqByChef').show();
+				$('#dvReqByChef p').html(data.ps_req_foodie)	
+			}else{
+				$('#dvReqByChef').hide();	
+			}
+			
+			ps_additional_per_h = data.ps_additional_per_h;
+			
+			if(!empty(data.ps_travel_charges)){
+				var Pschg = 0;
+				if( Dss >= ArTab[0][0] && Dss < ArTab[0][1]  ) Pschg = ArTab[0][2];
+				if( Dss >= ArTab[1][0] && Dss < ArTab[1][1]  ) Pschg = ArTab[1][2];
+				if( Dss >= ArTab[2][0] && Dss < ArTab[2][1]  ) Pschg = ArTab[2][2];
+				
+				$('#PS_charges').html('$' + Pschg.toFixed(2) );
+				$('#hPS_charges').val(Pschg.toFixed(2));
+			
+			}else{
+				$('#PS_charges').html('$0.00');
+				$('#hPS_charges').val('0');
+			}
+			
+			
+			var enabledDates = [];
+			DishAv2 = data.DishAv;
+			var defDate = null;
+			if( !empty(DishAv2)){
+				for (var i = 0; i < DishAv2.length; i++) {
+					mo = moment(DishAv2[i].cal_date, 'YYYY-MM-DD');
+					if( mo.isAfter(moment()) || mo.isSame(moment(),'day')  ){
+						if(empty(defDate)){ defDate = DishAv2[i].cal_date };
+						enabledDates.push(DishAv2[i].cal_date);
+						DishAvO2[DishAv2[i].cal_date] = { 'date': DishAv2[i].cal_date, 'start_time': DishAv2[i].start_time, 'end_time': DishAv2[i].end_time };
+					}
+				}
+			}
+			if(empty(enabledDates)){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Thischefnotavailable+'</p>');
+				BAlert.modal();
+				return false;
+				
+			}else{
+				$('#datetimepickerPS').data("DateTimePicker").enabledDates(enabledDates);
+				$('#datetimepickerPS').data("DateTimePicker").defaultDate( defDate );
+			}
+			
+			setTimeout(function(){ 
+				$('#popPSOrder').modal();
+				$('#StepPS1').show(); $('#btnNextPS').show();
+				$('#StepPS2').hide(); $('#btnOrderPS').hide();
+			}, 500);
+			
+		}else { 
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+			BAlert.modal();
+		}
+		if (data.JS) { eval(data.JS); }
+		
+	}); // ajax		
+}
+
+
+
+function loadDishes(chef_id){
+	formData = 'chef_id='+chef_id+'&DishAv=1';
+	//console.log(formData);
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=getDishes", data: formData,
+		beforeSend: function() { $('div.aLoading').show();  },
+		complete: function() { $('div.aLoading').hide(); },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			if(data.Count > 0 ){
+				dishData = data.Dishes;
+				DishAv = data.DishAv;
+				$DTemp = $('.food-listing2');
+				$("#total-dishes").html(data.Count);
+				var dineDishes = 0, deliveryDishes = 0, PsDishes = 0;
+				for (var i = 0; i < dishData.length; i++) {
+					$copy = $DTemp.clone().removeClass('hidden');
+					
+					if(empty(dishData[i].image1)){
+						$copy.find('img.img-responsive').prop('src', 'images/no-pic3.jpg?');		
+					}else{
+						$copy.find('img.img-responsive').prop('src', 'http://mobileapi.foodiesys.com/foodie-mssql/pics/'+dishData[i].image1);
+					}
+					$copy.data('dishid', dishData[i].id );
+					//$copy.find('img.img-responsive').prop('src', 'http://mobileapi.foodiesys.com/foodie-mssql/pics/'+dishData[i].image1);
+					$copy.find('a.dishTitle').html(dishData[i].dish_name);
+					//$copy.find('a.dishTitle').prop('data-dish', dishData[i].id );
+					$copy.find('a.dishTitle').prop('rel', dishData[i].id );
+					$copy.find('a.dishFA').prop('rel', dishData[i].id );
+					//$copy.find('.btnReserve').prop('data-dish', dishData[i].id );
+					$copy.find('p.dishInfo').html('Price : $'+dishData[i].price);
+					
+					if( dishData[i].availability & 1  ) dineDishes ++;
+					if( dishData[i].availability & 2  ) deliveryDishes ++;
+					if( dishData[i].availability & 4  ) PsDishes ++;
+					/*obRat = ratingCal( dishData[i].rating_sum, dishData[i].rating_count );
+					$copy.find('img.rating').prop('src', obRat['starImg']);
+					$copy.find('.rating_info').html( obRat['ratingTxt']+' &nbsp; '+dishData[i].rating_count+' Reviews' );*/
+				
+					$copy.appendTo('#chef-foods');
+				}
+				if( dineDishes > 0 )										$('#spBtnDine').show();
+				if( deliveryDishes > 0 )								$('#spBtnDelivery').show();
+				if( PsDishes > 0 && chef_data.ps_enable == 1 )	$('#spBtnPS').show();
+				
+			
+				
+			}else{
+				$('#chef-foods').html('<center>No Dishes Found</center>');
+			}
+		}else { 
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+			BAlert.modal();
+		}
+		if (data.JS) { eval(data.JS); }
+		
+	}); // ajax	
+}
+
+
+//https://www.geodatasource.com/developers/javascript
+
+
+var ppApp = {
+	// Application Constructor
+	Amount : 10,
+	Description : '',
+	
+	initialize: function() {
+		//this.bindEvents();
+		this.initPaymentUI();
+	},
+	initPaymentUI: function() {
+		//alert('initPaymentUI');
+		var clientIDs = {
+			"PayPalEnvironmentProduction": "Abd6gqI-wgpVBdCHvBhYEuJZZtFL7ybnizVC0eOyVnBTWc--CyUf7dE44ZsVkF4pZdz6SkO2GAg4sf1c",
+			"PayPalEnvironmentSandbox": "AV5JRlY4ZpMXj2_aizYv-IiAbgcJhassrlQvOftz4246yfDgMSlPwE4JkBs3O6vaCeTvyGAufbQjcg3N"
+			//"PayPalEnvironmentSandbox": ""
+		};
+		try {
+			PayPalMobile.init(clientIDs, ppApp.onPayPalMobileInit);
+		} catch (err) {
+			alert(err);
+		}
+	},
+	onSuccesfulPayment: function(payment) {
+		//alert("payment success: " + JSON.stringify(payment, null, 4));
+		$('#popReserve').modal('hide');
+		var formData = 'paypal_id='+payment.response.id+'&paypal_status='+payment.response.state+'&res_id='+OrderId;
+		formData += '&user_id=' + localStorage.getItem('userId') + '&userToken=' + localStorage.getItem('userToken');
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=reserveApproved", data: formData,
+			beforeSend: function() { $('div.aLoading').show();  },
+			complete: function() { $('div.aLoading').hide(); },
+		}).fail(  ajaxError )
+		.done(function(data){
+			if (data.Success == 'true') {
+				
+				SuccessModalWithParm(data);
+			
+			}else { 
+				ErrorModalWithParm(data);
+			}
+			if (data.JS) { eval(data.JS); }
+		
+		}); // ajax	
+	},
+	
+	configuration: function() {
+		var config = new PayPalConfiguration({
+			merchantName: "Fudi",
+			merchantPrivacyPolicyURL: "https://foodiesys.com/policy",
+			merchantUserAgreementURL: "https://foodiesys.com/agreement"
+		});
+		return config;
+	},
+
+	onPrepareRender: function() {
+		ppApp.payNow(ppApp.Amount, ppApp.Description );
+	},
+
+	payNow: function(Amount, Desc) {
+		//alert('buy Now');
+		var paymentDetails = new PayPalPaymentDetails(Amount, "0.00", "0.00");
+		var payment = new PayPalPayment(Amount, "USD", Desc, "Sale", paymentDetails);
+		PayPalMobile.renderSinglePaymentUI(payment, ppApp.onSuccesfulPayment, ppApp.onUserCanceled);
+	},
+
+	onPayPalMobileInit: function() {
+		// must be called
+		// use PayPalEnvironmentNoNetwork mode to get look and feel of the flow
+		//alert('onPayPalMobileInit');
+		//if( localStorage.getItem('userId') == '-13' ){
+			//PayPalMobile.prepareToRender("PayPalEnvironmentSandbox", ppApp.configuration(), ppApp.onPrepareRender);
+		//}else{
+		try{	
+			PayPalMobile.prepareToRender("PayPalEnvironmentProduction", ppApp.configuration(), ppApp.onPrepareRender);
+		} catch (err) {
+			alert(err);
+		}	
+		//}	
+	},
+	onUserCanceled: function(result) {
+		//console.log(result);
+		document.location.href = 'chef_profile.html?id=' + chef_id;
+	}
+};
+
+</script>
+</body>
+</html>

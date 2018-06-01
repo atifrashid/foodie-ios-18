@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+
+<style>
+#wrapper
+{
+	overflow:hidden;
+}
+</style>
+</head>
+<body id="wrapper">
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+<div id="settings-page" class="content">
+	<h1 id="menu-button"> <a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a> 
+		<p class="pageTitle" data-bind="text: lang.Settings">Settings</p>
+	 </h1>
+	<div>
+	</div>
+	<div id="setting-form" class="main-div">
+		
+		<div class="container">
+			<div class="row">
+				<form class="form-horizontal" id="user-form">
+					<div class="form-group">
+						<label for="property-one" class="control-label col-xs-6 no-right-padding"> <span data-bind="text: lang.Language">Language</span> </label>
+						<div class="col-xs-6 text-right">
+						<select name="slanguage" id="slanguage">
+							
+						</select>
+						</div>
+					</div>
+					<button type="button" class="btn btn-positive btn-submit btn-block" data-bind="text: lang.SaveSettings"></button>
+					
+					<!--<div class="form-group">
+						<label for="property-one" class="control-label col-xs-9 no-right-padding"> Property Two <small class="text-muted setting-info"> This is the little description of property. </small> </label>
+						<div class="col-xs-3 text-right">
+							<div>
+								<input type="checkbox" name="property-two">
+								<div class="Switch Round Off">
+									<div class="Toggle"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="property-three" class="control-label col-xs-9 no-right-padding"> Property Six <small class="text-muted setting-info"> This is the little description of property you want to change now. </small> </label>
+						<div class="col-xs-3 text-right">
+							<div>
+								<input type="checkbox" name="property-one">
+								<div class="Switch Round Off">
+									<div class="Toggle"></div>
+								</div>
+							</div>
+						</div>
+					</div>-->
+					
+					
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div id="bottom-bar">
+	<div class="container">
+		<div class="row">
+			<div class=" no-padding"> <a class="tab-item " href="map.html"> <i class="fa fa-map-marker"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item" href="reservations.html"> <i class="fa fa-cutlery"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " href="user-profile.html"> <i class="fa fa-user"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " id="afchat" href="chat.html"> <i class="fa fa-comments"></i> </a>	</div>
+		</div>
+	</div>
+</div>
+<script src="cordova.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script> 
+<script src="js/bootstrap.min.js"></script>
+<script src='js/knockout-3.4.0.js'></script> 
+<script src="js/common.js"></script> 
+<script>
+
+var RetPage = null;
+
+$(document).ready(function(e) {
+	
+	var AvLang = {'EN':'English'};
+	
+	if( !empty(localStorage.getItem('AvLang'))){
+		AvLang = JSON.parse(localStorage.getItem('AvLang'));	
+	}
+	
+	
+	document.getElementById("slanguage").options.length = 0;
+	for (var key in AvLang) {
+		var opt = '<option value="'+key+'">'+AvLang[key]+'</option>';
+		if( key == cLan.LangCode ){
+			opt = '<option SELECTED="SELECTED" value="'+key+'">'+AvLang[key]+'</option>';
+		}
+		console.log(opt);
+		$('#slanguage').append( $(opt) );
+	}
+	
+	
+	
+	$('button.btn-submit').on('click',function(){
+		
+			console.log($('#slanguage').val());
+		
+			var formData = $('#user-form').serialize();
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=saveSettings", data: formData, 
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail( ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					
+					if( cLan.LangCode != $('#slanguage').val()){
+							
+						loadLanguage( $('#slanguage').val() );
+					
+					}
+					
+					
+				} else { 
+					BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+					BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+					BAlert.modal();
+				}
+				if (data.JS) { eval(data.JS); }
+			}); // ajax	
+		//}
+	});
+	
+});
+
+function loadLanguage(LG){
+	
+	$.ajax({
+		type: "POST", url: ServerAjax+"?h=getLangJson&LG="+LG, 
+		beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+		complete: function() { waitingDialog.hide(); },
+	}).fail( ajaxError )
+	.done(function(data){
+			
+		localStorage.setItem('LanguageData',data );
+		document.location.href = 'settings.html';	
+
+	}); // ajax	
+	
+}
+
+</script>
+</body>
+</html>

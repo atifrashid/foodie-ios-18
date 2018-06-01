@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- Include the compiled Ratchet CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<!--<link href="css/ratchet.css" rel="stylesheet">-->
+<link href="css/styles.css" rel="stylesheet">
+
+<style>
+
+.panel{
+	background:transparent;
+	border:none;
+}
+#lgn-sign-page form{
+	padding:0px;
+}
+.btn-positive{
+	font-size:16px;
+	color:#ffffff;
+	padding:8px;
+}
+a.btn
+{
+	padding:0px;
+}
+#lgn-sign-page{
+	height:auto !important;
+}
+.panel-body
+{
+	padding:0px 15px;
+}
+#loginbox {
+  /*background: rgba(131, 49, 0, 0.2) none repeat scroll 0 0;*/
+}
+.mainbox {
+  /*background: rgba(0, 226, 175, 0.2) none repeat scroll 0 0;*/
+  display: inline-block;
+  width: 100%;
+}
+#loginbox button {
+  background: #ff530d;
+  border-color: #ff530d;
+}
+.input-group-addon.for-user, .login-form .form-group .form-control {
+ /* background: rgba(255, 255, 255, 0.8) none repeat scroll 0 0 !important;*/
+  border: 1px solid GREY !important;
+}
+#lgn-sign-page form .for-user i.fa {
+  font-size: 15px;
+  width: 35px !important;
+}
+.input-group-addon{
+	padding:6px 0px;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color:#555 !important;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color:#555 !important;
+}
+:-ms-input-placeholder { /* IE 10+ */
+  color:#555 !important;
+}
+:-moz-placeholder { /* Firefox 18- */
+  color:#555 !important;
+}
+#lgn-sign-page form
+{
+padding-bottom:27px;
+display:inline-block;
+width:100%;
+}
+
+span.login,span.signup
+{
+	width:100%;
+	display:inline-block;
+	margin:20px 0px;
+	text-align:center;
+	color:#ffffff;
+}
+span.login span,span.signup span
+{
+	text-transform:capitalize;
+	text-decoration:underline;
+	font-weight:bold;
+	font-size:16px;
+}
+@media (min-width:350px) and (max-width:767px)
+{
+	#lgn-sign-page .input-group, #lgn-sign-page button{
+		/*width:80% !important;*/
+		margin:0 auto;
+	}
+}
+
+#popTerms .modal-body {
+	height: calc(100vh - 250px);
+	overflow: scroll;
+}	
+#popTerms .modal-dialog{
+	margin: 4px;
+	}
+	
+#aTerms{
+	text-decoration:underline;
+	color:#ffffff;
+}	
+</style>
+</head>
+<body>
+
+
+
+<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+<div id="lgn-sign-page" class="content">
+    <div id="signupbox" style="" class="mainbox">                    
+        <div class="panel panel-info" >
+                    
+
+                <div style="" class="panel-body" >
+
+                <form id="frmRegister" method="post"  class="user-form login-form">
+                    <h4 class="form-heading text-center" data-bind="text: lang.CreateandRegister">CREATE/REGISTER AS NEW USER</h4>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon for-user"><i class="fa fa-at"></i></div>
+                            <input type="email" placeholder="Email Address" value="" autocomplete="off" name="n[email]" class="form-control required email" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon for-user"><i class="fa fa-lock"></i></div>
+                            <input type="password" placeholder="Choose Password" autocomplete="off" name="n[password]" id="regPwd" class="form-control required" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon for-user"><i class="fa fa-lock"></i></div>
+                            <input type="password" placeholder="Retype Password" autocomplete="off" name="repassword" id="regRePwd" class="form-control required" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <p class="help-block" style="color:#FFFFFF;">Enter the referral code from the person who is referring you to Fudi. If you do not have a referral code, please leave this field empty.</p>
+								<div class="input-group">
+                            <div class="input-group-addon for-user"><i class="fa fa-share-alt"></i></div>
+                            <input type="text" data-bind="attr: { placeholder: lang.Refcode }" placeholder="Referral Code" autocomplete="off" name="refcode" id="refcode" class="form-control" />
+									 
+                        </div>
+								
+                    </div>
+                    
+                    <div class="checkbox">
+							 <label style="color:#FFFFFF;">
+								<input type="checkbox" id="chkAgree"> I have read and agree to the <a id="aTerms" href="#"><strong>Terms and Conditions</strong></a>
+							 </label>
+						  </div>
+                    
+                    
+                  
+                    
+                    <button id="btnSignup" type="submit" class="btn btn-positive btn-block disabled" data-bind="text: lang.Signup">Sign up</button>
+                    <span class="login">Already Have an Account ? <span>Login Here</span></span>
+                </form>
+           </div>
+       </div>
+    </div>
+    <form id="loginbox" class="user-form login-form" method="post">
+    <div class="panel panel-info" >
+        <div class="panel-body" >
+            <h4 class="form-heading text-center" data-bind="text: lang.Logintoyouraccount">Login To Existing Account</h4>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon for-user"><i class="fa fa-at"></i></div>
+                    <input type="email" name="email" placeholder="Email Address" class="form-control required email" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon for-user"><i class="fa fa-lock"></i></div>
+                    <input type="password" name="password" placeholder="Password" class="form-control required">
+                </div>
+            </div>
+            <button class="btn btn-positive btn-block" data-bind="text: lang.Login">Login</button>
+            <span class="signup">Don't Have an Account ? <span>Signup Here</span></span>
+            <a id="aForgot" class="btn btn-link btn-block" style="color:#FFF;" data-bind="text: lang.FGlink">Forgot Password?</a>
+            
+            </div>
+       </div>
+   </form>
+        
+ </div>
+
+
+<div class="modal fade" id="popForgot" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title"  data-bind="text: lang.FGhead"></h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="frmForgot1">
+					
+					<div id="Step1">
+						<p data-bind="text: lang.SPsetp1"></p>
+						<div class="form-group">
+							<label data-bind="text: lang.YourEmail">Your Email</label>
+							<div class="">
+								<input type="email" name="femail" id="femail" class="form-control required email">
+							</div>
+						</div>
+					</div>
+					
+					<div id="Step2">
+						<p data-bind="text: lang.e117"></p>
+						<div class="form-group">
+							<label data-bind="text: lang.resetCodelb">Reset Code</label>
+							<div class="">
+								<input type="number" name="password_reset_key" id="password_reset_key" class="form-control required">
+							</div>
+						</div>
+					</div>
+					
+					<div id="Step3">
+						<p data-bind="text: lang.e118"></p>
+						<div class="form-group">
+							<label data-bind="text: lang.newP"></label>
+							<div class="">
+								<input type="password" name="fpassword" id="fpassword" class="form-control required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label data-bind="text: lang.renewP"></label>
+							<div class="">
+								<input type="password" name="repassword" id="repassword" class="form-control required">
+							</div>
+						</div>
+						
+					</div>
+					<input type="hidden" name="hd_step" id="hd_step" value="1" />
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btnCancel btn-default" data-dismiss="modal" data-bind="text: lang.Cancel"></button>
+				<button id="btnNext" type="button" class="btn btn-primary"><span data-bind="text: lang.Next">Next</span> <i class="fa fa-arrow-circle-o-right"></i></button>
+				<button id="btnReset" type="button" class="btn btn-primary" data-bind="text: lang.btResetPwd">Reset Password</button>
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+
+
+<div class="modal fade " id="popTerms" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Terms & Conditions</h4>
+      </div>
+      <div class="modal-body">
+        <p>Loading..</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-block" data-dismiss="modal">Close</button>
+        
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<div id="bottom-bar">
+	<div class="container">
+		<div class="row">
+			
+			<div class="col-xs-6 no-padding2"> <a class="tab-item active" href="register.html"> <i class="fa fa-user"></i> </a> </div>
+			<div class="col-xs-6 no-padding2"> <a class="tab-item " href="map.html"> <i class="fa fa-map-marker"></i> </a> </div>
+		</div>
+	</div>
+</div>
+
+<script src="cordova.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/jquery.validate.min.js"></script> 
+<script src="js/bootstrap.min.js"></script>
+<script src='js/knockout-3.4.0.js'></script>
+<script src="js/common.js"></script> 
+<script>
+
+/********************** login and sign up form *****************/
+
+
+var RetPage = null;
+var terms = '';	
+
+$(document).ready(function(e) {
+	
+	$('#aTerms').on('click',function(e){
+		
+		$('#popTerms').modal();
+		if( terms == '' ){
+			$.ajax({
+				type: "POST", url: ServerAjax+"?h=getTerms", 
+			}).fail(  ajaxError )
+			.done(function(data){
+				terms = data;
+				$('#popTerms .modal-body').html(terms);
+			});
+		}else{
+			$('#popTerms .modal-body').html(terms);
+		}
+		e.preventDefault();
+	});
+
+	$('#chkAgree').on('click', function(){
+		if($(this).prop('checked')==true){
+			$('#btnSignup').removeClass('disabled');	
+		}else{
+			$('#btnSignup').addClass('disabled');
+		}	
+		
+		
+	});
+	
+	$('#loginbox').hide();
+	$('span.login').click(function(e) {
+		$('#frmRegister').hide();
+        $('#loginbox').show(100);
+    });
+	
+	$('span.signup').click(function(e) {
+		$('#loginbox').hide();
+        $('#frmRegister').show(100);
+    });
+	
+	RetPage = getUrlParameter('RetPage');
+	
+	
+	if( getUrlParameter('do') == 'logout' ){
+		var formData = {
+			'userId': localStorage.getItem('userId'),
+			'PNregistrationId': localStorage.getItem('PNregistrationId')
+		}
+		
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=logOut", data: formData,
+		}).fail(  ajaxError )
+		.done(function(data){
+			if (data.Success == 'true') {
+				localStorage.removeItem('chefData');
+				localStorage.removeItem('chefStatus');
+				localStorage.removeItem('userData');
+				localStorage.removeItem('userToken');
+				localStorage.removeItem('userId');
+				localStorage.removeItem('PNregistrationId');
+			}
+		}); // ajax	
+	}
+	
+	$('.btn-user').on('click',function(){
+		$('.btn-user').removeClass('btn-active');
+		$(this).addClass('btn-active');
+		if($(this).hasClass('btn-sign-in')){
+			$('#frmRegister').hide();
+			$('#loginbox').show(200);
+		}else{
+			$('#loginbox').hide();
+			$('#frmRegister').show(200);
+		}
+	});
+	
+	$('#aForgot').on('click',function(){
+		forgetSteps();
+		$('#popForgot').modal();
+	});
+	
+	$('.btnCancel').on('click',function(){
+		localStorage.removeItem('ForgetPwdStep');
+		localStorage.removeItem('password_reset_key');
+		localStorage.removeItem('ForgetPwdEmail');
+	});
+	
+	$('#refcode').on('keypress',function (e){
+		var regex = new RegExp("^[a-zA-Z0-9]+$");
+		var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+		if (regex.test(str)) {
+			return true;
+		}
+		e.preventDefault();
+		return false;
+	});
+	
+	
+	$('#btnNext').on('click',function(){
+		//$('#hd_step').val('1');
+		$('#frmForgot1').submit();	
+	});
+	
+	$('#frmForgot1').validate({
+		
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+			
+				if( localStorage.getItem('ForgetPwdStep', '2' ) &&  $('#fpassword').val() != $('#repassword').val() ){
+					BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+					BAlert.find('.modal-body').html('<p class="text-danger">Password and retype password fields must match!</p>');
+					BAlert.modal();
+					return false;
+				}
+			
+			
+				formData = $(form).serialize();
+				$.ajax({
+					type: "POST", dataType: 'json', url: ServerAjax+"?h=forgotPwd", data: formData,
+					beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+					complete: function() { waitingDialog.hide(); },
+				}).fail(  ajaxError )
+				.done(function(data){
+					if (data.Success == 'true') {
+						if( localStorage.getItem('ForgetPwdStep') == '1'){
+							localStorage.setItem('ForgetPwdEmail', $('#femail').val());
+							localStorage.setItem('ForgetPwdStep', 2 );
+							forgetSteps();
+						}else if( localStorage.getItem('ForgetPwdStep') == '2'){
+							localStorage.setItem('password_reset_key', $('#password_reset_key').val());
+							localStorage.setItem('ForgetPwdStep', 3 );
+							forgetSteps();	
+						}else if( localStorage.getItem('ForgetPwdStep') == '3'){
+							localStorage.setItem('ForgetPwdStep', 1 );
+							localStorage.setItem('ForgetPwdEmail', '');
+							BAlert.find('.modal-header h3').html('<i class="fa check"></i> '+cLan.Success);
+							BAlert.find('.modal-body').html('<p class="text-success">'+cLan.s119+'</p>');
+							BAlert.find('.btn-primary').on('click',function(){ $('#popForgot').modal('hide'); $('.btnCancel').trigger('click');  });
+							BAlert.modal();
+						}
+							
+					} else { 
+						ErrorModalWithParm(data);
+					}
+					if (data.JS) { eval(data.JS); }
+			
+				}); // ajax	
+			
+		}// submit handler
+	});
+	
+	
+	$("#frmRegister").validate({
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+			
+			if( $('#regPwd').val() != $('#regRePwd').val() ){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">Password and retype password fields must match!</p>');
+				BAlert.modal();	
+			}else if( $('#chkAgree').prop('checked') == false ){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">You must agree to the terms and conditions before register</p>');
+				BAlert.modal();	
+			}else{
+				formData = $(form).serialize();
+				formData += '&PNregistrationId=' + localStorage.getItem('PNregistrationId');
+				$.ajax({
+					type: "POST", dataType: 'json', url: ServerAjax+"?h=register", data: formData,
+					beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+					complete: function() { waitingDialog.hide(); },
+				}).fail(  ajaxError )
+				.done(function(data){
+					if (data.Success == 'true') {
+						localStorage.setItem('userId', data.userId );
+						localStorage.setItem('userToken', data.userToken );
+						localStorage.setItem('userData', data.userData );
+						localStorage.removeItem('chefStatus');
+						
+						if(!empty(RetPage)){
+							document.location = decodeURI(RetPage);
+						}else{
+							if(empty(localStorage.getItem('deepLink'))){
+								document.location = 'map.html';
+							}else{
+								var T = localStorage.getItem('deepLink');
+								localStorage.removeItem('deepLink');
+								document.location = T;
+							}
+						}
+							
+					} else { 
+						ErrorModalWithParm(data);
+					}
+					if (data.JS) { eval(data.JS); }
+			
+				}); // ajax	
+			}
+		}// submit handler
+	});
+	
+	$("#loginbox").validate({
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+			
+			formData = $(form).serialize();
+			formData += '&PNregistrationId=' + localStorage.getItem('PNregistrationId');
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=login", data: formData,
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					localStorage.setItem('userId', data.userId );
+					localStorage.setItem('userData', data.userData );
+					localStorage.setItem('chefData', data.chefData );
+					localStorage.setItem('userToken', data.userToken );
+					localStorage.setItem('chefStatus', data.chefStatus );
+					
+					if(!empty(RetPage)){
+						document.location = decodeURI(RetPage);
+					}else{
+						if(empty(localStorage.getItem('deepLink'))){
+							document.location = 'map.html';
+						}else{
+							var T = localStorage.getItem('deepLink');
+							localStorage.removeItem('deepLink');
+							document.location = T;
+						}
+			
+					}
+					
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+			
+			}); // ajax	
+		}// submit handler
+	});
+});
+
+function forgetSteps(){
+	var step = localStorage.getItem('ForgetPwdStep');
+	if(empty(step)){ 
+		step = '1';
+		localStorage.setItem('ForgetPwdStep','1');
+	}
+	
+	$('#password_reset_key').val(localStorage.getItem('password_reset_key'));
+	
+	if( step == '1' ){
+		$('#Step1').show(); $('#Step2').hide(); $('#Step3').hide(); 
+		$('#btnNext').show();$('#btnReset').hide();
+	}else if( step == '2' ){
+		$('#Step1').hide(); $('#Step2').show(); $('#Step3').hide(); 
+		$('#btnNext').show();$('#btnReset').hide();
+	}else if( step == '3' ){
+		$('#Step1').hide(); $('#Step2').hide(); $('#Step3').show(); 
+		$('#btnNext').show();$('#btnReset').hide();
+	}
+	if(empty($('#femail').val())){
+		$('#femail').val(localStorage.getItem('ForgetPwdEmail'));
+	}
+	$('#hd_step').val(step);	
+}
+</script>
+</body>
+</html>

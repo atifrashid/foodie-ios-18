@@ -1,0 +1,142 @@
+Node version: v6.9.4
+
+Cordova version: 7.1.0
+
+Config.xml file: 
+
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.foodiesys.foodiemobileapp" version="1.12.0" versionCode="1040347" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Fudi</name>
+    <description>Authentic and Specialized Cuisine by Local Chefs</description>
+    <author email="alex@foodiesys.com" href="http://www.FoodieSys.com">Alex Gray</author>
+    <preference name="permissions" value="none" />
+    <access origin="*" />
+    <allow-intent href="*" />
+    <allow-navigation href="http://*/*" />
+    <allow-navigation href="https://*/*" />
+    <allow-navigation href="http://mobileapi.foodiesys.com/*" />
+    <allow-navigation href="data:*" />
+    <preference name="phonegap-version" value="cli-6.3.3" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <preference name="android-minSdkVersion" value="17" />
+    <preference name="android-targetSdkVersion" value="23" />
+    <preference name="android-versionCode" value="1040335" />
+    <plugin name="cordova-plugin-geolocation" ource="npm" />
+    <plugin name="com.paypal.cordova.mobilesdk" source="npm" />
+    <plugin name="cordova-plugin-whitelist" ource="npm" />
+    <plugin name="cordova-plugin-camera" source="npm" />
+    <plugin name="cordova-plugin-media-capture" source="npm" />
+    <plugin name="cordova-plugin-file" source="npm" />
+    <plugin name="cordova-plugin-file-transfer" source="npm" />
+    <plugin name="cordova-plugin-console" source="npm" />
+    <plugin name="phonegap-plugin-barcodescanner" source="npm" />
+    <icon src="icon.png" />
+    <platform name="ios">
+        <icon height="29" src="www/res/icons/ios/icon-small.png" width="29" />
+        <icon height="58" src="www/res/icons/ios/icon-small-2x.png" width="58" />
+        <icon height="40" src="www/res/icons/ios/icon-40.png" width="40" />
+        <icon height="80" src="www/res/icons/ios/icon-40-2x.png" width="80" />
+        <icon height="50" src="www/res/icons/ios/icon-50.png" width="50" />
+        <icon height="100" src="www/res/icons/ios/icon-50-2x.png" width="100" />
+        <icon height="57" src="www/res/icons/ios/icon.png" width="57" />
+        <icon height="114" src="www/res/icons/ios/icon-2x.png" width="114" />
+        <icon height="60" src="www/res/icons/ios/icon-60.png" width="60" />
+        <icon height="120" src="www/res/icons/ios/icon-60-2x.png" width="120" />
+        <icon height="180" src="www/res/icons/ios/icon-60-3x.png" width="180" />
+        <icon height="72" src="www/res/icons/ios/icon-72.png" width="72" />
+        <icon height="144" src="www/res/icons/ios/icon-72-2x.png" width="144" />
+        <icon height="76" src="www/res/icons/ios/icon-76.png" width="76" />
+        <icon height="152" src="www/res/icons/ios/icon-76-2x.png" width="152" />
+    </platform>
+    <platform name="android">
+        <icon qualifier="ldpi" src="www/res/icons/android/icon-36-ldpi.png" />
+        <icon qualifier="mdpi" src="www/res/icons/android/icon-48-mdpi.png" />
+        <icon qualifier="hdpi" src="www/res/icons/android/icon-72-hdpi.png" />
+        <icon qualifier="xhdpi" src="www/res/icons/android/icon-96-xhdpi.png" />
+        <icon qualifier="xxhdpi" src="www/res/icons/android/icon-144-xxhdpi.png" />
+        <icon qualifier="xxxhdpi" src="www/res/icons/android/icon-192-xxxhdpi.png" />
+    </platform>
+    <preference name="orientation" value="portrait" />
+    <plugin source="git" spec="https://github.com/jeduan/cordova-plugin-facebook4#aff9a08a86cc6c6a18019f7adc2896ddf97c11cd">
+        <param name="APP_ID" value="1429053297422142" />
+        <param name="APP_NAME" value="Foodie" />
+    </plugin>
+    <plugin name="cordova-plugin-facebook4" spec="~1.7.4">
+        <variable name="APP_ID" value="1429053297422142" />
+        <variable name="APP_NAME" value="Foodie" />
+    </plugin>
+    <plugin name="phonegap-plugin-push" spec="https://github.com/phonegap/phonegap-plugin-push">
+        <variable name="SENDER_ID" value="632300932549" />
+    </plugin>
+    <plugin name="io.branch.sdk" spec="~2.4.7">
+        <variable name="BRANCH_KEY" value="key_live_jnCpH9MDNvQh2TYBEQnRhkpgAFgeC9Sf" />
+        <variable name="URI_SCHEME" value="foodiemobileapp" />
+    </plugin>
+    <branch-config>
+        <ios-team-id value="ET8BGABJQC" />
+        <host name="events.fudisys.com" scheme="http" />
+    </branch-config>
+    <preference name="AndroidLaunchMode" value="singleInstance" />
+    <plugin name="cordova-plugin-clipboard-x" spec="~1.0.1" />
+</widget>
+
+
+Plugins: 
+
+card.io.cordova.mobilesdk,com.paypal.cordova.mobilesdk,cordova-plugin-camera,cordova-plugin-clipboard-x,cordova-plugin-compat,cordova-plugin-console,cordova-plugin-facebook4,cordova-plugin-file,cordova-plugin-file-transfer,cordova-plugin-geolocation,cordova-plugin-media-capture,cordova-plugin-whitelist,es6-promise-plugin,io.branch.sdk,phonegap-plugin-barcodescanner,phonegap-plugin-push
+
+Android platform:
+
+Available Android targets:
+----------
+id: 1 or "android-19"
+     Name: Android 4.4.2
+     Type: Platform
+     API level: 19
+     Revision: 4
+     Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
+ Tag/ABIs : default/armeabi-v7a, default/x86
+----------
+id: 2 or "android-21"
+     Name: Android 5.0.1
+     Type: Platform
+     API level: 21
+     Revision: 2
+     Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
+ Tag/ABIs : no ABIs.
+----------
+id: 3 or "android-22"
+     Name: Android 5.1.1
+     Type: Platform
+     API level: 22
+     Revision: 2
+     Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
+ Tag/ABIs : no ABIs.
+----------
+id: 4 or "android-23"
+     Name: Android 6.0
+     Type: Platform
+     API level: 23
+     Revision: 1
+     Skins: HVGA, QVGA, WQVGA400, WQVGA432, WSVGA, WVGA800 (default), WVGA854, WXGA720, WXGA800, WXGA800-7in
+ Tag/ABIs : no ABIs.
+----------
+id: 5 or "Google Inc.:Google APIs:19"
+     Name: Google APIs
+     Type: Add-On
+     Vendor: Google Inc.
+     Revision: 20
+     Description: Android + Google APIs
+     Based on Android 4.4.2 (API level 19)
+     Libraries:
+      * com.android.future.usb.accessory (usb.jar)
+          API for USB Accessories
+      * com.google.android.media.effects (effects.jar)
+          Collection of video effects
+      * com.google.android.maps (maps.jar)
+          API for Google Maps
+     Skins: WSVGA, WQVGA400, HVGA, WVGA854, WQVGA432, WVGA800 (default), WXGA800, WXGA720, WXGA800-7in, QVGA
+ Tag/ABIs : no ABIs.
+
+
+

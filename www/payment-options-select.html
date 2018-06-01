@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+</head>
+<body id="wrapper">
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+<div id="user-profile-page" class="content">
+	<h1 id="menu-button"> <a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a>
+	<p class="pageTitle" data-bind="text: lang.PO"></p></h1>
+	<div class="main-div">
+	
+	<form id="user-form" >
+		<div id="spAmount" class="text-center lead alert alert-warning">Amount: $0.00</div>
+
+
+		<div class="alert alert-info" style="display:none" id="spCouponTr">
+			
+				<label >Use Coupon Code</label>
+				
+				<input type="text" name="coupon" id="coupon" class="form-control" value="" maxlength="20">
+				<button id="btnCouponApply" class="btn btn-warning" type="button">Apply</button>
+			
+					
+				
+					
+				
+				
+			
+			
+			<div id="spCouponResponse"></div>
+		</div>
+
+		<div id="dyList">
+			<div class="radio lead hidden">
+				<label>
+					<input type="radio" name="optionsRadios" value="">
+					<span class="optName">Visa **********5784</span> </label>
+			</div>
+		</div>
+		<button type="button" id="btnSelectOption" class="btn btn-positive btn-block btn-submit" data-bind="text: lang.Paynow"></button>
+	</form>
+	
+	</div>
+	
+</div>
+<br />
+<br />
+<br />
+<div class="modal fade" id="popAdd" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" _data-bind="text: lang.AddEdPO">Add Credit Card</h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="formCC" class="formSmart">
+					<input type="hidden" id="card_type" name="card_type" value="">
+					<div class="form-group">
+						<label  data-bind="text: lang.CCNo"></label>
+						<div class="input-group">
+							<input type="number" name="card_number" id="card_number" class="form-control required" value="" maxlength="16">
+							<span class="input-group-addon"><i id="i_cc" class="fa fa-lg fa-credit-card"></i></span> </div>
+					</div>
+					<div class="form-group col-xs-6">
+						<label data-bind="text: lang.CCExM">Exp. Month</label>
+						<select class="form-control required" name="exp_month" id="exp_month">
+						</select>
+					</div>
+					<div class="form-group col-xs-6 last">
+						<label data-bind="text: lang.CCExY">Exp. Year</label>
+						<select class="form-control required" name="exp_year" id="exp_year">
+						</select>
+					</div>
+					<div class="form-group col-xs-6">
+						<label data-bind="text: lang.CCCVV">Secure ID</label>
+						<input class="form-control required" type="number" name="cvv" id="cvv" value="" maxlength="4"  >
+					</div>
+					<div class="clearfix"></div>
+					<div class="form-group col-xs-6">
+						<label data-bind="text: lang.FirstName">First Name</label>
+						<input class="form-control required" type="text" name="first_name" id="first_name" maxlength="16">
+					</div>
+					<div class="form-group col-xs-6 last">
+						<label data-bind="text: lang.LastName">Last Name</label>
+						<input class="form-control required" type="text" name="last_name" id="last_name" maxlength="16">
+					</div>
+					<div class="form-group">
+						<label data-bind="text: lang.Address">Address</label>
+						<input class="form-control" type="text" name="address" id="address" maxlength="100">
+					</div>
+					<div class="form-group">
+						<label data-bind="text: lang.City">City</label>
+						<input class="form-control" type="text" name="city" id="city" maxlength="16">
+					</div>
+					<div class="form-group col-xs-6 ">
+						<label data-bind="text: lang.State">State</label>
+						<select class="form-control " name="state" id="state">
+							<option value="">-- Select State --</option>
+							<option value="AL">Alabama</option>
+							<option value="AK">Alaska</option>
+							<option value="AZ">Arizona</option>
+							<option value="AR">Arkansas</option>
+							<option value="CA">California</option>
+							<option value="CO">Colorado</option>
+							<option value="CT">Connecticut</option>
+							<option value="DE">Delaware</option>
+							<option value="DC">Dist. of Columbia</option>
+							<option value="FL">Florida</option>
+							<option value="GA">Georgia</option>
+							<option value="HI">Hawaii</option>
+							<option value="ID">Idaho</option>
+							<option value="IL">Illinois</option>
+							<option value="IN">Indiana</option>
+							<option value="IA">Iowa</option>
+							<option value="KS">Kansas</option>
+							<option value="KY">Kentucky</option>
+							<option value="LA">Louisiana</option>
+							<option value="ME">Maine</option>
+							<option value="MD">Maryland</option>
+							<option value="MA">Massachusetts</option>
+							<option value="MI">Michigan</option>
+							<option value="MN">Minnesota</option>
+							<option value="MS">Mississippi</option>
+							<option value="MO">Missouri</option>
+							<option value="MT">Montana</option>
+							<option value="NE">Nebraska</option>
+							<option value="NV">Nevada</option>
+							<option value="NH">New Hampshire</option>
+							<option value="NJ">New Jersey</option>
+							<option value="NM">New Mexico</option>
+							<option value="NY">New York</option>
+							<option value="NC">North Carolina</option>
+							<option value="ND">North Dakota</option>
+							<option value="OH">Ohio</option>
+							<option value="OK">Oklahoma</option>
+							<option value="OR">Oregon</option>
+							<option value="PA">Pennsylvania</option>
+							<option value="RI">Rhode Island</option>
+							<option value="SC">South Carolina</option>
+							<option value="SD">South Dakota</option>
+							<option value="TN">Tennessee</option>
+							<option value="TX">Texas</option>
+							<option value="UT">Utah</option>
+							<option value="VT">Vermont</option>
+							<option value="VA">Virginia</option>
+							<option value="WA">Washington</option>
+							<option value="WV">West Virginia</option>
+							<option value="WI">Wisconsin</option>
+							<option value="WY">Wyoming</option>
+						</select>
+					</div>
+					<div class="form-group col-xs-6 last">
+						<label data-bind="text: lang.Zip">Zip</label>
+						<input class="form-control" type="number" name="zip" id="zip"  maxlength="6">
+					</div>
+					<div class="clearfix"></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" data-bind="text: lang.Cancel"></button>
+				<button id="btnAdd" type="button" class="btn btn-success" _data-bind="text: lang.Save">Pay Now</button>
+			</div>
+		</div>
+	</div>
+</div>
+<br />
+<br />
+<br />
+<div id="bottom-bar">
+	<div class="container">
+		<div class="row">
+			<div class=" no-padding"> <a class="tab-item " href="map.html"> <i class="fa fa-map-marker"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item" href="reservations.html"> <i class="fa fa-cutlery"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " href="user-profile.html"> <i class="fa fa-user"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " id="afchat" href="chat.html"> <i class="fa fa-comments"></i> </a>	</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="cordova.js"></script> 
+<script type="text/javascript" src="js/paypal-mobile-js-helper.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src='js/knockout-3.4.0.js'></script> 
+<script src="js/moment.min.js"></script> 
+<script src="js/common.js"></script> 
+<script type="text/javascript">
+
+var ResId = null;
+var Amount = null;
+var OType = null; // null, EventJoin, Event > create event and pay to chef's travel fee
+var couponData = null;
+
+$(document).ready(function(e) {
+	
+	ResId = getUrlParameter('ResId');
+	Amount = getUrlParameter('Amount');
+	OType = getUrlParameter('Type');
+	
+	if(empty(OType)) OType = '';
+	
+	console.log(OType.indexOf('Event'));
+	
+	if( OType.indexOf('Event') === -1 ){ // not an event
+		$('#spCouponTr').show();
+	}else{
+		// Event or EventJoin	
+	}
+	
+	
+	
+	Amount = parseFloat(Amount);
+	Amount = Amount.toFixed(2);
+	$('#spAmount').html('Amount : $'+Amount);
+	
+	loadMainData();
+	
+	var Options = '';
+	for(var i=0; i<monthNames.length; i++){
+		j = ((i+1)>9)? i+1 : '0'+(i+1);
+		Options += '<option value="'+j+'">'+monthNames[i]+'</option>';	
+	}
+	$('#exp_month').append(Options);
+	$('#exp_month').val('');
+	
+	Options = '';
+	Year =  parseInt(moment().format('YYYY')); 
+	for(var i=0; i <= 20; i++){
+		j = Year+i;
+		Options += '<option value="'+j+'">'+j+'</option>';	
+	}
+	$('#exp_year').append(Options);
+	$('#exp_year').val('');
+	
+	
+	$('#card_number').on('keyup', function(e) {
+		var i_class = getCreditCardType( $(this).val() ) ; 
+		$('#i_cc').removeClass('fa-credit-card').removeClass('fa-cc-mastercard').removeClass('fa-cc-visa').removeClass('fa-cc-amex').removeClass('fa-cc-discover');
+		$('#i_cc').addClass(i_class);
+	});
+	
+	$('#card_number').on('blur', function(e) {
+		var i_class = getCreditCardType( $(this).val() ) ; 
+		$('#i_cc').removeClass('fa-credit-card').removeClass('fa-cc-mastercard').removeClass('fa-cc-visa').removeClass('fa-cc-amex').removeClass('fa-cc-discover');
+		$('#i_cc').addClass(i_class);
+	});
+	
+	$('#btnCouponApply').on('click', function(e){
+		if(!empty($('#coupon').val())){
+			var formData = { 'coupon':$('#coupon').val(), 'amount': Amount, 'order_id': ResId, 'otype': OType, 'userId':localStorage.getItem('userId'), 'userToken': localStorage.getItem('userToken') };
+			console.log(formData);
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=applyCoupon", data: formData,
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				couponData = data;
+				if (data.Success == 'true') {
+					$('#spCouponResponse').html('<i class="fa fa-check"></i> You will get '+data.discount+' discount').removeClass('red').addClass('green');
+					$('#spAmount').html('Amount : <s>$'+Amount+'</s> $'+data.discounted);
+					
+					if(data.order_paid == 'true') {
+						BAlert.find('.modal-header h3').html('<i class="fa check"></i>'+cLan.Success);
+						BAlert.find('.modal-body').html('<p class="text-success">'+cLan[203]+'.</p>');
+						BAlert.find('.btn-primary').on('click',function(e){
+							//$('#popAdd').modal('hide');
+							if( OType.indexOf('Event') !== -1){
+								document.location = 'events-list.html';
+							}else{
+								document.location = 'reservations.html';
+							}
+						});
+						BAlert.modal();
+					}
+					
+					
+				} else { 
+					$('#spCouponResponse').html('<i class="fa fa-close"></i> '+data.Msg).removeClass('green').addClass('red');
+					$('#spAmount').html('Amount : $'+Amount);
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+			
+			}); // ajax		
+		}
+		
+	});
+	
+	
+	
+	$('#btnAdd').on('click',function(e){
+		$('#formCC').submit();
+	});
+	
+
+	$("#formCC").validate({ // Insert/Edit Record ==============
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+
+			if(!empty( $('#card_number').val()) && valid_credit_card($('#card_number').val()) == false  ){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.s125+'</p>');
+				BAlert.modal();
+			}else{
+				
+				var finalAmount = Amount;
+				if( !empty(couponData) && (couponData.Success=='true')) {
+					finalAmount = couponData.discounted;
+				}
+				
+				formData = $(form).serialize();
+				formData += '&userId='+localStorage.getItem('userId')+'&userToken='+localStorage.getItem('userToken'); 
+				formData += '&res_id='+ResId+'&Amount='+finalAmount+'&Type='+OType; 
+				
+				$.ajax({
+					type: "POST", dataType: 'json', url: ServerAjax+"?h=ccPayment", data: formData,
+					beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+					complete: function() { waitingDialog.hide(); },
+				}).fail(  ajaxError )
+				.done(function(data){
+					if (data.Success == 'true') {
+						BAlert.find('.modal-header h3').html('<i class="fa check"></i>'+cLan.Success);
+						BAlert.find('.modal-body').html('<p class="text-success">'+cLan[203]+'.</p>');
+						BAlert.find('.btn-primary').on('click',function(e){
+							//$('#popAdd').modal('hide');
+							if( OType.indexOf('Event') !== -1 ){ // event
+								document.location = 'events-list.html#tab_attending';
+							}else{
+								document.location = 'reservations.html';
+							}
+						});
+						BAlert.modal();
+						loadMainData();
+					} else { 
+						ErrorModalWithParm(data);
+					}
+					if (data.JS) { eval(data.JS); }
+				
+				}); // ajax	
+			
+			}
+
+		}// submit handler
+	});
+
+		
+	$('#btnSelectOption').on('click',function(){
+		
+		var chRadio =  $("input:radio[name=optionsRadios]:checked");
+		
+		var payOpt = $(chRadio).val();
+		var opType = $(chRadio).data('ctype');
+		
+		
+		
+		var finalAmount = Amount;
+		if( !empty(couponData) ) {
+			if(couponData.Success=='true'){
+				finalAmount = couponData.discounted;
+			}
+		}
+		
+		if(!empty(payOpt)){
+			if( opType == 'Paypal'){
+				ppApp.Amount = finalAmount;
+				ppApp.Description = 'Fudi Reservation '+ResId;
+				ppApp.defaultUserEmail = $(chRadio).data('email');
+				ppApp.initialize();
+				
+			}else if( payOpt == 'PP'){ // Paypal
+				ppApp.Amount = finalAmount;
+				ppApp.Description = 'Fudi Reservation '+ResId;
+				ppApp.initialize();
+			}else if( payOpt == 'CC'){ // Paypal
+			
+				try{
+					var userData = JSON.parse(localStorage.getItem('userData'));
+					$('#first_name').val(userData.first_name);
+					$('#last_name').val(userData.last_name);
+					$('#address').val(userData.address);
+					$('#city').val(userData.city);
+					$('#state').val(userData.state);
+					$('#zip').val(userData.zip);
+				}catch(e){}
+			
+				$('#popAdd').modal();
+			}else{ // Select a card 
+			
+				var formData = { 	'cardId' : payOpt,
+								'userId' : localStorage.getItem('userId'),
+								'userToken' : localStorage.getItem('userToken'),
+								'res_id' : ResId,
+								'Amount' : finalAmount,
+								'Type' : OType 
+							};
+				$.ajax({
+					type: "POST", dataType: 'json', url: ServerAjax+"?h=ccPayment", data: formData,
+					beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+					complete: function() { waitingDialog.hide(); },
+				}).fail(  ajaxError )
+				.done(function(data){
+					if (data.Success == 'true') {
+						BAlert.find('.modal-header h3').html('<i class="fa check"></i>'+cLan.Success);
+						BAlert.find('.modal-body').html('<p class="text-success">'+cLan[203]+'.</p>');
+						BAlert.find('.btn-primary').on('click',function(e){
+							//$('#popAdd').modal('hide');
+							
+							if( OType.indexOf('EventJoin') !== -1 ){ // Join event
+								document.location = 'events-list.html#tab_attending';
+							}else if( OType.indexOf('Event') !== -1 ){ // Created new event
+								document.location = 'events-list.html#tab_my';
+							}else{
+								document.location = 'reservations.html';
+							}
+						});
+						BAlert.modal();
+						//loadMainData();
+					} else { 
+						ErrorModalWithParm(data);
+					}
+					if (data.JS) { eval(data.JS); }
+				
+				}); // ajax	
+			
+					
+			}
+		}else{
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan[122]+'</p>');
+			BAlert.modal();	
+		}
+	});
+	
+});
+function validate_cc(cc){
+	// thanks to http://www.w3resource.com/javascript/form/credit-card-validation.php
+	var amex = /^(?:3[47][0-9]{13})$/;
+	var visa = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/; 
+	var mastercard = /^(?:5[1-5][0-9]{14})$/;
+	var discover = /^(?:6(?:011|5[0-9][0-9])[0-9]{12})$/;
+	var diners = /^(?:3(?:0[0-5]|[68][0-9])[0-9]{11})$/; 
+	if(cc.match(amex)||cc.match(visa)||cc.match(mastercard)||cc.match(discover)||cc.match(diners)){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+function valid_credit_card(value) {
+	
+	if( validate_cc(value) == false ) return false;
+  // accept only digits, dashes or spaces
+	if (/[^0-9-\s]+/.test(value)) return false;
+
+	// The Luhn Algorithm. It's so pretty.
+	var nCheck = 0, nDigit = 0, bEven = false;
+	value = value.replace(/\D/g, "");
+
+	for (var n = value.length - 1; n >= 0; n--) {
+		var cDigit = value.charAt(n),
+			  nDigit = parseInt(cDigit, 10);
+
+		if (bEven) {
+			if ((nDigit *= 2) > 9) nDigit -= 9;
+		}
+
+		nCheck += nDigit;
+		bEven = !bEven;
+	}
+
+	return (nCheck % 10) == 0;
+}
+
+function loadMainData(){
+	var formData = '';
+	formData += 'userId='+localStorage.getItem('userId')+'&userToken='+localStorage.getItem('userToken'); 
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=getPaymentOption", data: formData,
+		beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+		complete: function() { waitingDialog.hide(); },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			MainData = data.PaymentOptions;
+			$('#dyList .lead').not(':first').remove();
+			$DTemp = $('#dyList .hidden');
+			for (var i = 0; i < MainData.length; i++) {
+				$copy = $DTemp.clone().removeClass('hidden');
+					
+			//<div class="radio lead hidden">
+			//	<label>
+			//	<input type="radio" name="optionsRadios" value="option1">
+			//	<span class="optName">Visa **********5784</span>
+			//</label>
+			//</div>
+				if(empty(MainData[i].card_type)){
+					//$copy.find('.optName').html( 'Credit Card &nbsp; '+MainData[i].card_number);
+					continue;
+				}
+				
+				
+				
+				
+				$copy.find('input').val( MainData[i].id );
+				$copy.find('.optName').html( MainData[i].card_type+' &nbsp; '+MainData[i].card_number);
+				
+				
+				if( MainData[i].card_type == 'Paypal' ){
+					$copy.find('input').data('ctype', MainData[i].card_type );
+					$copy.find('input').data('email', MainData[i].card_number );
+				}
+				
+				
+				$copy.appendTo('#dyList');
+			}//for
+			
+			$copy = $DTemp.clone().removeClass('hidden');
+			$copy.find('input').val( 'PP' );
+			$copy.find('.optName').html( 'PayPal Account');
+			$copy.appendTo('#dyList');
+			
+			$copy = $DTemp.clone().removeClass('hidden');
+			$copy.find('input').val( 'CC' );
+			$copy.find('.optName').html( 'Add Additional Card');
+			$copy.appendTo('#dyList');
+			
+			
+			$("#user-form").show();
+		} else { 
+			ErrorModalWithParm(data);
+		}
+		if (data.JS) { eval(data.JS); }
+	
+	}); // ajax	
+}
+
+
+function getCreditCardType(accountNumber){
+	var result = "fa-credit-card";
+	var ctype = '';
+	if (/^5[1-5]/.test(accountNumber)){
+		result = "fa-cc-mastercard";
+		ctype = 'MasterCard';
+	}
+	//then check for Visa
+	else if (/^4/.test(accountNumber)){
+		result = "fa-cc-visa";
+		ctype = 'Visa';
+	}
+	//then check for AmEx
+	else if (/^3[47]/.test(accountNumber)){
+		result = "fa-cc-amex";
+		ctype = 'Amex';
+	}
+	else if (/(?:6011|65)/.test(accountNumber)){
+		result = "fa-cc-discover";
+		ctype = 'Discover';
+	}
+	$('#card_type').val(ctype);
+	return result;
+}
+
+var ppApp = {
+	// Application Constructor
+	Amount : 10,
+	Description : '',
+	defaultUserEmail : '',
+	
+	initialize: function() {
+		//this.bindEvents();
+		this.initPaymentUI();
+	},
+	initPaymentUI: function() {
+		//alert('initPaymentUI');
+		var clientIDs = {
+			"PayPalEnvironmentProduction": "Abd6gqI-wgpVBdCHvBhYEuJZZtFL7ybnizVC0eOyVnBTWc--CyUf7dE44ZsVkF4pZdz6SkO2GAg4sf1c",
+			"PayPalEnvironmentSandbox": "AV5JRlY4ZpMXj2_aizYv-IiAbgcJhassrlQvOftz4246yfDgMSlPwE4JkBs3O6vaCeTvyGAufbQjcg3N"
+			//"PayPalEnvironmentSandbox": ""
+		};
+		try {
+			PayPalMobile.init(clientIDs, ppApp.onPayPalMobileInit);
+		} catch (err) {
+			alert(err);
+		}
+	},
+	onSuccesfulPayment: function(payment) {
+		//alert("payment success: " + JSON.stringify(payment, null, 4));
+		//$('#popReserve').modal('hide');
+		var formData = 'paypal_id='+payment.response.id+'&paypal_status='+payment.response.state+'&res_id='+ResId+'&Type='+OType;
+		formData += '&user_id=' + localStorage.getItem('userId') + '&userToken=' + localStorage.getItem('userToken');
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=reserveApproved", data: formData,
+			beforeSend: function() { $('div.aLoading').show();  },
+			complete: function() { $('div.aLoading').hide(); },
+		}).fail(  ajaxError )
+		.done(function(data){
+			if (data.Success == 'true') {
+				
+				SuccessModalWithParm(data);
+				
+				if( OType.indexOf('EventJoin') !== -1 ){ // Join event
+					document.location = 'events-list.html#tab_attending';
+				}else if( OType.indexOf('Event') !== -1 ){ // Created new event
+					document.location = 'events-list.html#tab_my';
+				}else{
+					document.location = 'reservations.html';
+				}
+
+			}else { 
+				ErrorModalWithParm(data);
+			}
+			if (data.JS) { eval(data.JS); }
+		
+		}); // ajax	
+	},
+	
+	configuration: function() {
+		var config = new PayPalConfiguration({
+			merchantName: "Fudi",
+			merchantPrivacyPolicyURL: "https://foodiesys.com/policy",
+			merchantUserAgreementURL: "https://foodiesys.com/agreement",
+			defaultUserEmail: ppApp.defaultUserEmail
+		});
+		return config;
+	},
+
+	onPrepareRender: function() {
+		ppApp.payNow(ppApp.Amount, ppApp.Description );
+	},
+
+	payNow: function(Amount, Desc) {
+		//alert('buy Now');
+		var paymentDetails = new PayPalPaymentDetails(Amount, "0.00", "0.00");
+		var payment = new PayPalPayment(Amount, "USD", Desc, "Sale", paymentDetails);
+		PayPalMobile.renderSinglePaymentUI(payment, ppApp.onSuccesfulPayment, ppApp.onUserCanceled);
+	},
+
+	onPayPalMobileInit: function() {
+		// must be called
+		// use PayPalEnvironmentNoNetwork mode to get look and feel of the flow
+		//alert('onPayPalMobileInit');
+		//if( localStorage.getItem('userId') == '-13' ){
+			//PayPalMobile.prepareToRender("PayPalEnvironmentSandbox", ppApp.configuration(), ppApp.onPrepareRender);
+		//}else{
+		try{	
+			PayPalMobile.prepareToRender("PayPalEnvironmentProduction", ppApp.configuration(), ppApp.onPrepareRender);
+			//PayPalMobile.prepareToRender("PayPalEnvironmentSandbox", ppApp.configuration(), ppApp.onPrepareRender);
+		} catch (err) {
+			alert(err);
+		}	
+		//}	
+	},
+	onUserCanceled: function(result) {
+		//console.log(result);
+		document.location.href = 'chef_profile.html?id=' + chef_id;
+	}
+};
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+<link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<style>
+.bootstrap-datetimepicker-widget table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
+	background-color: #fff;
+	color: #666;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+}
+.bootstrap-datetimepicker-widget table td.green, .bootstrap-datetimepicker-widget table td.green:hover {
+	background-color: #5CB85C !important;
+	color: #FFF !important;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25) !important;
+}
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+	border-radius: 0;
+}
+</style>
+</head>
+<body id="wrapper">
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+<div id="user-profile-page" class="content">
+	<h1 id="menu-button"> <a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a>
+		<p class="pageTitle" style="font-size:24px" xdata-bind="text: lang.PSmenu">Create Event</p>
+	</h1>
+	<form id="user-form" class="main-div">
+		
+	<div id="spDiscounted">
+		<div id="topAlert" class="alert alert-info"><span xdata-bind="text: lang.FSP">Plesae select a payment option below to pay the difference in dish prices.</span></div>
+		<div id="dyList">
+			<div class="radio  hidden">
+				<label>
+					<input type="radio" name="optionsRadios" value="">
+					<span class="optName lead">Visa **********5784</span>
+				</label>
+			</div>
+		</div>
+	</div>
+	
+	<div id="spTravelCharges">
+		<br><br>
+		<strong>Chef(s) Travel Charges : $<span id="spTravelD">0.00</span></strong>
+		<div class="help-block">Chef travel charges must be paid in advance</div> 
+	</div>
+		
+	<div id="chef-foods">
+		<div class="food-listing hidden">
+			<div class=" col-xs-3 col-sm-2 no-lft-padding"> <img class="img-responsive img-circle media-object pull-left" src="images/food-1.png" /> </div>
+			<div class=" col-xs-9 col-sm-10 no-right-padding" style="padding-left:0">
+				<div class="food-info-body">
+					<h4 class="dishTitle">...</h4>
+					
+					<div class="byChef">..</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="aLoading text-center" style="display:none"><img src="images/loading.gif" sytle=" margin: 0 auto;" /></div>
+	</div>
+		
+		
+		
+		
+		<button type="button" id="btn-submit" class="btn btn-positive btn-block btn-submit" xdata-bind="text: lang.Save">Create Event</button>
+	</form>
+</div>
+<br />
+<br />
+<br />
+
+
+
+
+<script src="cordova.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src='js/knockout-3.4.0.js'></script> 
+<script src="js/common.js"></script> 
+<script src="js/moment.min.js"></script> 
+<script src="js/bootstrap-datetimepicker.min.js"></script> 
+<script>
+
+var eventOb ; 
+
+
+$(document).ready(function(e) {
+	
+	eventOb = JSON.parse(localStorage.getItem('eventData'));
+	if(empty(eventOb)){
+		document.location = 'event-1.html';	
+	}
+	console.log(eventOb);
+	
+	
+	/*eventOb.chefs.forEach(function (el, i, arr){
+		el.dishes.forEach(function (el2, i2, arr2){
+			if( el2.eventPrice < el2.price ){
+				owner_pay;
+				return false;
+			}
+		});
+	});
+	*/	
+	
+	
+	var totalTravelCharges = 0;
+	var discountDishes = 0;
+	
+	for(var ci=0; ci<eventOb.chefs.length; ci++){
+		totalTravelCharges += eventOb.chefs[ci].travel_charges;
+		for(var di=0; di<eventOb.chefs[ci].dishes.length; di++){	
+			if( eventOb.chefs[ci].dishes[di].eventPrice < eventOb.chefs[ci].dishes[di].price ){
+				discountDishes++;	
+			}
+		}
+	}
+	
+	eventOb.discountDishes = discountDishes;
+	eventOb.totalTravelCharges = totalTravelCharges;
+	
+	localStorage.setItem('eventData', JSON.stringify(eventOb));
+	
+	if( eventOb.discountDishes > 0 ){
+		loadPaymentOptions();	
+	}else{
+		$('#spDiscounted').hide();	
+	}
+	
+	if( eventOb.totalTravelCharges > 0 ){
+		var tc = parseFloat(eventOb.totalTravelCharges);
+		$('#spTravelD').html(tc.toFixed(2));
+		$('#spTravelCharges').show();
+	}
+	
+	
+	
+/** /	
+{
+   "title":"Event V2",
+   "date":"2016-09-29",
+   "time":"20:00:00",
+   "available":"Private",
+   "address":"30-198 1st St E, Calera, AL 35040, USA",
+   "lng":"-86.73695312695315",
+   "lat":"33.1020814030699",
+   "entry_fee":"2.00",
+   "guests_apx":"20",
+   "creator_name":"Birmingham Fudi Kitchen",
+   "chefs":[
+      {
+         "id":"41",
+         "company":"Birmingham Fudi Kitchen",
+         "image1":"57c3ded700f88.jpg",
+         "travel_charges":20,
+         "dishes":[
+            {
+               "id":"50",
+               "name":"Fettuccine Alfredo",
+               "price":"1.00",
+               "eventPrice":"0.00"
+            },
+            {
+               "id":"77",
+               "name":"Filet and veggies",
+               "price":"1.50",
+               "eventPrice":"2.50"
+            },
+            {
+               "id":"49",
+               "name":"Shrimp Po Boy",
+               "price":4.45,
+               "eventPrice":"0.45"
+            }
+         ]
+      }
+   ]
+}
+/**/	
+	
+	
+	
+	$('#btn-submit').on('click',function(){
+		
+		if( eventOb.discountDishes > 0 ){
+			if( $("#dyList input:checked").length == 0 ){
+				BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+				BAlert.find('.modal-body').html('<p class="text-danger">System require an active credit card as payment option for out-standing balance of each order in the event.</p>');
+				BAlert.modal();
+				return;
+			}else{
+				eventOb.paymentOptionId = $("#dyList input:checked").val();
+			}
+		}
+		
+		
+		var formData = {
+				eventData: JSON.stringify(eventOb),
+				userId: localStorage.getItem('userId'),
+				userToken: localStorage.getItem('userToken')
+			};
+		
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=createEvent", data: formData,
+			beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+			complete: function() { waitingDialog.hide(); },
+		}).fail(  ajaxError )
+		.done(function(data){
+			if (data.Success == 'true') {
+				
+				localStorage.removeItem('eventData');
+				
+				if( data.travel_charges > 0 ){
+					
+					document.location = 'payment-options-select.html?Type=Event&ResId='+data.resId+'&Amount='+data.travel_charges;
+					
+				}else{
+					BAlert.find('.modal-header h3').html('<i class="fa check"></i>'+cLan.Success);
+					BAlert.find('.modal-body').html('<p class="text-success">'+cLan.s128+'</p>');
+					BAlert.find('button').on("click", function(){
+						document.location = 'events-list.html';
+					});
+					BAlert.modal();
+				}
+				
+				
+			}
+			if (data.JS) { eval(data.JS); }
+		}); // ajax	
+		
+	});
+		
+});
+
+
+function loadPaymentOptions(){
+	var formData = '';
+	formData += 'userId='+localStorage.getItem('userId')+'&userToken='+localStorage.getItem('userToken'); 
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=getPaymentOption", data: formData,
+		beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+		complete: function() { waitingDialog.hide(); },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			MainData = data.PaymentOptions;
+			$('#dyList .lead').not(':first').remove();
+			$DTemp = $('#dyList .hidden');
+			for (var i = 0; i < MainData.length; i++) {
+				
+				if(MainData[i].card_type=='Paypal'){
+					continue;
+				}
+				
+				$copy = $DTemp.clone().removeClass('hidden');
+				$copy.find('input').val( MainData[i].id );
+				
+				$copy.find('.optName').html( MainData[i].card_type+' &nbsp; '+MainData[i].card_number);
+				if(empty(MainData[i].card_type)){
+					$copy.find('.optName').html( 'Credit Card &nbsp; '+MainData[i].card_number);
+				}
+				$copy.appendTo('#dyList');
+			}//for
+			if( MainData.length == 0 ){
+				$('#dyList').html('You don\'t have any credit card saved on the system, please create a payment option with credit card to create the event.<br><br><div class="text-center"><a href="payment-options.html" class="btn btn-primary btn-sm">Create Payment Option</a></div>');
+			}
+
+		} else { 
+			ErrorModalWithParm(data);
+		}
+		if (data.JS) { eval(data.JS); }
+	
+	}); // ajax	
+}
+
+
+
+
+
+
+</script>
+</body>
+</html>

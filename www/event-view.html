@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+<style>
+.nav-tabs li{ width:auto; }
+.nav-tabs li{ display:inline-block; }
+.nav-tabs a, .nav-tabs .active > a{font-size:15px !important;  }
+.nav-tabs>li>a{ border:none; }
+h4.names_label label{ font-weight: normal !important; margin:3px 5px }
+@media (min-width:320px) and (max-width:370px)
+{
+	.nav>li>a{ padding:10px 8px; border:none; }
+	.nav-tabs a, .nav-tabs .active > a{font-size:14px !important } 
+}
+
+</style>
+</head>
+<body id="wrapper">
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			<li class="L2"><a class="sub" href="notifications.html"><i class="icon-mail"></i> <span data-bind="text: lang.Notifications"></span></a></li>
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+<h1 id="menu-button"> 
+	<button type="button" id="btnHeaderBack" class="btn btn btn-lg btn-link pull-right" style="margin:16px 20px 0 0; padding:4px 6px; font-size:20px;"><i class="fa fa-long-arrow-left"></i></button>
+	<a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a>
+	<p class="pageTitle" xdata-bind="text: lang.ManageD">Event Details</p>
+</h1>
+<!-- Wrap all non-bar HTML in the .content div (this is actually what scrolls) -->
+<div class="container">
+	<div id="chef-page" class="content">
+		
+		
+		
+				
+		<div class="row main-div">
+			<div class="col-xs-12">
+				
+				<h3 id="hMain"></h3>
+				<span id="spDetails"></span>
+				
+				
+				<div>
+				<button id="btnAdd" type="button" class="btn btn-success center-block " xdata-bind="text: lang.Save">Attend Event</button>
+				</div>
+				<div style="display:none" id="spCopy">
+					<hr>
+					<h5><strong>Event Promotion:</strong></h5>
+					<p>Tap the button below to copy promotion URL. Then you can paste it from the clipboard</p>
+					<input type="text" class="inpCopy" style="border:1px solid #BBBBBB; padding:4px; color:#AAA; height:30px; display:none" value="" /> 
+					<button type="button" class="btnCopy btn-primary btn"><i class="fa fa-copy"></i> Copy URL</button>
+				</div>				
+			</div>
+			
+
+			
+		</div>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<div id="chef-foods">
+		<div class="food-listing hidden">
+			<div class="faEventDiv col-xs-2"><i class="fa fa-3x fa-glass"></i></div>
+			<div class=" col-xs-10 no-lft-padding no-right-padding">
+				<div class="food-info-body">
+					<h4 class="dishTitle">...</h4>
+					
+					<div class="byChef">..</div>
+					
+				</div>
+			</div>
+		</div>
+		<div class="aLoading text-center" style="display:none"><img src="images/loading.gif" sytle=" margin: 0 auto;" /></div>
+	</div>
+		
+		
+		
+	</div>
+</div>
+<br />
+<br />
+<br />
+
+<div class="modal fade" id="popPSOrder" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" xdata-bind="text: lang.DeliveryOrder">Attend Event</h4>
+			</div>
+			<div class="modal-body">
+				<form method="post" id="frmReserve3">
+					<div id="divCheckList">
+					
+					</div>
+					<h4 style="color:#666;" id="h4Ad"><span xdata-bind="text: lang.Deliverycharges2">Entry Charges</span> : <span id="PS_Adcharges">$0.00</span></h4>
+					<h2 style="color:#C00"><span data-bind="text: lang.Total">Total</span> : <span id="d_total">$40.00</span></h2>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button id="btnStartPay" type="button" class="btn btn-primary" xdata-bind="text: lang.OrderNow">Attend Event</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<br />
+<br />
+<br />
+<div class="modal fade" id="popDetail" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" xdata-bind="text: lang.AdEdDish">Event Details</h4>
+			</div>
+			<div class="modal-body">
+				
+					<div id="infoDiv">
+					
+					</div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" xdata-bind="text: lang.Cancel">Close</button>
+				<!--<button id="btnAdd" type="button" class="btn btn-primary" xdata-bind="text: lang.Save">Join This Event!</button>-->
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="popPermission" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" xdata-bind="text: lang.AdEdDish">Permission Required</h4>
+			</div>
+			<div class="modal-body">
+				
+				<p>This event is private and cannot be viewed by everyone. If you are interested, click the button below to ask event organizer for access.</p>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" xdata-bind="text: lang.Cancel">Close</button>
+				<button id="btnAskPermission" type="button" class="btn btn-primary" xdata-bind="text: lang.Save">Request Access</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="popUsers" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" xdata-bind="text: lang.AdEdDish">Event Users</h4>
+			</div>
+			<div class="modal-body">
+				
+				<div id="spUsersBody"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" xdata-bind="text: lang.Cancel">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="popLevel2" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" xdata-bind="text: lang.AdEdDish">Order Details</h4>
+			</div>
+			<div class="modal-body">
+				
+				<div id="popLevel2Body"></div>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" xdata-bind="text: lang.Cancel">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Script --> 
+<script type="text/javascript" src="cordova.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script>
+<script src="js/moment.min.js"></script>
+<script src="js/jquery.qrcode.js"></script> 
+<script src='js/knockout-3.4.0.js'></script> 
+<script src="js/common.js"></script>
+
+<script>
+
+var thisEvent;
+var thisEventIndex;
+var eventData;
+var delId = false;
+var quietLoad = false;
+var Total = 0.0; 
+
+var eventId = getUrlParameter('eventid'); 
+
+$(document).ready(function(e) {
+	
+	
+	loadPageData();
+	
+	
+	$('#btnHeaderBack').on('click',function(){
+		document.location = 'events-list.html';	
+	});
+	
+	
+	$('#btnAdd').on('click',function(){ // Join button on event detail popup
+		
+		// check if user profie is complete
+		var user_profile_complete = false;
+		if( !empty(localStorage.getItem('userData'))){
+			var userData = JSON.parse(localStorage.getItem('userData'));
+			if( !empty(userData.first_name) && !empty(userData.last_name) && !empty(userData.phone)  ){
+				user_profile_complete = true;	
+			}
+		}
+		if( user_profile_complete == false ){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.Pleasetap+' <a href="user-profile.html?RetPage='+encodeURI('events-list.html')+'">'+cLan.HERE+'</a> '+cLan.tocompleteprofile+'</p>');
+			BAlert.modal();
+			return false;
+		} 
+		
+		
+		var H = '';
+		$('#PS_Adcharges').html('$'+thisEvent.entry_fee);
+		$('#d_total').html('$'+thisEvent.entry_fee);
+		
+		H += '<div class="alert alert-info">Please select dish(es) for the event "'+thisEvent.title+'" you will be attending. You must select at least one dish.</div>';
+		var I = loadDishes();
+		$('#divCheckList').html(H+I);
+		$('#popDetail').modal('hide');
+		$('#popPSOrder').modal();
+		console.log(thisEvent);
+	});
+	
+	
+	$('#btnAskPermission').on('click', function(){
+
+		var formData = {
+			userId: localStorage.getItem('userId'),
+			userToken: localStorage.getItem('userToken'),
+			eventId : thisEvent.id };
+			
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=eventPermission", data: formData,
+			beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+			complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError
+			).done(function(data){
+				if (data.Success == 'true') {
+					$('#popPermission').modal('hide');
+					BAlert.find('.modal-header h3').html('<i class="fa check"></i>'+cLan.Success);
+					BAlert.find('.modal-body').html('<p class="text-success">'+'Permission request has been sent to event organizer.'+'</p>');
+					BAlert.modal();
+					
+					loadPageData();
+					
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+			
+		}); // ajax	
+	
+	});
+	
+	$('#spUsersBody').on('click', '.btnAllowDeny',function(){
+		
+		var AD = $(this).hasClass('btnAllow')?'A':'D';
+		var formData = {
+				userId: localStorage.getItem('userId'),
+				userToken: localStorage.getItem('userToken'),
+				allowUser: $(this).data('id'),
+				eventId: thisEvent.id,
+				access: AD
+			};
+		
+		var TD = $(this).closest('td');
+		TD.html('<img src="images/wait.gif" />');
+				 
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=allow4Event", data: formData, context: TD
+			//beforeSend: function() {  },
+			//complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError
+			).done(function(data){
+				if (data.Success == 'true') {
+				
+					if( data.access == 'A' ){
+						$(this).html('<i class="fa green fa-check-circle fa-2x"></i>');
+					}else{
+						$(this).html('<i class="fa red fa-times-circle fa-2x"></i>');
+					}
+					
+					if(!empty(eventData[thisEventIndex].user_data)){
+						var ud = JSON.parse(eventData[thisEventIndex].user_data);	
+						for (var i = 0; i < ud.length ; i++){
+							if(ud[i].id == data.allowUser){
+								ud[i].access = data.access;
+								eventData[thisEventIndex].user_data = JSON.stringify(ud);
+							}
+						}
+					}
+					
+				
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+			
+		}); // ajax	
+		
+	});	
+
+	$('.tab-content').on('click', '.btnQR',function(){
+		BAlert.find('.modal-header h3').html('<i class="fa check"></i> '+cLan.QRCode);
+		BAlert.find('.modal-body').html('').qrcode({ text: $(this).data('qr') });
+		BAlert.modal();
+	});
+	
+	$('.tab-content').on('click', '.btnUsers',function(){
+		
+		var id = $(this).data('id');
+		
+		for (var i = 0; i < eventData.length; i++){
+			if( eventData[i].id == id ){
+				thisEvent = eventData[i];
+				thisEventIndex = i;
+				break;
+			}
+		}
+		var H = '';
+		
+		H += '<div class="table-responsive noBorder"><table class="table">';
+		H += '<tr class="info"><td ><strong>Users</strong> </td><td ><strong>Allow/Deny</strong></td></tr>';
+		if(!empty(thisEvent.user_data)){
+			var ud = JSON.parse(thisEvent.user_data);	
+			console.log(ud);
+			for (var i = 0; i < ud.length ; i++){
+				H += '<tr><td>'+ud[i].first_name+' '+ud[i].last_name+'<br>'+ud[i].email+'</td>'; //<td class="text-center"><button type="button" class="btn btn-info btn-sm btnAllow btnAllowDeny" data-id="'+ud[i].id+'">Allow</button> <button type="button" class="btn btn-info btn-sm btnDeny btnAllowDeny" data-id="'+ud[i].id+'">Deny</button></td></tr>';
+				
+				if( empty(ud[i].access) || ud[i].access == 'P' ) H += '<td class="text-center"><button type="button" class="btn btn-info btn-sm btnAllow btnAllowDeny" data-id="'+ud[i].id+'">Allow</button> <button type="button" class="btn btn-info btn-sm btnDeny btnAllowDeny" data-id="'+ud[i].id+'">Deny</button></td></tr>';
+				else if( ud[i].access == 'A' ) H += '<td class="text-center"><i class="fa green fa-check-circle fa-2x"></i></td></tr>';
+				else if( ud[i].access == 'D' ) H += '<td class="text-center"><i class="fa red fa-times-circle fa-2x"></i></td></tr>';
+					
+				
+			}
+		}
+		H += '</table></div>';
+		
+		$('#spUsersBody').html(H);
+		$('#popUsers').modal();
+	});
+		
+
+	
+	
+	$(document).on('click', 'a.aRightArrow', function(){
+		var i = $(this).data('userindex');
+		 
+		var H = 'Guest Name: <strong>'+thisEvent.Users[i].first_name+' '+thisEvent.Users[i].last_name+'</strong>';
+		
+		
+				
+		H += '<h4>Order Details</h4>';
+		H += '<table class="table table-responsive table-striped">';
+		H += '<tr><th>Dish Name</th><th>Chef Price</th><th>Qty</th><th>Event Price</th></tr>';
+		var order_data = JSON.parse( thisEvent.Users[i].order_data );
+		var owner_got = 0;
+		for (var j = 0; j < order_data.length ; j++){
+			H += '<tr><td>'+order_data[j].name+'</td><td>$'+order_data[j].price+'</td><td>'+order_data[j].qty+'</td><td>$'+order_data[j].eventPrice+'</td></tr>';
+			owner_got += Math.max( (parseFloat(order_data[j].eventPrice)-parseFloat(order_data[j].price)) * parseInt(order_data[j].qty), 0 );
+		}
+		H += '<tr><th></th><th colspan="2">Entry Fee</th><th>$'+thisEvent.Users[i].entry_amount+'</th></tr>';
+		H += '<tr><th></th><th colspan="2">User Paid</th><th>$'+thisEvent.Users[i].user_amount+'</th></tr>';
+		
+		if( thisEvent.Users[i].owner_amount > 0 ){
+			H += '<tr><th></th><th colspan="2">You Paid</th><th class="red">$'+thisEvent.Users[i].owner_amount+'</th></tr>';
+		}else{
+			H += '<tr><th></th><th colspan="2">You Earn</th><th class="green">+$'+ owner_got.toFixed(2) +'</th></tr>';	
+		}
+		
+		H += '</table>';
+		
+		if(empty(thisEvent.Users[i].qr_scan_date)){
+			H += 'QR Scan: <span class="red">Not yet</span>';		
+		}else{
+			var mo = moment( thisEvent.Users[i].qr_scan_date, 'YYYY-MM-DD HH:mm:ss' );
+			H += 'QR Scan Date: <span class="green">'+ mo.format('MMM D, YYYY (ddd) h:mma')+'</span>' ;			
+		}
+		
+		$('#popLevel2Body').html( H );
+		$('#popLevel2').modal();
+		
+	});
+	
+	$('#btnStartPay').on('click',function(){
+		if( $('#divCheckList input:checked').length == 0 ){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">Please select atleast one dish to proceed.</p>');
+			BAlert.modal();
+			return;
+		}
+		
+		var dishes = [];
+		var Total = 0.00;
+		$('#divCheckList [type=checkbox]').each(function(index, element) {
+			if($(this).is(':checked')){
+				qty = $('#aQty'+$(this).val()).val();
+				dishes.push( {'id':$(this).val(), 'chef_id': $(this).data('chef_id'), 'name': $(this).data('name'), 'qty':qty,'price': $(this).data('price'), 'eventPrice': $(this).data('eventprice') } ); 
+				Total = Total + parseFloat($(this).data('eventprice')) * parseInt(qty); 
+			}	
+		});
+		Total +=  parseFloat(thisEvent.entry_fee); 
+
+		var formData = { 	'event_id' : thisEvent.id,
+								'userId' : localStorage.getItem('userId'),
+								'userToken' : localStorage.getItem('userToken'),
+								'dishes' : dishes,
+								'amount' : Total,
+								'entry_fee' : thisEvent.entry_fee 
+							};
+
+		console.log(formData);
+		//return false;
+		
+		//formData += '&userToken=' + localStorage.getItem('userToken');
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=joinEvent", data: formData,
+			beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+			complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError
+			).done(function(data){
+				if (data.Success == 'true') {
+					
+					
+					if( data.Complete == 'true' ){ // nothing to pay, 
+						document.location = 'events-list.html?r='+Math.random()+'#tab_attending';	
+					}
+					
+					if(!empty(data.EvTransId)){ // user have to pay his amount 
+						document.location = 'payment-options-select.html?Type=EventJoin&ResId='+data.EvTransId+'&Amount='+Total+'&EvTransId='+data.EvTransId;
+					}
+					
+					
+					//document.location = 'payment-options-select.html?Type=Event&ResId='+data.joinId+'&Amount='+Total;
+					
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+			
+		}); // ajax	
+		
+		
+		
+	});
+	
+
+	
+	
+	$(document).on('click', '.btnCopy',function(){
+		
+		/*
+		if(window.clipboardData){
+			alert('clipboardData');
+			window.clipboardData.setData("Text", $('.inpCopy').val() );
+		}else{
+			alert('exec');
+			console.log('xxxx');
+			var aux = document.createElement("input");
+			aux.setAttribute("value", $('.inpCopy').val() );
+			document.body.appendChild(aux);
+			
+			aux.select();
+			document.execCommand("copy");
+			document.body.removeChild(aux);
+		}*/
+		
+		cordova.plugins.clipboard.copy( $('.inpCopy').val(),
+			function(){
+				$('#spCopy').find('span').remove();
+				$('#spCopy').append(' <span class="green">Copied to Clipboard</span> ');
+			},
+			function(){
+				$('#spCopy').find('span').remove();
+				$('#spCopy').append(' <span class="red">Unable to Copy to Clipboard</span> ');	
+			}
+		);
+		
+		
+
+	});
+	
+	
+	
+	$('.btnShowAdd').on('click',function(){
+		document.location = 'event-1.html';
+	});
+	
+	/*
+	$('#frmReserve').validate({
+		errorPlacement: function(error, element) {},
+		submitHandler: function(form) {
+			
+			var Flag = 0;
+			if( $('#chkAV1').prop('checked') == true )  Flag = Flag | 1;
+			if( $('#chkAV2').prop('checked') == true )  Flag = Flag | 2;
+			if( $('#chkAV4').prop('checked') == true )  Flag = Flag | 4;
+			$('#hdAvailability').val(Flag);
+			
+			
+			formData = $(form).serialize();
+			formData += '&userToken=' + localStorage.getItem('userToken');
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=addEditDish", data: formData,
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+				}).fail(  ajaxError
+				).done(function(data){
+					if (data.Success == 'true') {
+						$('#popDetail').modal('hide');
+						BAlert.find('.modal-header h3').html('<i class="fa check"></i>'+cLan.Success);
+						BAlert.find('.modal-body').html('<p class="text-success">'+cLan['202']+'</p>');
+						BAlert.modal();
+						quietLoad = true;
+						loadDishes(chef_id);
+						//loadDishes(localStorage.getItem('userId'));
+					} else { 
+						ErrorModalWithParm(data);
+					}
+					if (data.JS) { eval(data.JS); }
+				
+			}); // ajax	
+		
+		}// submit handler
+	});
+	*/
+	
+	$('#divCheckList').on('change', 'input,select',function(){
+		if( $(this).is(':checked')){
+			$(this).parent('li').find('.spDishD').show(200);
+		}else{
+			$(this).parent('li').find('.spDishD').hide(150);	
+		}
+		getTotal();
+	});
+	
+	
+	$('#btnScan').on('click',function(){
+		try{
+			cordova.plugins.barcodeScanner.scan(QRonSuccess, QRFailure);
+		}catch(err) {
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.UnableQR+'</p>');
+			BAlert.modal();	
+		}
+	});
+
+});
+
+function QRonSuccess(result){
+	
+	if( result.cancelled == true ){
+		return false; 	
+	}				 
+	var code = result.text;
+	if(code.charAt(0) == 'F'){
+		code = code.substr(1);	 // Remove F
+		code = code.split(':');
+		var id = parseInt(code[0]);
+		var key = parseInt(code[1]);
+		if(empty(id) || empty(key)){
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.InvalidQR+'</p>');
+			BAlert.modal();		
+		}else{
+		
+			var formData = {
+				userId: localStorage.getItem('userId'),
+				userToken: localStorage.getItem('userToken'),
+				Fcode: key
+			};
+			$.ajax({
+				type: "POST", dataType: 'json', url: ServerAjax+"?h=eventQRScan", data: formData,
+				beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+				complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError )
+			.done(function(data){
+				if (data.Success == 'true') {
+					//EventId, EventOrderId, EventScanDate
+					
+					for (var i = 0; i < eventData.length; i++){
+						if( eventData[i].id == data.EventId ){
+							for (var j = 0; j < eventData[i].Users.length; j++){
+								if( eventData[i].Users[j].id == data.EventOrderId ){
+									eventData[i].Users[j].qr_scan_date = data.EventScanDate;
+									break;								
+								}
+							}
+							break;
+						}
+					}
+					
+					SuccessModalWithParm(data);
+					
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+			
+			}); // ajax	
+		
+		
+			
+		}
+	}else{
+		BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+		BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.InvalidQR+'</p>');
+		BAlert.modal();	
+	} 
+}
+function QRFailure(message){
+	BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+	BAlert.find('.modal-body').html('<p class="text-danger">'+cLan.UnableQR+': '+message+'</p>');
+	BAlert.modal();	
+}
+
+function getTotal(){
+	Total = 0.00;
+	$('#divCheckList [type=checkbox]').each(function(index, element) {
+		if($(this).is(':checked')){
+			Total = Total + $(this).data('eventprice') * $('#aQty'+$(this).val()).val(); 
+		}	
+	});
+	Total +=  parseFloat(thisEvent.entry_fee); 
+	$('#d_total').html('$'+Total.toFixed(2));
+}
+
+function loadPageData(){
+	var formData = {
+				userId: localStorage.getItem('userId'),
+				userToken: localStorage.getItem('userToken'), 
+				eventId: eventId };
+				
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=getEvents", data: formData,
+		beforeSend: function() { $('div.aLoading').show();  },
+		complete: function() { $('div.aLoading').hide(); },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			if(!empty(data.Events)){
+				eventData = data.Events;
+				
+				for (var i = 0; i < eventData.length; i++) {
+					
+					
+					
+					thisEvent = eventData[0];
+					var event_owner = (thisEvent.creator_id == localStorage.getItem('userId'));
+					
+					
+					if( thisEvent.availability == 'Private' && !event_owner  ){
+						if( thisEvent.access == 'D'){
+							BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+							BAlert.find('.modal-body').html('<p class="text-danger">Sorry, access denied by the event organizer.</p>');
+							BAlert.modal();
+							return false;
+						}
+						
+						if( thisEvent.access != 'A' ){
+							$('#popPermission').modal();
+							return false;
+						} 
+					}
+								
+					
+					var mo = moment( thisEvent.event_date+' '+thisEvent.event_time, 'YYYY-MM-DD HH:mm:ss' );
+					//mo.format('MMM D, YYYY (ddd) [at] h:mma')
+					var H = '';
+					if(!empty(thisEvent.description)){
+						H += '<p>'+thisEvent.description+'</p>';		
+					}
+					H += '<table class="table table-responsive break">';
+					H += '<tr><td><strong>Organizer:</strong> </td><td>'+thisEvent.creator_name+'</td></tr>';
+					H += '<tr><td><strong>Date:</strong> </td><td>'+mo.format('MMM D, YYYY (ddd)')+'</td></tr>';
+					H += '<tr><td><strong>Time:</strong> </td><td>'+mo.format('h:mma')+'</td></tr>';
+					if( thisEvent.Attending != '1' ){
+						H += '<tr><td><strong>Availability:</strong> </td><td>'+thisEvent.availability+'</td></tr>';
+						H += '<tr><td><strong>Entry Fee:</strong> </td><td>$'+thisEvent.entry_fee+'</td></tr>';
+					}
+					
+					var address = thisEvent.address;
+					thisEvent.address = address.split(',').join('<br>');
+					
+					H += '<tr><td><strong>Address:</strong> </td><td>'+thisEvent.address+'</td></tr>';
+					H += '</table>';
+					
+					if( thisEvent.Attending == '1' ){
+						$('#btnAdd').hide();	 // Hide join event button 
+						// show dises order and invoice
+						H += '<h4>Dishes Ordered</h4>';
+						for (var i = 0; i < thisEvent.Users.length ; i++){
+							if( thisEvent.Users[i].user_id == localStorage.getItem('userId') ){
+								var order_data =  thisEvent.Users[i].order_data;
+								if(!empty(order_data)){
+									order_data = JSON.parse(order_data);
+									H += '<table class="table table-responsive">';
+									H += '<tr><td><strong>Dish</strong></td><td><strong>Qty</strong></td><td><strong>Price</strong></td></tr>';
+									for (var od = 0; od < order_data.length ; od++){
+										H += '<tr><td>'+order_data[od].name+'</td><td>'+order_data[od].qty+'</td><td>$'+order_data[od].eventPrice+'</td></tr>';
+									}
+									H += '<tr><td></td><td><strong>Entry Fee</strong></td><td><strong>$'+ thisEvent.Users[i].entry_amount+'</strong></td></tr>';
+									H += '<tr><td></td><td><strong class="red">Total Paid</strong></td><td><strong class="red">$'+ thisEvent.Users[i].user_amount+'</strong></td></tr>';
+									H += '</table>';
+								}
+							}
+						}
+					}else{
+						$('#btnAdd').show();	
+					}
+					
+					
+					if( event_owner == true ){
+						$('#btnAdd').hide(); // hide join event button.
+						// show per
+						H += '<h4>Event Attendees</h4>';
+						if(empty(thisEvent.Users)){
+							H += '<tr><td colspan="3" class="text-center"><em>None, so far.</em></td></tr>';	
+						}else{
+							H += '<table class="table table-responsive table-striped">';
+							//H += '<tr><td><strong>Name</strong></td><td><strong>User Paid</strong></td><td><strong>You Paid</strong></td></tr>';
+							H += '<tr><th>Name</th><th style="width:5%"><i class="fa fa-qrcode"></i></th><th style="width:30%" colspan="2">Order Total</th></tr>';
+							var user_amount = 0, owner_amount = 0;
+							for (var i = 0; i < thisEvent.Users.length ; i++){
+								//H += '<tr><td>'+thisEvent.Users[i].first_name+' '+thisEvent.Users[i].last_name+'</td><td>$'+thisEvent.Users[i].user_amount+'</td><td>$'+thisEvent.Users[i].owner_amount+'</td></tr>';
+								var QRdate = (empty(thisEvent.Users[i].qr_scan_date))?'-': '<i class="fa fa-check-circle-o green"></i>' ;
+								H += '<tr><td>'+thisEvent.Users[i].first_name+' '+thisEvent.Users[i].last_name+'</td><td>'+QRdate+'</td><td>$'+thisEvent.Users[i].order_total+'</td><td><a class="aRightArrow" data-userindex="'+i+'"><i class="fa fa-chevron-right"></i></a></td></tr>';
+								user_amount += parseFloat(thisEvent.Users[i].user_amount);
+								owner_amount += parseFloat(thisEvent.Users[i].owner_amount);
+							}
+							//H += '<tr><td><strong class="red">Total </strong></td><td><strong class="red">$'+ user_amount.toFixed(2) +'</strong></td><td><strong class="red">$'+ owner_amount.toFixed(2) +'</strong></td></tr>';
+							H += '</table>';
+						}
+					}
+					
+					//H += 'Event Link: <input class="inpCopy" readonly style="border:1px solid #BBBBBB; padding:4px; color:#AAA; height:30px; display:inline-block" value="https://fudi.app.link/vS0gfmeAjz?eventid='+thisEvent.id+'" /> <button type="button" class="btnCopy" style="height:30px;"><i class="fa fa-copy"><i></button>';
+					$('input.inpCopy').val('https://events.fudisys.com/evi'+thisEvent.id);
+					$('#spCopy').show();
+					
+					
+					$('#hMain').html(thisEvent.title);	
+					$('#spDetails').html(H);
+
+					
+					
+					
+				}
+				//$DTemp.remove();
+			}else{
+				//$('#chef-foods').html('<center>No Events Found!</center>');
+			}
+		}else { 
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+			BAlert.modal();
+		}
+		if (data.JS) { eval(data.JS); }
+	
+	}); // ajax	
+}
+
+
+
+function loadDishes(){
+	var H = '';
+	var chefs = JSON.parse(thisEvent.chef_data);
+	for(var i=0; i<chefs.length; i++){
+		var ch = chefs[i];
+		H += '<strong><i class="icon-chef"></i> &nbsp; '+ch.company+'</strong><ul class="list-group">';
+		for(var j=0; j< ch.dishes.length; j++){
+			var dsh = ch.dishes[j];
+			H += '<li class="list-group-item">'+
+					'<input type="checkbox" data-price="'+dsh.price+'" data-eventprice="'+dsh.eventPrice+'" data-name="'+dsh.name+'" data-chef_id="'+ch.id+'" value="'+dsh.id+'"> '+dsh.name+
+					//'<div class="spDishD">'+cLan.Price+' : $'+dsh.eventPrice+ ' &nbsp; '+cLan.Qty+' : <input id="aQty'+dsh.id+'" type="number" value="1" min="1" max="50" step="1" class="input-sm inline" /></div></li>';
+					'<div class="spDishD">'+cLan.Price+' : $'+dsh.eventPrice+ ' &nbsp; '+cLan.Qty+' : <select id="aQty'+dsh.id+'" name="aQty'+dsh.id+'" class="input-sm inline">';
+					for (i = 1; i < 21; i++){ 
+						H += '<option value='+i+'>'+i+'</option>';
+					}
+				H +='</select></div></li>';
+		}
+		H += '</ul>';	
+	}
+	return H;
+}
+
+</script>
+</body>
+</html>

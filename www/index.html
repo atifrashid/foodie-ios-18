@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Fudi</title>
+
+	<!-- Sets initial viewport load and disables zooming  -->
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+	<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="mobile-web-app-capable" content="yes">
+
+	<!-- Include the compiled Ratchet CSS -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/font-awesome.min.css" rel="stylesheet">
+	<link href="css/styles.css" rel="stylesheet">
+	<style>
+		html, body{ height:100% }
+		#ex4_container {
+			content-positioning: 50% 50%;
+		}
+		#ex4_content {
+			content-positioning-anchor: 50% 50%;
+		}
+		.main{
+			height:100%;
+			text-align:center;
+			background:url(images/s1.jpg) center center/cover no-repeat fixed;
+			position: relative;
+		}
+		.logo {
+			position: absolute;
+			max-width:40%;
+			left: 50%;
+			top: 50%;
+			margin-top: -50%;
+			margin-left: -20%;
+		}
+		.title {
+			color: #fff;
+			width: 100%;
+			text-align: center;
+			top: 50%;
+			font-size:20px;
+			position: absolute;
+			padding: 0px 60px;
+			line-height: 30px;
+			font-weight: 400;
+		}
+
+	</style>
+
+
+
+</head>
+<body style="background-color:#FFF;">
+	<div class="main">
+
+
+		<div id="bottom-bar" style="padding:5px; text-align:center">
+
+			Copyright (c) 2016-<script>document.write((new Date()).getFullYear());</script> Foodie Systems, Inc.
+
+		</div>	
+	</div>
+	
+<script src="cordova.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script> 
+<script src="js/bootstrap.min.js"></script>
+<script src='js/knockout-3.4.0.js'></script> 
+<script src="js/common.js"></script> 
+	
+<script>
+
+document.addEventListener('deviceready', onDeviceReadyBRTimeOut, false);
+
+$(document).ready(function() {
+	
+	var R = window.innerWidth / window.innerHeight; 
+	console.log(R);
+	if( R > 0.8 ){
+		$('div.main').css('background-image','url(images/s2.jpg)');	
+	}
+	
+	$('div.main').append('<img style="position:absolute; bottom: 100px; left:50%; margin-left:-25px" src="images/wait.gif" />');
+	
+});
+
+
+var timePassedMS = 0;
+var GPSAttempts = 0;
+
+var PGS_OK = false;
+var DeepLink_OK = false;
+// Push_OK --> common.js
+
+function onShortError(error){
+	try{
+		if( GPSAttempts > 3){
+			gotPosition(null); 
+		}else{
+			GPSAttempts = GPSAttempts+1;
+			var ErMsg = cLan.NoGPS;
+			if(error.code == 3){ ErMsg = cLan.NoGPS3;	}
+			
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> GPS '+cLan.Error+' ('+error.code+')' );
+			BAlert.find('.modal-body').html('<p class="text-danger">'+ErMsg+'.</p>');
+			BAlert.find('button.btn-primary').html('Retry').on('click',function(){
+				setTimeout(function(){ 
+					navigator.geolocation.getCurrentPosition(gotPosition, onShortError, { maximumAge: 3000, timeout: 30000, enableHighAccuracy:false });
+				}, 500);
+			});
+			BAlert.modal();	
+		}
+	}catch(err) {
+		alert(err.message);
+	}
+}
+
+function gotPosition(position) {
+	try{
+		if( empty( position ) ){ // null, called by onShortError
+			lat = 26.1644398;
+			lng = -80.1621635;
+		}else{
+			PGS_OK = true;
+			var lat = position.coords.latitude;
+			var lng = position.coords.longitude;
+		}
+
+		localStorage.setItem('lat', lat );
+		localStorage.setItem('lng', lng );
+		//alert('xxxxxx');
+		/*if( empty(localStorage.getItem('userId'))){
+			//document.location.href = './register.html';
+			setTimeout(function(){ document.location = 'register.html'; }, 1000);
+		}else{
+			if(empty(localStorage.getItem('deepLink'))){
+				setTimeout(function(){ document.location = 'map.html'; }, 1000);		
+			}else{
+				setTimeout(function(){ document.location = localStorage.getItem('deepLink'); }, 1000);
+			}
+		}*/
+	}catch(err) {
+		alert(err.message);
+	}
+}
+
+
+
+setTimeout(function(){ timePassedMS += 500; timeCheck();  }, 500 );
+
+function timeCheck(){
+	console.log('Time: '+timePassedMS);
+	console.log( 'DeepLink_OK = '+DeepLink_OK+' && PGS_OK = '+PGS_OK+' && Push_OK = '+Push_OK+'');
+	if( DeepLink_OK == true && PGS_OK == true && Push_OK == true ){
+		ProceedToNextPage();
+	}else if( timePassedMS > 15000 ){
+		ProceedToNextPage();
+	}else{
+		setTimeout(function(){ timePassedMS += 500; timeCheck();  }, 500 );
+	}
+}
+
+function ProceedToNextPage(){
+	
+	if( empty(localStorage.getItem('userId'))){
+			//document.location.href = './register.html';
+		setTimeout(function(){ document.location = 'register.html'; }, 100);
+	}else{
+		if(empty(localStorage.getItem('deepLink'))){
+			setTimeout(function(){ document.location = 'map.html'; }, 100);		
+		}else{
+			setTimeout(function(){ document.location = localStorage.getItem('deepLink'); }, 100);
+		}
+	}	
+}
+
+
+function onDeviceReadyBRTimeOut(){
+	setTimeout(function(){ // jquery might get late
+			
+			onDeviceReadyBR();
+			navigator.geolocation.getCurrentPosition(gotPosition, onShortError, { maximumAge: 3000, timeout: 5000, enableHighAccuracy:true });
+			
+	}, 200);
+}
+
+function onDeviceReadyBR(){
+	
+
+			//alert('Deep Link index');
+			Branch.initSession(function (data) {
+				DeepLink_OK = true;
+				console.log('xxxxxxxxxxxxxxxxxxxx MMM xxxxxxxxxxxxxxxxxxxx');
+				console.log('Trigger DeepLinkHandler()');
+				console.log('Deep Link Data index: ' + JSON.stringify(data));
+				//var T = parseInt( data.$deeplink_path );
+				var T = parseInt( data.evi );
+				if( T ){
+					localStorage.setItem('deepLink', 'event-view.html?eventid='+T );
+				}
+				//document.location = 'main.html' ;	
+			
+			}).then(function (res){
+				DeepLink_OK = true;
+				//document.location = 'main.html' ;	
+				console.log('xxxxxxxxxxxxxxxxxxxx then xxxxxxxxxxxxxxxxxxxx');
+				console.log(JSON.stringify(res));
+			}).catch(function (err){
+				DeepLink_OK = true;
+				console.log('xxxxxxxxxxxxxxxxxxxx error xxxxxxxxxxxxxxxxxxxx');
+				console.log(JSON.stringify(err));
+			});
+
+}
+
+/*
+window.onerror = function(msg, url, line, col, error) {
+   // Note that col & error are new to the HTML 5 spec and may not be 
+   // supported in every browser.  It worked for me in Chrome.
+   var extra = !col ? '' : '\ncolumn: ' + col;
+   extra += !error ? '' : '\nerror: ' + error;
+
+   // You can view the information in an alert to see things working like this:
+   alert("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);
+
+   // TODO: Report this error via ajax so you can keep track
+   //       of what pages have JS issues
+
+   var suppressErrorAlert = true;
+   // If you return true, then error alerts (like in older versions of 
+   // Internet Explorer) will be suppressed.
+   return suppressErrorAlert;
+};
+*/
+	
+</script>
+
+  
+ </body>
+</html>

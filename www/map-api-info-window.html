@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- Include the compiled Ratchet CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+<style>
+html, body {
+	height: 100%;
+}
+
+	@-moz-keyframes pulsate {
+		from {
+			-moz-transform: scale(0.25);
+			opacity: 1.0;
+		}
+		95% {
+			-moz-transform: scale(1.3);
+			opacity: 0;
+		}
+		to {
+			-moz-transform: scale(0.3);
+			opacity: 0;
+		}
+	}
+	@-webkit-keyframes pulsate {
+		from {
+			-webkit-transform: scale(0.25);
+			opacity: 1.0;
+		}
+		95% {
+			-webkit-transform: scale(1.3);
+			opacity: 0;
+		}
+		to {
+			-webkit-transform: scale(0.3);
+			opacity: 0;
+		}
+	}
+	/* get the container that's just outside the marker image, 
+		which just happens to have our Marker title in it */
+	#map div.gmnoprint[title="I might be here"] {
+		-moz-animation: pulsate 1.5s ease-in-out infinite;
+		-webkit-animation: pulsate 1.5s ease-in-out infinite;
+		border:1pt solid #fff;
+		/* make a circle */
+		-moz-border-radius:51px;
+		-webkit-border-radius:51px;
+		border-radius:51px;
+		/* multiply the shadows, inside and outside the circle */
+		-moz-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+		-webkit-box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+		box-shadow:inset 0 0 5px #06f, inset 0 0 5px #06f, inset 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f, 0 0 5px #06f;
+		/* set the ring's new dimension and re-center it */
+		height:51px!important;
+		margin:-18px 0 0 -18px;
+		width:51px!important;
+	}
+	/* hide the superfluous marker image since it would expand and shrink with its containing element */
+/*	#map div[style*="987654"][title] img {*/
+	#map div.gmnoprint[title="I might be here"] img {
+		display:none;
+	}
+	/* compensate for iPhone and Android devices with high DPI, add iPad media query */
+	@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (device-width: 768px) {
+		#map div.gmnoprint[title="I might be here"] {
+			margin:-10px 0 0 -10px;
+		}
+	}
+
+</style>
+</head>
+<body id="wrapper">
+
+
+
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+<div class="content" style="height:100%; padding-bottom:90px;">
+	<h1 id="menu-button"> <a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a>
+		<p class="pageTitle" data-bind="text: lang.SearchChefs"></p>
+	</h1>
+	<div id="map" style="height:100% ;"></div>
+</div>
+<div id="bottom-bar">
+	<div class="container">
+		<div class="row">
+			<span id="footerLinksNormal">
+			<div class="col-xs-3 no-padding"> <a class="tab-item active" href="map.html"> <img class="tab-icon" src="images/map-icon.png" alt="map-icon"> <i class="fa fa-map-o tab"></i> <img class="border-image" src="images/border-image.png" alt="border-image"> </a> </div>
+			<div class="col-xs-3 no-padding"> <a class="tab-item" href="reservations.html"> <img class="tab-icon" src="images/food-icon.png" alt="food-icon"> <img class="border-image" src="images/border-image.png" alt="border-image"> </a> </div>
+			<div class="col-xs-3 no-padding"> <a class="tab-item" href="user-profile.html"> <img class="tab-icon" src="images/profile-icon.png" alt="map-icon"> <img class="border-image" src="images/border-image.png" alt="border-image"> </a> </div>
+			<div class="col-xs-3 no-padding"> <a class="tab-item" id="anoti" href="notifications.html"> <img class="tab-icon" src="images/notification-icon.png" alt="map-icon"> </a>	</div>
+			</span>
+			<span id="footerLinksNoLogin">
+			<div class="col-xs-6 no-padding"> <a class="tab-item" href="register.html"> <img class="tab-icon" src="images/profile-icon.png" alt="map-icon"> </a> </div>
+			<div class="col-xs-6 no-padding"> <a class="tab-item active" href="map.html"> <img class="tab-icon" src="images/map-icon.png" alt="map-icon"> <i class="fa fa-map-o tab"></i> <img class="border-image" src="images/border-image.png" alt="border-image"> </a> </div>
+			</span>
+		</div>
+	</div>
+</div>
+<script src="cordova.js"></script>
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/bootstrap.min.js"></script> 
+<script src="http://maps.google.com/maps/api/js?key=AIzaSyBrGQ3WXjDyt6lu6OLS4RDNBXYb3Wr-l_Y"></script>
+<script src='js/knockout-3.4.0.js'></script>
+<script src="js/common.js"></script> 
+<script>
+
+var myloc = null;
+var map;
+var marker, i, chef;
+var jsonData;
+var markersArray = [];
+var myLatLng;
+var infowindow;
+
+var DineDiv, DeliveryDiv;
+
+function onDeviceReady() {
+	initMap();
+	useragent = navigator.userAgent;
+	if ( useragent.indexOf('iPhone') !== -1 || useragent.indexOf('Android') !== -1 ) {
+		navigator.geolocation.watchPosition( 
+			showPosition, 
+			onShortError, 
+			{ enableHighAccuracy: true, maximumAge: 30000, timeout: 27000 }
+		);			
+		// or let other geolocation capable browsers to get their static position
+	} else if ( navigator.geolocation ) {
+		navigator.geolocation.getCurrentPosition( showPosition, onShortError );
+	}
+}
+
+function initMap(){
+	console.log('initMap');
+	myLatLng =  new google.maps.LatLng( localStorage.getItem('lat') , localStorage.getItem('lng') );
+	var mapOptions = {
+		center: myLatLng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP,
+		zoom:9,
+		scrollwheel: false,
+		mapTypeControl: false
+	};
+					 
+	map = new google.maps.Map(document.getElementById('map'), mapOptions);
+   infowindow = new google.maps.InfoWindow({maxWidth: 400});
+
+
+	DineDiv = document.createElement('div');
+	DineDiv.className = 'TogActive';
+	var dineControl = new DineControl(DineDiv, map);
+	DineDiv.index = 2;
+	map.controls[google.maps.ControlPosition.TOP_LEFT].push(DineDiv);
+	
+	DeliveryDiv = document.createElement('div');
+	var deliveryControl = new DeliveryControl(DeliveryDiv, map);
+	DeliveryDiv.index = 2;
+	map.controls[google.maps.ControlPosition.TOP_LEFT].push(DeliveryDiv);
+	
+	
+	var centerControlDiv = document.createElement('div');
+	var centerControl = new CenterControl(centerControlDiv, map);
+	centerControlDiv.index = 1;
+	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(centerControlDiv);
+
+	
+
+	var imageA = new google.maps.MarkerImage(
+							'images/bluedot_retina.png',
+							null, // size
+							null, // origin
+							new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
+							new google.maps.Size( 17, 17 ) // scaled size (required for Retina display icon)
+						);
+	
+	myloc = new google.maps.Marker({
+		flat: true,
+		icon: imageA,
+		map: map,
+		optimized: false,
+		position: myLatLng,
+		title: 'I might be here',
+		visible: true
+	});
+	loadMarkers();
+
+} // end initMap
+
+function onShortError(error){
+	console.log(error);
+}
+function showPosition(pos){
+	
+	var me = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+	if(!empty(myloc)){
+		myloc.setPosition(me);
+		
+	}
+}
+
+$(document).ready(function() {
+    window.isphone = false;
+    if(document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1) {
+        window.isphone = true;
+    }
+
+    if( window.isphone ) {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    } else {
+        onDeviceReady();
+    }
+});
+
+
+
+$(document).ready(function(e) {
+	
+	if( empty(localStorage.getItem('userId'))){
+		$('#footerLinksNormal').hide();
+		$('#footerLinksNoLogin').show();
+	}else{
+		$('#footerLinksNoLogin').hide();
+		$('#footerLinksNormal').show();
+	}
+	
+	
+	$('a.aResv').on('click',function(){
+		localStorage.setItem('view_chef_id', $(this).prop('rel'));
+		document.location = 'chef_profile.html';
+	});
+	
+	var formData = 'lat='+localStorage.getItem("lat")+'&lng='+localStorage.getItem("lng")+'&user_id='+localStorage.getItem("userId")+'&app_token='+localStorage.getItem("userToken");
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=initApp",
+		data: formData,
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			//console.log(data.Chefs);
+			localStorage.setItem('nearbyChefs', data.nearbyChefs );
+			localStorage.setItem('nearbyChefsCount', data.nearbyChefsCount );
+			localStorage.setItem('chefStatus', data.chefStatus );
+			localStorage.setItem('chefData', data.chefData );
+			localStorage.setItem('Notifications',data.Notifications );
+			
+			if(!empty(data.AvLang)){	localStorage.setItem('AvLang',data.AvLang ); }
+			
+			if(!empty(data.LanVersion) && data.LanVersion > cLan.Version ){
+				
+				$.get( ServerAjax+"?h=getLangJson&LG="+cLan.LangCode, function( data ) {
+					try{
+						var jt = JSON.parse(data);
+						if(!empty(jt)){
+							localStorage.setItem('LanguageData', data );		
+						}
+					}catch(e){}
+				});
+			}
+			
+			showNotifications();
+			loadMarkers();
+		}else{ 
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+			BAlert.modal();
+		}
+		if (data.JS) { eval(data.JS); }
+		
+	}); // ajax	
+	
+});
+
+
+function DineControl(controlDiv, map) { // center 
+	// Set CSS for the control border.
+	var controlUI = document.createElement('div');
+	controlUI.style.backgroundColor = '#efefef';
+	controlUI.style.borderRadius = '2px';
+	controlUI.style.boxShadow = '0 2px 2px rgba(0,0,0,.3)';
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.marginTop = '6px';
+	controlUI.style.marginLeft = '6px';
+
+	controlUI.style.textAlign = 'center';
+	controlUI.title = '';
+	controlDiv.appendChild(controlUI);
+	
+	// Set CSS for the control interior.
+	var controlText = document.createElement('div');
+	/*controlText.style.color = '#FFFFFF';
+	controlText.style.fontFamily = 'Roboto,Arial,sans-serif';*/
+	controlText.style.fontSize = '18px';
+	controlText.style.lineHeight = '30px';
+	controlText.style.paddingLeft = '8px';
+	controlText.style.paddingRight = '8px';
+	controlText.innerHTML = 'Dine In';
+	controlUI.appendChild(controlText);
+	
+	// Setup the click event listeners: simply set the map to Chicago.
+	controlUI.addEventListener('click', function() {
+		//map.panTo(myloc.getPosition());
+		DeliveryDiv.className = '';
+		DineDiv.className = 'TogActive';
+		for (var i = 0; i < markersArray.length; i++ ) {
+			if( markersArray[i].dine_dishes > 0 || markersArray[i].mcolor == 'red' ){
+				markersArray[i].setVisible(true);
+			}else{
+				markersArray[i].setVisible(false);
+			}
+		}
+		
+	});
+}
+function DeliveryControl(controlDiv, map) { // center 
+	// Set CSS for the control border.
+	var controlUI = document.createElement('div');
+	controlUI.style.backgroundColor = '#efefef';
+	controlUI.style.borderRadius = '2px';
+	controlUI.style.boxShadow = '0 2px 2px rgba(0,0,0,.3)';
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.marginTop = '6px';
+	controlUI.style.marginLeft = '6px';
+
+	controlUI.style.textAlign = 'center';
+	controlUI.title = '';
+	controlDiv.appendChild(controlUI);
+	
+	// Set CSS for the control interior.
+	var controlText = document.createElement('div');
+	controlText.style.fontSize = '18px';
+	controlText.style.lineHeight = '30px';
+	controlText.style.paddingLeft = '8px';
+	controlText.style.paddingRight = '8px';
+	controlText.innerHTML = 'Delivery';
+	controlUI.appendChild(controlText);
+	
+	// Setup the click event listeners: simply set the map to Chicago.
+	controlUI.addEventListener('click', function() {
+		
+		DeliveryDiv.className = 'TogActive';
+		DineDiv.className = '';
+		for (var i = 0; i < markersArray.length; i++ ) {
+			if( markersArray[i].delivery_dishes > 0 || markersArray[i].mcolor == 'red' ){
+				markersArray[i].setVisible(true);
+			}else{
+				markersArray[i].setVisible(false);
+			}
+		}
+		
+	});
+}
+
+
+function CenterControl(controlDiv, map) { // center 
+	// Set CSS for the control border.
+	var controlUI = document.createElement('div');
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.marginBottom = '12px';
+	controlUI.style.marginTop = '12px';
+	controlUI.style.marginRight = '10px';
+	controlUI.style.textAlign = 'center';
+	controlDiv.appendChild(controlUI);
+	// Set CSS for the control interior.
+	var controlText = document.createElement('IMG');
+	controlText.style.width = '36px';
+	controlText.style.height = '36px';
+	controlText.style.cursor = 'pointer';
+	controlText.width = '36';
+	controlText.height = '66';
+	controlText.src = 'images/center.png?';
+	controlUI.appendChild(controlText);
+	// Setup the click event listeners: simply set the map to Chicago.
+	controlUI.addEventListener('click', function() {
+		map.panTo(myloc.getPosition());
+	});
+}
+
+
+function loadMarkers(){
+	
+	for (var i = 0; i < markersArray.length; i++ ) {
+		markersArray[i].setMap(null);
+	}
+	markersArray.length = 0;
+	
+	if( localStorage.getItem('nearbyChefsCount') > 0 ){
+		var jsonData = JSON.parse(localStorage.getItem('nearbyChefs'));
+		for (var i = 0; i < jsonData.length; i++) {
+			chef = jsonData[i];
+			if(empty(chef.dine_dishes)&&empty(chef.delivery_dishes)){ // not dishes, mark him red
+				jsonData[i].mcolor = 'red';
+				chef.mcolor = 'red';
+			}
+			
+			
+			marker = new google.maps.Marker({
+				position: new google.maps.LatLng( chef.lat, chef.lng),
+				map: map,
+				dine_dishes: chef.dine_dishes ,
+				delivery_dishes: chef.delivery_dishes,
+				mcolor: chef.mcolor
+			});
+			mColor = '|E44744|000000'; // red
+			if( chef.mcolor == 'blue')  mColor = '|437CE5|000000'; // blue
+			if( chef.mcolor == 'green')  mColor = '|5CB85C|000000'; // green
+			//console.log(chef);
+			
+			marker.setIcon('http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld='+chef.company.charAt(0)+mColor );
+			markersArray.push(marker);
+			google.maps.event.addListener(marker, 'click', (function(marker, i) {
+				return function() {
+					var r = 0;
+					var r2 = '0.0'; 
+					if( jsonData[i].rating_count > 0 ){
+						r = jsonData[i].rating_sum /  jsonData[i].rating_count;
+						r2 = r.toFixed(1); 
+						r = (Math.round(r * 2) / 2).toFixed(1);
+					}
+					ri = '<img src="images/'+r+'.gif" alt="" /> ('+ r2 + '/5)<br>'+cLan['in']+' '+jsonData[i].rating_count+' '+cLan.Reviews ;
+					
+					var img = '<img src="images/no-pic3.jpg" class="img-rounded" style="width:100%;"  />';
+					if(!empty(jsonData[i].image1)){
+						img = '<img src="http://mobileapi.foodiesys.com/foodie-mssql/pics/'+jsonData[i].image1+'" class="img-rounded" style="width:100%;"  />';
+					}
+					
+					if( jsonData[i].mcolor == 'red' ){
+						c = '<div class="col-xs-5 no-lft-padding"><span>'+img+'</span></div>';
+						c = c +	'<div class="col-xs-7 no-padding"><strong><span>'+jsonData[i].company+'</span></strong>';
+					}else{
+						c = '<div class="col-xs-5 no-lft-padding"><a href="chef_profile.html?id='+jsonData[i].id+'">'+img+'</a></div>';
+						c = c +	'<div class="col-xs-7 no-padding"><strong><a href="chef_profile.html?id='+jsonData[i].id+'">'+jsonData[i].company+'</a></strong>';
+					}
+					
+					
+						c = c +	'<br />'+cLan.PeopleServed+': '+jsonData[i].people_served+'<br>'+cLan.FoodCost+': '+jsonData[i].food_cost+'<br />';
+						c = c +	ri+'</div><div class="clearfix"></div><strong>'+cLan.Address+':</strong> '+jsonData[i].address+', '+jsonData[i].city+' '+jsonData[i].state+' '+jsonData[i].zip;
+						//c = c +  '<a href="#" rel="'+jsonData[i].id+'" class="btn btn-xs btn-primary pull-right aResv">Reservation</a>';
+					infowindow.setContent(c);
+					infowindow.open(map, marker);
+				}
+			})(marker, i));	
+		}
+		
+	}	
+}
+
+
+
+/*
+useragent = navigator.userAgent;
+if ( useragent.indexOf('iPhone') !== -1 || useragent.indexOf('Android') !== -1 ) {
+	navigator.geolocation.watchPosition( 
+		showPosition, 
+		onShortError, 
+		{ 
+			enableHighAccuracy: true, 
+			maximumAge: 30000, 
+			timeout: 27000 
+		}
+	);			
+	// or let other geolocation capable browsers to get their static position
+} else if ( navigator.geolocation ) {
+	navigator.geolocation.getCurrentPosition( showPosition, onShortError );
+}
+*/
+
+
+	 
+/**/
+</script>
+</body>
+</html>

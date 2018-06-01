@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Fudi</title>
+
+<!-- Sets initial viewport load and disables zooming  -->
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, width=device-width" />
+
+<!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="mobile-web-app-capable" content="yes">
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+</head>
+<body id="wrapper">
+<div id="sidebar-wrapper">
+	<nav id="nav">
+		<ul class="sidebar-nav nav" id="navRight">
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-user"></i> <span data-bind="text: lang.Fudi"></span></a></strong></li>
+			<li class="L2"><a class="sub" href="map.html"><i class="icon-pointer-advice"></i> <span data-bind="text: lang.mnuChefs"></span></a></li>
+			<li class="L2"><a class="sub" href="user-profile.html"><i class="icon-user"></i> <span data-bind="text: lang.MyProfile"></span></a></li>
+			<li class="L2"><a class="sub" href="payment-options.html"><i class="icon-credit-cards"></i> <span data-bind="text: lang.PO"></span></a></li>
+			<li class="L2"><a class="sub" href="reservations.html"><i class="icon-tray"></i> <span data-bind="text: lang.MyOrders"></span></a></li>
+			
+			<li class="L2"><a class="sub" href="events-list.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.Events"></span></a></li>
+			<li class="L0 menu-heading"><strong><a href="#"><i class="icon-chef"></i> <span data-bind="text: lang.CHEF"></span></a></strong></li>
+			<li class="L2 noChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.BecomeaChef"></span></a></li>
+			<li class="L2 isChef pChef"><a class="sub" href="chef-profile-edit.html"><i class="icon-chef"></i> <span data-bind="text: lang.ChefProfile"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-dishes.html"><i class="icon-food"></i> <span data-bind="text: lang.ManageDishes"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-calendar-set.html"><i class="icon-clock"></i> <span data-bind="text: lang.Schedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="delivery-schedule.html"><i class="icon-calendar"></i> <span data-bind="text: lang.DeliverySchedule"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="ps-schedule.html"><i class="icon-calendar-1"></i> <span data-bind="text: lang.PSmenu"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-reservations.html"><i class="icon-reserve"></i> <span data-bind="text: lang.ChefReservations"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="chef-events.html"><i class="fa fa-glass"></i> <span data-bind="text: lang.eventResv"></span></a></li>
+			<li class="L2 isChef"><a class="sub" href="withdraw-money-chef.html"><i class="icon-withdraw"></i> <span data-bind="text: lang.WithdMon"></span></a></li>
+			<li class="L1"><a href="chat.html"><i class="fa fa-comments"></i> <span data-bind="text: lang.Chat"></span></a></li>
+			<li class="L1"><a href="settings.html"><i class="icon-gear"></i> <span data-bind="text: lang.Settings"></span></a></li>
+			<li class="L1"><a href="about.html"><i class="icon-about"></i> <span data-bind="text: lang.AboutFudi"></span></a></li>
+			<li class="L1"><a href="register.html?do=logout"><i class="icon-logout"></i> <span data-bind="text: lang.Logout"></span></a></li>
+		</ul>
+	</nav>
+</div>
+
+
+<div id="notification-page" class="content">
+	<h1 id="menu-button"> <a id="menu-toggle" href="#" class="btn-menu toggle"> <i class="fa fa-bars"></i> </a>
+		<p class="pageTitle" data-bind="text: lang.Notifications"></p>
+	 </h1>
+	<div class="text-center hidden">
+		<button id="btnClear" class="btn btn-primary"><i class="fa fa-eraser"></i> Clear All</button>
+	</div>
+
+	
+	<div id="notification-container"  class="main-div">
+		<div class="media hidden">
+			<div class="media-left">
+				<i class="fa fa-bell-o"></i>
+			</div>
+			<div class="media-body">
+				<h3>Notifi</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur amet adipisicing elit. Vero voluptates pariatur tempora.</p>
+			</div>
+		</div>
+		<div class="aLoading text-center" style="display:none"><img src="images/loading.gif" sytle=" margin: 0 auto;" /></div>
+	</div>
+</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<div id="bottom-bar">
+	<div class="container">
+		<div class="row">
+			<div class=" no-padding"> <a class="tab-item " href="map.html"> <i class="fa fa-map-marker"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item" href="reservations.html"> <i class="fa fa-cutlery"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " href="user-profile.html"> <i class="fa fa-user"></i> </a> </div>
+			<div class=" no-padding"> <a class="tab-item " id="afchat" href="chat.html"> <i class="fa fa-comments"></i> </a>	</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="cordova.js"></script> 
+<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="js/jquery.validate.min.js"></script> 
+<script src="js/bootstrap.min.js"></script>
+<script src='js/knockout-3.4.0.js'></script> 
+<script src="js/common.js"></script> 
+<script>
+
+
+
+$(document).ready(function(e) {
+	
+	
+	
+	if( localStorage.getItem('userData') === null ){
+	
+	}else{
+		loadNotifications();
+	}
+	
+	
+	
+	
+	$('#btnClear').on('click',function(){
+		
+	});
+
+
+	$('#notification-container').on('click', '.btnDel',function(){
+		delId = $(this).data('id');
+		
+		$(this).closest('div.media').hide(400);
+		var ncount = parseInt(localStorage.getItem('Notifications'));
+		localStorage.setItem('Notifications', --ncount );
+		showNotifications(); 
+		
+		var formData = {
+			userId: localStorage.getItem('userId'),
+			userToken: localStorage.getItem('userToken'),
+			Id : delId };
+		
+		$.ajax({
+			type: "POST", dataType: 'json', url: ServerAjax+"?h=deleteNotification", data: formData,
+			//beforeSend: function() { waitingDialog.show(cLan.Loading, {dialogSize: 'sm', progressType: 'info'}); },
+			//complete: function() { waitingDialog.hide(); },
+			}).fail(  ajaxError
+			).done(function(data){
+				if (data.Success == 'true') {
+					//console.log( $('.food-listing') );
+					
+				} else { 
+					ErrorModalWithParm(data);
+				}
+				if (data.JS) { eval(data.JS); }
+		}); // ajax	
+		
+		
+	});
+	
+	
+});
+
+function loadNotifications(){
+	formData = 'user_id='+ localStorage.getItem('userId');
+	formData += '&userToken='+ localStorage.getItem('userToken');
+	$.ajax({
+		type: "POST", dataType: 'json', url: ServerAjax+"?h=getNotifications", data: formData,
+		beforeSend: function() { $('div.aLoading').show();  },
+		complete: function() { $('div.aLoading').hide(); },
+	}).fail(  ajaxError )
+	.done(function(data){
+		if (data.Success == 'true') {
+			if(data.Count > 0 ){
+				resData = data.Notifications;
+				localStorage.setItem('Notifications', data.Notifications.length);
+				showNotifications(); 
+				
+				$DTemp = $('div.media');
+				for (var i = 0; i < resData.length; i++) {
+					$copy = $DTemp.clone().removeClass('hidden');
+					$copy.find('div.media-body h3').html( resData[i].title);
+					var H = resData[i].text + '<br><button data-id="'+resData[i].id+'" class="btn btnDel pull-right btn-sm btn-danger"><i class="fa fa-trash-o" title="Delete" aria-hidden="true"></i> Dismiss</button>';	
+					$copy.find('div.media-body p').html( H );
+					$copy.appendTo('#notification-container');
+				}
+				//$DTemp.remove();
+			}else{
+				$('#notification-container').html('<center>'+cLan.NoNotifications+'</center>');
+			}
+		}else { 
+			BAlert.find('.modal-header h3').html('<i class="fa fa-exclamation-triangle"></i> '+cLan.Error);
+			BAlert.find('.modal-body').html('<p class="text-danger">'+data.Msg+'</p>');
+			BAlert.modal();
+		}
+		if (data.JS) { eval(data.JS); }
+	
+	}); // ajax	
+}
+
+
+</script>
+</body>
+</html>
